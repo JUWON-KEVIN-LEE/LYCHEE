@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_home"
+        android:icon="@drawable/round_home_black_24"
+        android:title="@string/home"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/action_record"
+        android:icon="@drawable/round_assignment_black_24"
+        android:title="@string/record" />
+
+    <item
+        android:id="@+id/action_map"
+        android:icon="@drawable/round_place_black_24"
+        android:title="@string/map" />
+
+    <item
+        android:id="@+id/action_statistic"
+        android:icon="@drawable/round_timeline_black_24"
+        android:title="@string/statistic" />
+
+    <item
+        android:id="@+id/action_setting"
+        android:icon="@drawable/round_settings_black_24"
+        android:title="@string/setting" />
+</menu>

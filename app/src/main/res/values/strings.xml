@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Lychee</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- HOME -->
+    <string name="of">님의</string>
+    <string name="before_month_spent">월 이용 금액은</string>
+    <string name="after_month_spent">원 입니다.</string>
+    <string name="today">오늘</string>
+    <string name="this_week">이번주</string>
+    <string name="recent_spent_map">최근 소비 지도</string>
+
+    <!-- BOTTOM NAVIGATION VIEW -->
+    <string name="home">홈</string>
+    <string name="record">내역</string>
+    <string name="map">지도</string>
+    <string name="statistic">통계</string>
+    <string name="setting">설정</string>
+
+</resources>
