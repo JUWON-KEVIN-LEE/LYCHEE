@@ -1,6 +1,5 @@
 package com.lychee.ui.main.home
 
-import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -19,17 +18,17 @@ import com.lychee.ui.base.BaseFragment
 /**
  * Home 화면
  */
-class HomeFragment : BaseFragment<HomeViewModel>(), OnMapReadyCallback {
+class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.fragment_home), OnMapReadyCallback {
 
     override val viewModelClass: Class<HomeViewModel>
         get() = HomeViewModel::class.java
 
-    lateinit var binding : FragmentHomeBinding
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+                              savedInstanceState: Bundle?): View
+        = super.onCreateView(inflater, container, savedInstanceState)
 
+
+    override fun init() {
         binding.apply {
             // CALENDAR
             calendar.setOnClickListener { /* TODO calendar view */ }
@@ -48,10 +47,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), OnMapReadyCallback {
                 }
             }
         }
-
-        return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
