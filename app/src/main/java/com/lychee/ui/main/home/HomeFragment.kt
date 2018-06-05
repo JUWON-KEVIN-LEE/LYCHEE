@@ -1,5 +1,7 @@
 package com.lychee.ui.main.home
 
+import android.annotation.TargetApi
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -28,6 +30,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
         = super.onCreateView(inflater, container, savedInstanceState)
 
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun init() {
         binding.apply {
             // CALENDAR
@@ -52,6 +55,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

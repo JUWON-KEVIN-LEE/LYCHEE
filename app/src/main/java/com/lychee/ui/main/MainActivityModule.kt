@@ -1,11 +1,15 @@
 package com.lychee.ui.main
 
-import com.lychee.di.scope.PerFragment
 import com.lychee.ui.main.home.HomeFragment
+import com.lychee.ui.main.home.HomeFragmentModule
 import com.lychee.ui.main.map.MapFragment
+import com.lychee.ui.main.map.MapFragmentModule
 import com.lychee.ui.main.record.RecordFragment
+import com.lychee.ui.main.record.RecordFragmentModule
 import com.lychee.ui.main.setting.SettingFragment
+import com.lychee.ui.main.setting.SettingFragmentModule
 import com.lychee.ui.main.statistic.StatisticFragment
+import com.lychee.ui.main.statistic.StatisticFragmentModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -13,22 +17,18 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class MainActivityModule {
 
-    @PerFragment
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [HomeFragmentModule::class])
     abstract fun contributesHomeFragment() : HomeFragment
 
-    @PerFragment
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [RecordFragmentModule::class])
     abstract fun contributesRecordFragment() : RecordFragment
 
-    @PerFragment
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [MapFragmentModule::class])
     abstract fun contributesMapFragment() : MapFragment
 
-    @PerFragment
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [StatisticFragmentModule::class])
     abstract fun contributesStatisticFragment() : StatisticFragment
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [SettingFragmentModule::class])
     abstract fun contributesSettingFragment() : SettingFragment
 }
