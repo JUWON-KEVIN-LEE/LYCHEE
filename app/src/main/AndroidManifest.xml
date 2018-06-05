@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lychee">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".App"
@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <!-- 스플래시 -->
         <activity android:name=".ui.splash.SplashActivity">
             <intent-filter>
@@ -21,11 +22,15 @@
             </intent-filter>
         </activity>
         <!-- 메인 -->
-        <activity android:name=".ui.main.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCMnujGIRjrzhq8NhaDprgjsexjexEdLlg"/>
+            android:value="AIzaSyCMnujGIRjrzhq8NhaDprgjsexjexEdLlg" />
+
+        <activity android:name=".ui.cardlist.CardListActivity"></activity>
     </application>
+
 </manifest>

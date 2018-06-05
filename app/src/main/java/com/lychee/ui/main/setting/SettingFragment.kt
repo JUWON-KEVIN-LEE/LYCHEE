@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.lychee.R
 import com.lychee.databinding.FragmentSettingBinding
 import com.lychee.ui.base.BaseFragment
+import kotlinx.android.synthetic.main.fragment_setting.*
 
 class SettingFragment : BaseFragment<FragmentSettingBinding, SettingViewModel>(R.layout.fragment_setting) {
 
@@ -20,4 +21,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingViewModel>(R
     override fun init() {
 
     }
+
+    override fun onResume() {
+        super.onResume()
+        // animation
+        credit_card.playAnimation()
+    }
+
 }

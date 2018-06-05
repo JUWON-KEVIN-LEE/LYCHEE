@@ -3,7 +3,6 @@ package com.lychee.ui.splash
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
-import android.view.View
 import android.widget.TextView
 import com.lychee.R
 import com.lychee.ui.main.MainActivity
@@ -15,21 +14,16 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        val t = "Lychee" // title
-        val c = "똑똑한 금융생활, 리치머니와 함께" // content
+        val title = "Lychee"
+        val content = "똑똑한 금융생활, 리치머니와 함께"
 
         Handler().apply {
             postDelayed({
-                lottie_view.visibility = View.GONE
-                animateTextTyping(text = t, textView = lychee, delay = 150)
-                animateTextTyping(text = c, textView = lychee_kor, delay = 150)
-            }, 2000)
-        }
+                animateTextTyping(text = title, textView = lychee_title, delay = 100)
+                animateTextTyping(text = content, textView = lychee_content, delay = 100)
+            }, 500)
 
-        // TEST
-        lychee.setOnClickListener {
-            MainActivity.start(this@SplashActivity)
-            finish()
+            postDelayed({ MainActivity.start(this@SplashActivity) }, 2500)
         }
     }
 

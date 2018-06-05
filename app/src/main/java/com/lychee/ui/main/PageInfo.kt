@@ -1,6 +1,6 @@
 package com.lychee.ui.main
 
-object PageInfo {
+internal object PageInfo {
     const val POSITION_HOME = 0
     const val POSITION_RECORD = 1
     const val POSITION_MAP = 2

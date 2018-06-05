@@ -14,14 +14,13 @@ import com.lychee.ui.main.PageInfo.POSITION_SETTING
 import com.lychee.ui.main.PageInfo.POSITION_STATISTIC
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity<MainViewModel>() {
+class MainActivity : BaseActivity<MainViewModel>(R.layout.activity_main) {
 
     override val viewModelClass: Class<MainViewModel>
         get() = MainViewModel::class.java
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         view_pager.apply {
             adapter = MainViewPagerAdapter(supportFragmentManager)
@@ -42,7 +41,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
         }
 
         bottom_navigation_view.apply {
-            disableShiftMode()
+            disableShiftMode() // delete shifting animation
 
             setOnNavigationItemSelectedListener {
                 when(it.itemId) {

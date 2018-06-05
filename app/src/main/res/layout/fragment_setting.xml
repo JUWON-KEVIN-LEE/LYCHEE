@@ -7,12 +7,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".1" />
+
         <TextView
             android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
             android:text="@string/setting"
             android:textColor="@color/colorPrimary"
             android:textSize="24sp"
@@ -23,9 +30,9 @@
             android:id="@+id/logo"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/textView10"
             app:srcCompat="@drawable/round_background" />
 
@@ -54,155 +61,167 @@
             android:id="@+id/view3"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:background="@color/LightGrey"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/email" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/credit_card"
+            android:layout_width="56dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/view4"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/view3"
+            app:lottie_autoPlay="false"
+            app:lottie_fileName="credit_card.json"
+            app:lottie_loop="false"
+            app:lottie_repeatCount="1"/>
 
         <TextView
             android:id="@+id/managing_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:text="@string/manage_my_card"
             android:textColor="@android:color/black"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/credit_card"
             app:layout_constraintTop_toBottomOf="@+id/view3" />
 
         <View
             android:id="@+id/view4"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:background="@color/LightGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/managing_card" />
 
         <TextView
             android:id="@+id/individual_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:text="@string/individual_setting"
             android:textColor="@android:color/black"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/view4" />
 
         <View
             android:id="@+id/view5"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:background="@color/LightGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/individual_setting" />
 
         <TextView
             android:id="@+id/notification_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:text="@string/notification_setting"
             android:textColor="@android:color/black"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/view5" />
 
         <View
             android:id="@+id/view6"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:background="@color/LightGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/notification_setting" />
 
         <TextView
             android:id="@+id/service_center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:text="@string/service_center"
             android:textColor="@android:color/black"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/view8" />
 
         <View
             android:id="@+id/view7"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:background="@color/LightGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/service_center" />
 
         <TextView
             android:id="@+id/logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:text="@string/logout"
             android:textColor="@android:color/black"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/view7" />
 
         <View
             android:id="@+id/view8"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:background="@color/LightGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/notification_setting" />
 
         <TextView
             android:id="@+id/delete_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:text="@string/delete_account"
-            android:textColor="@android:color/black"
+            android:textColor="@color/Red"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/view9" />
 
         <View
             android:id="@+id/view9"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:background="@color/LightGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/logout" />
 
     </android.support.constraint.ConstraintLayout>

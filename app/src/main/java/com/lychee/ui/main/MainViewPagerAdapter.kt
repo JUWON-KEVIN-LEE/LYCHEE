@@ -16,15 +16,33 @@ import com.lychee.ui.main.statistic.StatisticFragment
 
 class MainViewPagerAdapter constructor(fm : FragmentManager): FragmentStatePagerAdapter(fm) {
 
+    private val cache : MutableMap<Int, Fragment> = mutableMapOf()
+
     override fun getItem(position: Int): Fragment = when(position) {
-        POSITION_HOME -> HomeFragment()
-        POSITION_RECORD -> RecordFragment()
-        POSITION_MAP -> MapFragment()
-        POSITION_STATISTIC -> StatisticFragment()
-        POSITION_SETTING -> SettingFragment()
+        POSITION_HOME -> {
+            cache[POSITION_HOME]
+                    ?:let { HomeFragment().also { onCache(POSITION_HOME, it) } }
+        }
+        POSITION_RECORD -> {
+            cache[POSITION_RECORD]
+                    ?:let { RecordFragment().also { onCache(POSITION_RECORD, it) } }
+        }
+        POSITION_MAP -> {
+            cache[POSITION_MAP]
+                    ?:let { MapFragment().also { onCache(POSITION_MAP, it) } }
+        }
+        POSITION_STATISTIC -> {
+            cache[POSITION_STATISTIC]
+                    ?:let { StatisticFragment().also { onCache(POSITION_STATISTIC, it) } }
+        }
+        POSITION_SETTING -> {
+            cache[POSITION_SETTING]
+                    ?:let { SettingFragment().also { onCache(POSITION_SETTING, it) } }
+        }
         else -> throw IllegalArgumentException("View Pager Item Selected Position Error")
     }
 
-
     override fun getCount(): Int = PageInfo.COUNT
+
+    private fun onCache(position: Int, fragment: Fragment) { cache[position] = fragment }
 }

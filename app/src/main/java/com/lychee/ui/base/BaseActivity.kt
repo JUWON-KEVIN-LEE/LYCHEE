@@ -11,7 +11,9 @@ import dagger.android.support.DaggerAppCompatActivity
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
-abstract class BaseActivity<V : ViewModel> : DaggerAppCompatActivity(), HasSupportFragmentInjector {
+abstract class BaseActivity<V : ViewModel> constructor(
+        private val resId : Int
+) : DaggerAppCompatActivity(), HasSupportFragmentInjector {
 
     @Inject
     lateinit var viewModelFactory : ViewModelProvider.Factory
@@ -24,6 +26,8 @@ abstract class BaseActivity<V : ViewModel> : DaggerAppCompatActivity(), HasSuppo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(resId)
+
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(viewModelClass)
     }
 
