@@ -8,7 +8,8 @@ import io.realm.RealmObject
 open class Expenditure(
         // @PrimaryKey
         var id: Long = 0,
-        var cardId: String = "",
+        var cardNumber : String = "", // 4*3*
+        var cardName: String = "", // 또는 현대카드 X ( 카드 이름 )
         var date: String = "",
         var time: String = "",
         var shopName: String = "",

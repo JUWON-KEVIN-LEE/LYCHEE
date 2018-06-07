@@ -14,8 +14,9 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        val title = "Lychee"
-        val content = "똑똑한 금융생활, 리치머니와 함께"
+
+        val title = getString(R.string.app_name)
+        val content = getString(R.string.app_splash)
 
         Handler().apply {
             postDelayed({
@@ -23,7 +24,7 @@ class SplashActivity : AppCompatActivity() {
                 animateTextTyping(text = content, textView = lychee_content, delay = 100)
             }, 500)
 
-            postDelayed({ MainActivity.start(this@SplashActivity) }, 2500)
+            postDelayed({ MainActivity.start(this@SplashActivity); finish() }, 2500)
         }
     }
 

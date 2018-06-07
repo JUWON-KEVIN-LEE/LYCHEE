@@ -3,6 +3,7 @@ package com.lychee.ui.main
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
+import android.view.ViewGroup
 import com.lychee.ui.main.PageInfo.POSITION_HOME
 import com.lychee.ui.main.PageInfo.POSITION_MAP
 import com.lychee.ui.main.PageInfo.POSITION_RECORD
@@ -39,10 +40,13 @@ class MainViewPagerAdapter constructor(fm : FragmentManager): FragmentStatePager
             cache[POSITION_SETTING]
                     ?:let { SettingFragment().also { onCache(POSITION_SETTING, it) } }
         }
-        else -> throw IllegalArgumentException("View Pager Item Selected Position Error")
+        else -> throw IllegalArgumentException("Unused exception")
     }
 
     override fun getCount(): Int = PageInfo.COUNT
 
     private fun onCache(position: Int, fragment: Fragment) { cache[position] = fragment }
+
+    // block destroy fragments
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) { /* super.destroyItem(container, position, `object`) */ }
 }

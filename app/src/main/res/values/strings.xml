@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">Lychee</string>
+    <string name="app_splash">똑똑한 금융생활, 리치머니와 함께</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--MAIN ACTIVITY-->
+
+    <!-- BOTTOM NAVIGATION -->
+    <string name="home">홈</string>
+    <string name="record">내역</string>
+    <string name="map">지도</string>
+    <string name="statistic">통계</string>
+    <string name="setting">설정</string>
 
     <!-- HOME -->
     <string name="of">님의</string>
@@ -12,19 +19,17 @@
     <string name="this_week">이번주</string>
     <string name="recent_spent_map">최근 소비 지도</string>
 
-    <!-- BOTTOM NAVIGATION VIEW -->
-    <string name="home">홈</string>
-    <string name="record">내역</string>
-    <string name="map">지도</string>
-    <string name="statistic">통계</string>
-    <string name="setting">설정</string>
-
     <!-- SETTING -->
     <string name="manage_my_card">내 카드 관리</string>
-    <string name="individual_setting">개인 설정</string>
+    <string name="personal_setting">개인 설정</string>
     <string name="notification_setting">알림 설정</string>
     <string name="service_center">고객센터</string>
     <string name="logout">로그아웃</string>
     <string name="delete_account">회원 탈퇴</string>
 
+    <!-- CARD LIST -->
+    <string name="edit">편집</string>
+    <string name="delete">삭제</string>
+    <string name="plus">+</string>
+    <string name="new_card_message">새로운 카드를 등록해주세요.</string>
 </resources>

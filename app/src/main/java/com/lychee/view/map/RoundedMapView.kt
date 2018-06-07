@@ -35,8 +35,6 @@ class RoundedMapView : MapView {
 
             val width = dp2Px(280f)
             val height = dp2Px(160f)
-
-            Log.d("JUWONLEE", "width = $width, height = $height")
                                                                                       // Clock Wise
             path.addRoundRect(RectF(0f, 0f, width, height), radius, radius, Path.Direction.CW)
 

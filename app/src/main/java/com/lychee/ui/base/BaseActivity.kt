@@ -1,6 +1,5 @@
 package com.lychee.ui.base
 
-import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -11,8 +10,12 @@ import dagger.android.support.DaggerAppCompatActivity
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
-abstract class BaseActivity<V : ViewModel> constructor(
-        private val resId : Int
+/**
+ * TODO
+ * Data Binding
+ */
+abstract class BaseActivity<V : BaseViewModel> constructor(
+        private val layoutResId : Int
 ) : DaggerAppCompatActivity(), HasSupportFragmentInjector {
 
     @Inject
@@ -26,9 +29,11 @@ abstract class BaseActivity<V : ViewModel> constructor(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(resId)
+        setContentView(layoutResId)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(viewModelClass)
+
+        lifecycle.addObserver(viewModel)
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = supportFragmentInjector

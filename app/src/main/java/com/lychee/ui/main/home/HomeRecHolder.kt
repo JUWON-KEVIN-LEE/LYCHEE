@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.lychee.R
 import com.lychee.data.model.Expenditure
 import com.lychee.extensions.inflate
+import com.lychee.extensions.won
 import kotlinx.android.synthetic.main.rec_item_home.view.*
 
 class HomeRecHolder constructor(
@@ -16,13 +17,14 @@ class HomeRecHolder constructor(
     private val date = itemView.date
     private val price = itemView.price
 
+    // TODO more click event 밖에서 선언
+
     fun bind(data : Expenditure) {
         data.let {
             shopName.text = it.shopName
-            card.text = it.cardId
+            card.text = it.cardName
             date.text = it.date
-            price.text = it.price
+            price.text = it.price.won(true) // won with comma
         }
-        // TODO more click event
     }
 }

@@ -8,6 +8,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import java.lang.reflect.Field
 
 
@@ -15,6 +18,11 @@ import java.lang.reflect.Field
 /**
  * View Extensions
  */
+// VIEW
+fun View.visible() { visibility = View.VISIBLE }
+fun View.invisible() { visibility = View.INVISIBLE }
+fun View.gone() { visibility = View.GONE }
+
 // VIEW GROUP
 fun ViewGroup.inflate(resId : Int) : View
     = inflate(resId, false)
@@ -22,6 +30,12 @@ fun ViewGroup.inflate(resId : Int) : View
 fun ViewGroup.inflate(resId : Int, attachToRoot : Boolean) : View
         = LayoutInflater.from(context).inflate(resId, this, attachToRoot)
 
+// GLIDE
+fun ImageView.loadImage(url : String)
+        = Glide.with(this).load(url).into(this)
+
+fun ImageView.loadImage(url : String, options: RequestOptions)
+        = Glide.with(this).load(url).apply(options).into(this)
 
 // BOTTOM NAVIGATION VIEW
 @SuppressLint("RestrictedApi")

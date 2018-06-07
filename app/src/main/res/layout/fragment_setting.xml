@@ -105,12 +105,12 @@
             app:layout_constraintTop_toBottomOf="@+id/managing_card" />
 
         <TextView
-            android:id="@+id/individual_setting"
+            android:id="@+id/personal_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:text="@string/individual_setting"
+            android:text="@string/personal_setting"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@id/guideline"
@@ -126,7 +126,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/individual_setting" />
+            app:layout_constraintTop_toBottomOf="@+id/personal_setting" />
 
         <TextView
             android:id="@+id/notification_setting"

@@ -1,59 +1,77 @@
 package com.lychee.mock
 
+import com.lychee.data.model.Card
 import com.lychee.data.model.Expenditure
 
+/**
+ *  TEST
+ */
 object MockData {
     fun get() : List<Expenditure>
         = mutableListOf(
-            Expenditure(0L,
+            Expenditure(0,
+                    "",
                     "현대카드",
                     "2018.06.03",
-                    "20:42:09",
+                    "20:42",
                     "GS25 서울역점",
-                    "4800",
+                    "1514800",
                     false,
                     true,
                     false,
                     0),
-            Expenditure(1L,
+            Expenditure(1,
+                    "",
                     "삼성카드",
                     "2018.06.03",
-                    "18:55:11",
+                    "18:55",
                     "파리바게트",
                     "16000",
                     false,
                     true,
                     false,
                     0),
-            Expenditure(2L,
+            Expenditure(2,
+                    "",
                     "국민카드",
                     "2018.06.03",
-                    "10:23:04",
+                    "10:23",
                     "서울병원",
                     "132000",
                     false,
                     true,
                     false,
                     0),
-            Expenditure(3L,
+            Expenditure(3,
+                    "",
                     "현대카드",
                     "2018.06.02",
-                    "19:11:12",
+                    "19:11",
                     "카페 Alef",
                     "2800",
                     false,
                     true,
                     false,
                     0),
-            Expenditure(4L,
+            Expenditure(4,
+                    "",
                     "신한카드",
                     "2018.06.01",
-                    "18:05:12",
+                    "18:05",
                     "스타벅스 서울대점",
-                    "11800",
+                    "11201800",
                     false,
                     true,
                     false,
                     0)
     )
+
+    fun get_() : List<Card>
+        = mutableListOf(
+            Card(0, "http://www.card-gorilla.com/upload/2013check_b3.png", "신한카드", cardNumber = "8418"),
+            Card(1, "https://www.shinhancard.com/_ICSFiles/afieldfile/2018/03/23/check_ediya.png", "KB국민카드", cardNumber = "1234"),
+            Card(2, "http://www.card-gorilla.com/upload/nhcH_20habom.png", "하나카드", cardNumber = "1597"),
+            Card(3, "http://www.card-gorilla.com/upload/WR_SUM.PNG", "IBK기업은행", cardNumber = "3696"),
+            Card(4, "http://www.card-gorilla.com/upload/hn_kakaopaycheck.png", "케이뱅크", cardNumber = "2580")
+        )
 }

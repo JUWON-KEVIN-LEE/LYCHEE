@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.lychee.R
 import com.lychee.databinding.FragmentSettingBinding
 import com.lychee.ui.base.BaseFragment
+import com.lychee.ui.cardlist.CardListActivity
 import kotlinx.android.synthetic.main.fragment_setting.*
 
 class SettingFragment : BaseFragment<FragmentSettingBinding, SettingViewModel>(R.layout.fragment_setting) {
@@ -19,7 +20,13 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingViewModel>(R
         = super.onCreateView(inflater, container, savedInstanceState)
 
     override fun init() {
+        binding.apply {
+            managingCard.setOnClickListener { CardListActivity.start(mContext) }
+        }
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onResume() {

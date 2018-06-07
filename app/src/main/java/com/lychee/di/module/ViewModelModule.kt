@@ -3,6 +3,7 @@ package com.lychee.di.module
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.lychee.di.ViewModelKey
+import com.lychee.ui.cardlist.CardListViewModel
 import com.lychee.ui.main.MainViewModel
 import com.lychee.ui.main.home.HomeViewModel
 import com.lychee.ui.main.map.MapViewModel
@@ -20,7 +21,7 @@ abstract class ViewModelModule {
     @Binds
     abstract fun bindViewModelFactory(viewModelFactory: ViewModelFactory) : ViewModelProvider.Factory
 
-
+    // MAIN ACTIVITY
     @Binds
     @IntoMap
     @ViewModelKey(MainViewModel::class)
@@ -50,4 +51,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SettingViewModel::class)
     abstract fun bindSettingViewModel(settingViewModel: SettingViewModel) : ViewModel
+
+    // CARD LIST ACTIVITY
+    @Binds
+    @IntoMap
+    @ViewModelKey(CardListViewModel::class)
+    abstract fun bindCardListViewModel(cardListViewModel: CardListViewModel) : ViewModel
 }

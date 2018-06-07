@@ -6,6 +6,18 @@
 
     <color name="tranparent">#00000000</color>
 
+    <!-- CARD -->
+    <color name="add">#b8cbff</color>
+    <color name="edit">#3c000000</color>
+
+    <color name="start_0">#48d2e6</color>
+    <color name="center_0">#0a83ee</color>
+    <color name="end_0">#023fea</color>
+
+    <color name="start_1">#f694ac</color>
+    <color name="center_1">#cd4cca</color>
+    <color name="end_1">#aa0eea</color>
+
     <!-- TEST!! unused -->
     <color name="static_ball">#b4c8ff</color> <!-- 0.7058823, 0.7843137, 1 -->
     <color name="transform_ball">#5069af</color> <!-- 0.3137254, 0.4117647, 0.6862745 -->

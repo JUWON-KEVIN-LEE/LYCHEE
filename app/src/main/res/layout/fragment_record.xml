@@ -18,7 +18,7 @@
                 android:layout_height="156dp"
                 android:fitsSystemWindows="true"
                 app:contentScrim="@color/colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap|enterAlways"
                 app:titleEnabled="false">
 
                 <android.support.constraint.ConstraintLayout
@@ -149,8 +149,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="?actionBarSize"
                     android:layout_gravity="top"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
                     android:fitsSystemWindows="true"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/AppTheme.PopupOverlay">
@@ -169,7 +169,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/rec_record_background"
-            android:paddingTop="16dp"
             android:scrollbars="none"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:listitem="@layout/rec_item_record">

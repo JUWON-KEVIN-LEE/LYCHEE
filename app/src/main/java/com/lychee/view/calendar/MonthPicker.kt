@@ -10,6 +10,10 @@ import com.lychee.R
 import kotlinx.android.synthetic.main.view_month_picker.view.*
 import java.util.*
 
+/**
+ * TODO
+ * Month Change Listener
+ */
 class MonthPicker : LinearLayout {
 
     // VIEW
@@ -20,6 +24,7 @@ class MonthPicker : LinearLayout {
     private val yearView : TextView
 
     // VARIABLES
+    // TODO bind /w view model
     var mMonth : Int = 0
     set(value) {
         if((value >= 1).and(value <= 12)) field = value

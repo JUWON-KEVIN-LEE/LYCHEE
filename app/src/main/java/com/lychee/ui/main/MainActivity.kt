@@ -4,7 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.ViewPager
+import android.widget.Toast
 import com.lychee.R
+import com.lychee.R.id.bottom_navigation_view
+import com.lychee.R.id.view_pager
 import com.lychee.extensions.disableShiftMode
 import com.lychee.ui.base.BaseActivity
 import com.lychee.ui.main.PageInfo.POSITION_HOME
@@ -16,10 +19,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<MainViewModel>(R.layout.activity_main) {
 
+    private var backPressedTime : Long = 0L
+
     override val viewModelClass: Class<MainViewModel>
         get() = MainViewModel::class.java
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // DI, SET CONTENT VIEW, BIND VIEW MODEL
         super.onCreate(savedInstanceState)
 
         view_pager.apply {
@@ -74,7 +80,22 @@ class MainActivity : BaseActivity<MainViewModel>(R.layout.activity_main) {
         }
     }
 
+    // EXIT MESSAGE
+    override fun onBackPressed()
+        = backPressedTime
+                .takeIf { System.currentTimeMillis()- it < SHORT_DURATION_TIMEOUT }
+                ?.let { super.onBackPressed() }
+                ?:onBackPressedFeedback(EXIT_MESSAGE)
+
+    private fun onBackPressedFeedback(message : String) {
+        backPressedTime = System.currentTimeMillis()
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
     companion object {
         fun start(context : Context) = context.startActivity(Intent(context, MainActivity::class.java))
+
+        const val EXIT_MESSAGE = "한번 더 누르시면 종료됩니다."
+        const val SHORT_DURATION_TIMEOUT = 2000L
     }
 }

@@ -3,11 +3,12 @@ package com.lychee.util;
 import com.lychee.data.model.Expenditure;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  *  불완전할 것 같다...
- *  테스트 필요
+ *  다시 만들어야 할 것 !!
  */
 public class SmsParcer {
 
@@ -52,11 +53,10 @@ public class SmsParcer {
         String[] splits_ = body.split("\n"); // 개행 없애기
 
         for(String item_ : splits_) { // 빈 공간 없애기
-            item_.replace("(", " ");
-            item_.replace(")", " ");
+            item_ = item_.replace("(", " ").replace(")", " ");
             String[] splits_ar = item_.split(" ");
-            for(String item_ar : splits_ar)
-                splits.add(item_ar);
+
+            splits.addAll(Arrays.asList(splits_ar));
         }
 
         // 불필요한 데이터 없애기
@@ -75,7 +75,7 @@ public class SmsParcer {
                 }
                 splits.remove(i);
 
-                expenditure.setCardId(containsAppr(split));
+                expenditure.setCardName(containsAppr(split));
                 break;
             }
         }

@@ -5,6 +5,10 @@ import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import io.realm.Realm
 
+/**
+ * TODO
+ * DEPENDENCY SCOPE 정리
+ */
 class App : DaggerApplication() {
 
     override fun onCreate() {

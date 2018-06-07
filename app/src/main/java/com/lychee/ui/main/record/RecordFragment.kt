@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.lychee.R
+import com.lychee.data.model.Expenditure
 import com.lychee.databinding.FragmentRecordBinding
 import com.lychee.mock.MockData
 import com.lychee.ui.base.BaseFragment
@@ -34,7 +35,15 @@ class RecordFragment : BaseFragment<FragmentRecordBinding, RecordViewModel>(R.la
 
             // RECYCLER VIEW
             recRecord.apply {
-                adapter = RecordRecAdapter(MockData.get())
+                val data = mutableListOf<Expenditure>()
+                        .apply {
+                            addAll(MockData.get())
+                            addAll(MockData.get())
+                            addAll(MockData.get())
+                            addAll(MockData.get())
+                            addAll(MockData.get())
+                        }
+                adapter = RecordRecAdapter(data)
                 layoutManager = LinearLayoutManager(this@RecordFragment.context)
             }
         }
