@@ -1,6 +1,7 @@
 package com.lychee.ui.main.record
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import com.lychee.data.model.Expenditure
 import com.lychee.databinding.FragmentRecordBinding
 import com.lychee.mock.MockData
 import com.lychee.ui.base.BaseFragment
+import com.lychee.ui.main.ActionBarProvider
 
 class RecordFragment : BaseFragment<FragmentRecordBinding, RecordViewModel>(R.layout.fragment_record) {
 
@@ -47,6 +49,8 @@ class RecordFragment : BaseFragment<FragmentRecordBinding, RecordViewModel>(R.la
                 layoutManager = LinearLayoutManager(this@RecordFragment.context)
             }
         }
+
+        (mContext as ActionBarProvider).setActionBarColor(ContextCompat.getColor(mContext, R.color.colorPrimary))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -8,7 +8,6 @@ import com.lychee.R
 import com.lychee.databinding.FragmentSettingBinding
 import com.lychee.ui.base.BaseFragment
 import com.lychee.ui.cardlist.CardListActivity
-import kotlinx.android.synthetic.main.fragment_setting.*
 
 class SettingFragment : BaseFragment<FragmentSettingBinding, SettingViewModel>(R.layout.fragment_setting) {
 
@@ -31,8 +30,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingViewModel>(R
 
     override fun onResume() {
         super.onResume()
-        // animation
-        credit_card.playAnimation()
     }
 
 }

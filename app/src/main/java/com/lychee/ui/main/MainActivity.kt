@@ -2,14 +2,15 @@ package com.lychee.ui.main
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.view.ViewPager
+import android.view.View
 import android.widget.Toast
 import com.lychee.R
-import com.lychee.R.id.bottom_navigation_view
-import com.lychee.R.id.view_pager
-import com.lychee.extensions.disableShiftMode
+import com.lychee.extensions.*
 import com.lychee.ui.base.BaseActivity
+import com.lychee.ui.calendar.CalendarFragment
 import com.lychee.ui.main.PageInfo.POSITION_HOME
 import com.lychee.ui.main.PageInfo.POSITION_MAP
 import com.lychee.ui.main.PageInfo.POSITION_RECORD
@@ -17,7 +18,11 @@ import com.lychee.ui.main.PageInfo.POSITION_SETTING
 import com.lychee.ui.main.PageInfo.POSITION_STATISTIC
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity<MainViewModel>(R.layout.activity_main) {
+/**
+ * TODO
+ * Config Change Handling
+ */
+class MainActivity : BaseActivity<MainViewModel>(R.layout.activity_main), ActionBarProvider {
 
     private var backPressedTime : Long = 0L
 
@@ -73,28 +78,38 @@ class MainActivity : BaseActivity<MainViewModel>(R.layout.activity_main) {
                     }
                     else -> {
                         throw IllegalArgumentException("Bottom Navigation View Item Selected Position Error")
-                        false
                     }
                 }
             }
         }
     }
 
-    // EXIT MESSAGE
-    override fun onBackPressed()
-        = backPressedTime
-                .takeIf { System.currentTimeMillis()- it < SHORT_DURATION_TIMEOUT }
-                ?.let { super.onBackPressed() }
-                ?:onBackPressedFeedback(EXIT_MESSAGE)
+    // HOME CALENDAR
+    fun openCalendar() : Unit = container.run { visible(); replaceFragment(supportFragmentManager, CalendarFragment()) }
 
-    private fun onBackPressedFeedback(message : String) {
-        backPressedTime = System.currentTimeMillis()
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    fun closeCalendar() : Unit = container.run { gone(); removeFragment(supportFragmentManager, CalendarFragment()) }
+
+    // BACK KEY
+    override fun onBackPressed()
+        = container.takeIf { it.visibility == View.VISIBLE }
+                  ?.let { closeCalendar() }
+                  ?:backPressedTime
+                        .takeIf { System.currentTimeMillis() - it < SHORT_DURATION_TIMEOUT }
+                        ?.let { super.onBackPressed() }
+                        ?:run { onBackPressedFeedback(EXIT_MESSAGE); backPressedTime = System.currentTimeMillis() }
+    // EXIT MEASSAGE
+    private fun onBackPressedFeedback(message : String)
+        = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+
+    // ACTION BAR
+    override fun setActionBarColor(color: Int) {
+        supportActionBar?.setBackgroundDrawable(ColorDrawable(color))
     }
 
     companion object {
         fun start(context : Context) = context.startActivity(Intent(context, MainActivity::class.java))
 
+        // COST : RES > STATIC
         const val EXIT_MESSAGE = "한번 더 누르시면 종료됩니다."
         const val SHORT_DURATION_TIMEOUT = 2000L
     }

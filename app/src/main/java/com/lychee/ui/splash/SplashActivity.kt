@@ -5,6 +5,8 @@ import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
 import com.lychee.R
+import com.lychee.R.id.lychee_content
+import com.lychee.R.id.lychee_title
 import com.lychee.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 
@@ -18,6 +20,7 @@ class SplashActivity : AppCompatActivity() {
         val title = getString(R.string.app_name)
         val content = getString(R.string.app_splash)
 
+
         Handler().apply {
             postDelayed({
                 animateTextTyping(text = title, textView = lychee_title, delay = 100)
@@ -26,6 +29,7 @@ class SplashActivity : AppCompatActivity() {
 
             postDelayed({ MainActivity.start(this@SplashActivity); finish() }, 2500)
         }
+
     }
 
     private fun animateTextTyping(text : String, textView : TextView, delay : Long) {

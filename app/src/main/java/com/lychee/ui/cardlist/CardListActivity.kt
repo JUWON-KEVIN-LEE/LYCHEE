@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import com.lychee.R
+import com.lychee.R.id.back_button
+import com.lychee.R.id.card_view_pager
 import com.lychee.mock.MockData
 import com.lychee.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_card_list.*
@@ -28,7 +30,7 @@ class CardListActivity : BaseActivity<CardListViewModel>(R.layout.activity_card_
         card_view_pager.apply { adapter = CardListAdapter(this@CardListActivity, MockData.get_()) }
 
         edit.setOnClickListener {
-            card_view_pager.apply {
+            card_view_pager.apply {// TODO REFACTOR
                 val adapter = adapter as CardListAdapter
                 if(adapter.editMode) {
                     (it as TextView).text = "편집"

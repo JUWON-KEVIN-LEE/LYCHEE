@@ -12,6 +12,10 @@ import dagger.android.ContributesAndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
+/**
+ * TODO
+ * VIEW MODEL SCOPE 변경 , MODULE SCOPE 변경 to internal
+ */
 @Module(includes = [
     AndroidSupportInjectionModule::class,
     DatabaseModule::class,

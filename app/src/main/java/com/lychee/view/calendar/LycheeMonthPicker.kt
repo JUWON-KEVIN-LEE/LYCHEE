@@ -14,7 +14,7 @@ import java.util.*
  * TODO
  * Month Change Listener
  */
-class MonthPicker : LinearLayout {
+class LycheeMonthPicker : LinearLayout {
 
     // VIEW
     private val previousButton : View
@@ -79,5 +79,5 @@ class MonthPicker : LinearLayout {
 
     private fun setMonthText() { monthView.text = ("${mMonth}월") }
 
-    private fun setYearText() { yearView.text = mYear.toString() }
+    private fun setYearText() { yearView.text = ("${mYear}년") }
 }

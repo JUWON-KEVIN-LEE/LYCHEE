@@ -16,6 +16,7 @@ import com.lychee.R
 import com.lychee.databinding.FragmentHomeBinding
 import com.lychee.mock.MockData
 import com.lychee.ui.base.BaseFragment
+import com.lychee.ui.main.MainActivity
 
 /**
  * Home 화면
@@ -33,8 +34,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun init() {
         binding.apply {
-            // CALENDAR
-            calendar.setOnClickListener { /* TODO calendar view */ }
+            // CALENDAR                     // SAFE CASTING
+            calendar.setOnClickListener { (activity as? MainActivity)?.openCalendar() }
 
             // TEXT
             /* TODO bind data to textview on view model & xml */

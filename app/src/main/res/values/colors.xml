@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#648eff</color> <!-- 0.3921568, 0.5568627, 1 -->
-    <color name="colorPrimaryDark">@color/LightGrey</color>
+    <color name="colorPrimaryDark">@color/map_action_bar</color>
     <color name="colorAccent">#FF4081</color>
 
     <color name="tranparent">#00000000</color>
+
+    <!-- MAP -->
+    <color name="map_action_bar">#7f000000</color>
 
     <!-- CARD -->
     <color name="add">#b8cbff</color>

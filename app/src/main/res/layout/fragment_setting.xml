@@ -23,6 +23,7 @@
             android:text="@string/setting"
             android:textColor="@color/colorPrimary"
             android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -68,18 +69,6 @@
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/email" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/credit_card"
-            android:layout_width="56dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/view4"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/view3"
-            app:lottie_autoPlay="false"
-            app:lottie_fileName="credit_card.json"
-            app:lottie_loop="false"
-            app:lottie_repeatCount="1"/>
-
         <TextView
             android:id="@+id/managing_card"
             android:layout_width="wrap_content"
@@ -89,7 +78,7 @@
             android:text="@string/manage_my_card"
             android:textColor="@android:color/black"
             android:textSize="18sp"
-            app:layout_constraintStart_toEndOf="@+id/credit_card"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/view3" />
 
         <View

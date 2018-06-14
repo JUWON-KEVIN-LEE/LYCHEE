@@ -20,21 +20,21 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:background="@android:color/transparent"
-        android:gravity="center"
         android:text="4월"
-        android:textColor="@android:color/white"
-        android:textSize="24sp" />
+        android:textColor="@color/White"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/view_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:layout_marginLeft="8dp"
         android:background="@android:color/transparent"
-        android:gravity="center"
-        android:text="2018"
-        android:textColor="@android:color/white"
-        android:textSize="24sp" />
+        android:text="2018년"
+        android:textColor="@color/White"
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/button_next"
