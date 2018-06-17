@@ -155,7 +155,7 @@
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/AppTheme.PopupOverlay">
 
-                    <com.lychee.view.calendar.LycheeMonthPicker
+                    <com.lychee.view.calendar.MonthSelector
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical" />

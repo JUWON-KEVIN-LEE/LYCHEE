@@ -1,9 +1,17 @@
 package com.lychee.view.calendar
 
 import com.lychee.view.calendar.model.LycheeDay
+import com.lychee.view.calendar.model.MDate
 import java.util.*
 
 object CalendarUtil {
+
+    /**
+     *
+     */
+    fun getMDates() : List<MDate> {
+        return mutableListOf()
+    }
 
     fun getDays() : List<LycheeDay> {
         createCalendar(seoul())

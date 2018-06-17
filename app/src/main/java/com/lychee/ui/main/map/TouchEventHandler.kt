@@ -47,8 +47,9 @@ class TouchEventHandler constructor(
 
                 // Direction
                 direction = getDirection(mLastX, mLastY, x, y)
+
                 when(direction) {
-                    is Direction.Left, is Direction.Right -> { /* page */ }
+                    is Direction.Left, is Direction.Right -> { /* TODO change page */ }
                     is Direction.Up -> { listener.moveUp(verticalPer) }
                     is Direction.Down -> { listener.moveDown(verticalPer) }
                 }
@@ -87,8 +88,8 @@ class TouchEventHandler constructor(
 
     companion object {
         // 최대 확장값
-        const val MAX_LIMIT = 0.25f
-        const val MIN_LIMIT = 0.75f
+        const val MAX_LIMIT = 0.35f
+        const val MIN_LIMIT = 0.8f
 
         // 디바이스 기준 .45 만큼 이동시 확장
         const val BOOL = 0.45f

@@ -1,15 +1,11 @@
 package com.lychee.ui.main.map
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.support.constraint.ConstraintLayout
 import android.support.transition.ChangeBounds
 import android.support.transition.TransitionManager
 import android.support.v4.content.ContextCompat
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -17,6 +13,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.lychee.R
+import com.lychee.R.id.guideline
+import com.lychee.R.id.root_layout
 import com.lychee.databinding.FragmentMapBinding
 import com.lychee.extensions.update
 import com.lychee.ui.base.BaseFragment
@@ -34,13 +32,7 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>(R.layout.frag
 
     lateinit var map : GoogleMap
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View
-        = super.onCreateView(inflater, container, savedInstanceState)
-
-
-    @SuppressLint("ClickableViewAccessibility")
-    override fun init() {
+    override fun onCreateView() {
         binding.apply {
             // MAP
             mapView.getMapAsync(this@MapFragment)
@@ -53,10 +45,6 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>(R.layout.frag
         (mContext as ActionBarProvider).setActionBarColor(ContextCompat.getColor(mContext, R.color.map_action_bar))
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.mapView.onCreate(savedInstanceState)
@@ -65,6 +53,8 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>(R.layout.frag
     override fun onStart() {
         super.onStart()
         binding.mapView.onStart()
+
+        // TODO GET DATA FROM DB
     }
 
     override fun onResume() {
@@ -156,7 +146,10 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>(R.layout.frag
         Handler().postDelayed({
             // TODO 일단 POINT 로 정중앙 이동한 다음
             // 아래와 같이 축소
-            map.moveCamera(CameraUpdateFactory.scrollBy (0f, mContext.resources.displayMetrics.heightPixels * .25f))
+            map.apply {
+                moveCamera(CameraUpdateFactory.newLatLng(LatLng(37.56, 126.97))) // SEOUL
+                moveCamera(CameraUpdateFactory.scrollBy (0f, mContext.resources.displayMetrics.heightPixels * .25f))
+            }
         }, 250)
     }
 
@@ -173,7 +166,9 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>(R.layout.frag
 
         // MAP
         Handler().postDelayed({
-            map.moveCamera(CameraUpdateFactory.scrollBy (0f, -mContext.resources.displayMetrics.heightPixels * .25f))
+            map.apply {
+                moveCamera(CameraUpdateFactory.newLatLng(LatLng(37.56, 126.97))) // SEOUL
+            }
         }, 250)
     }
 }

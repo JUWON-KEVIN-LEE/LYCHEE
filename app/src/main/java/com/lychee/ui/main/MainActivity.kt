@@ -16,13 +16,15 @@ import com.lychee.ui.main.PageInfo.POSITION_MAP
 import com.lychee.ui.main.PageInfo.POSITION_RECORD
 import com.lychee.ui.main.PageInfo.POSITION_SETTING
 import com.lychee.ui.main.PageInfo.POSITION_STATISTIC
+import com.lychee.ui.main.home.HomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * TODO
  * Config Change Handling
  */
-class MainActivity : BaseActivity<MainViewModel>(R.layout.activity_main), ActionBarProvider {
+class MainActivity : BaseActivity<MainViewModel>(R.layout.activity_main),
+        HomeFragment.InteractionListener, ActionBarProvider {
 
     private var backPressedTime : Long = 0L
 
@@ -85,9 +87,9 @@ class MainActivity : BaseActivity<MainViewModel>(R.layout.activity_main), Action
     }
 
     // HOME CALENDAR
-    fun openCalendar() : Unit = container.run { visible(); replaceFragment(supportFragmentManager, CalendarFragment()) }
+    override fun openCalendar() : Unit = container.run { visible(); replaceFragment(supportFragmentManager, CalendarFragment()) }
 
-    fun closeCalendar() : Unit = container.run { gone(); removeFragment(supportFragmentManager, CalendarFragment()) }
+    private fun closeCalendar() : Unit = container.run { gone(); removeFragment(supportFragmentManager, CalendarFragment()) }
 
     // BACK KEY
     override fun onBackPressed()

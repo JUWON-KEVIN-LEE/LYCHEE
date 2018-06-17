@@ -33,6 +33,15 @@
     <string name="plus">+</string>
     <string name="new_card_message">새로운 카드를 등록해주세요.</string>
 
+    <!-- CALENDAR -->
+    <string name="monday">월</string>
+    <string name="tuesday">화</string>
+    <string name="wednesday">수</string>
+    <string name="thursday">목</string>
+    <string name="friday">금</string>
+    <string name="saturday">토</string>
+    <string name="sunday">일</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

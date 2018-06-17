@@ -8,8 +8,6 @@ import android.widget.LinearLayout
 
 class LycheeMonthView : LinearLayout {
 
-    // var gestureListener
-
     constructor(context: Context?) : this(context, null)
 
     constructor(context: Context?, attrs: AttributeSet?) : this(context, attrs, 0)

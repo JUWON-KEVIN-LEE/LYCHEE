@@ -7,6 +7,7 @@ import android.util.AttributeSet
 class LycheeWeekViewPager : ViewPager {
 
     constructor(context: Context) : this(context, null)
+
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
 

@@ -1,11 +1,7 @@
 package com.lychee.ui.main.record
 
-import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.lychee.R
 import com.lychee.data.model.Expenditure
 import com.lychee.databinding.FragmentRecordBinding
@@ -18,11 +14,7 @@ class RecordFragment : BaseFragment<FragmentRecordBinding, RecordViewModel>(R.la
     override val viewModelClass: Class<RecordViewModel>
         get() = RecordViewModel::class.java
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View
-        = super.onCreateView(inflater, container, savedInstanceState)
-
-    override fun init() {
+    override fun onCreateView() {
         binding.apply {
             // TODO
             // MONTH PICKER
@@ -53,9 +45,7 @@ class RecordFragment : BaseFragment<FragmentRecordBinding, RecordViewModel>(R.la
         (mContext as ActionBarProvider).setActionBarColor(ContextCompat.getColor(mContext, R.color.colorPrimary))
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // TODO
+    override fun onStart() {
+        super.onStart()
     }
 }

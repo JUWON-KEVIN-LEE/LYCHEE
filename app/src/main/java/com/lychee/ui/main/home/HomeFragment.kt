@@ -1,12 +1,7 @@
 package com.lychee.ui.main.home
 
-import android.annotation.TargetApi
-import android.os.Build
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -16,7 +11,6 @@ import com.lychee.R
 import com.lychee.databinding.FragmentHomeBinding
 import com.lychee.mock.MockData
 import com.lychee.ui.base.BaseFragment
-import com.lychee.ui.main.MainActivity
 
 /**
  * Home 화면
@@ -26,16 +20,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     override val viewModelClass: Class<HomeViewModel>
         get() = HomeViewModel::class.java
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View
-        = super.onCreateView(inflater, container, savedInstanceState)
-
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun init() {
+    override fun onCreateView() {
         binding.apply {
             // CALENDAR                     // SAFE CASTING
-            calendar.setOnClickListener { (activity as? MainActivity)?.openCalendar() }
+            calendar.setOnClickListener { (mContext as? InteractionListener)?.openCalendar() }
 
             // TEXT
             /* TODO bind data to textview on view model & xml */
@@ -52,11 +40,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
             }
         }
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -118,5 +101,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
             moveCamera(CameraUpdateFactory.newLatLng(seoul))
             animateCamera(CameraUpdateFactory.zoomTo(13f))
         }
+    }
+
+    interface InteractionListener {
+        fun openCalendar()
     }
 }

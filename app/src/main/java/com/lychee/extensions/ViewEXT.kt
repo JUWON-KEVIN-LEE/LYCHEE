@@ -8,6 +8,7 @@ import android.support.design.internal.BottomNavigationMenuView
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.view.ViewCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,10 @@ import java.lang.reflect.Field
 fun View.visible() { visibility = View.VISIBLE }
 fun View.invisible() { visibility = View.INVISIBLE }
 fun View.gone() { visibility = View.GONE }
+
+// UNUSED
+fun View.elevation(dp : Float) { ViewCompat.setElevation(this, dp) }
+fun View.translationZ(value : Float) { ViewCompat.setTranslationZ(this, value) }
 
 // VIEW GROUP
 fun ViewGroup.replaceFragment(supportFragmentManager: FragmentManager, fragment: Fragment)

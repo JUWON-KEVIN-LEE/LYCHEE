@@ -6,7 +6,6 @@ import android.graphics.Path
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.util.DisplayMetrics
-import android.util.Log
 import com.google.android.gms.maps.MapView
 
 /**
@@ -26,17 +25,14 @@ class RoundedMapView : MapView {
         super.onLayout(changed, left, top, right, bottom)
     }
 
-    override fun dispatchDraw(canvas: Canvas?) {
-        canvas?.let {
+    override fun dispatchDraw(canvas: Canvas) {
+        canvas.let {
             val path = Path()
             val count = it.save()
 
             val radius =  dp2Px(16f)
 
-            val width = dp2Px(280f)
-            val height = dp2Px(160f)
-                                                                                      // Clock Wise
-            path.addRoundRect(RectF(0f, 0f, width, height), radius, radius, Path.Direction.CW)
+            path.addRoundRect(RectF(0f, 0f, width.toFloat(), height.toFloat()), radius, radius, Path.Direction.CW)
 
             it.clipPath(path)
             super.dispatchDraw(it)

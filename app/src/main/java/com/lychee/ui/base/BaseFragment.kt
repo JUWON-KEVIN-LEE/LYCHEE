@@ -35,12 +35,12 @@ abstract class BaseFragment<D: ViewDataBinding, V : BaseViewModel> constructor(
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, resId, container, false)
 
-        init()
+        onCreateView()
 
         return binding.root
     }
 
-    abstract fun init()
+    abstract fun onCreateView()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
