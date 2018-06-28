@@ -4,8 +4,9 @@ import io.realm.RealmObject
 
 /**
  *  지출내역
+ *  카테고리
  */
-open class Expenditure(
+open class Expenditure (
         // @PrimaryKey
         var id: Long = 0,
         var cardNumber : String = "", // 4*3*
@@ -17,5 +18,8 @@ open class Expenditure(
         var isForeign: Boolean = false,
         var isApproved: Boolean= true,
         var isInstallment: Boolean = false,
-        var monthsOfInstallment: Int = 0
+        var monthsOfInstallment: Int = 0,
+        // MAP
+        var lat : Double = .0,
+        var lng : Double = .0
 ) : RealmObject()

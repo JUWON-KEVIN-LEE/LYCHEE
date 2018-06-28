@@ -28,21 +28,26 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".8" />
 
-
-        <FrameLayout
-            android:id="@+id/item_layout"
+        <com.lychee.view.map.MapItemViewPager
+            android:id="@+id/item_view_pager"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:orientation="vertical"
+            android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline">
 
-            <include
-                layout="@layout/map_item"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </FrameLayout>
+        </com.lychee.view.map.MapItemViewPager>
+
+        <ImageView
+            android:id="@+id/scale_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/round_keyboard_arrow_up_black_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline" />
     </android.support.constraint.ConstraintLayout>
 </layout>

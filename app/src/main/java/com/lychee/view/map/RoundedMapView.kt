@@ -9,9 +9,23 @@ import android.util.DisplayMetrics
 import com.google.android.gms.maps.MapView
 
 /**
- * TODO study
+ * TODO STUDY
  * View 메서드 호출 순서
- * Constructor() | [parent call addView()] | onAttachedToWindow() | [when call requestLayout()] | measure() | onMeasure() | layout() | onLayout() | [when call invalidate()] | dispatchDraw() | draw() | onDraw()
+ * Constructor() |
+ *
+ * [parent call addView()] |
+ * onAttachedToWindow() |
+ *
+ * [when call requestLayout()] |
+ * measure() |
+ * onMeasure() |
+ * layout() |
+ * onLayout() |
+ *
+ * [when call invalidate()] |
+ * dispatchDraw() |
+ * draw() |
+ * onDraw()
  */
 class RoundedMapView : MapView {
 

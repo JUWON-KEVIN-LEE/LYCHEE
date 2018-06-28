@@ -4,19 +4,20 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.constraint.ConstraintLayout
 import android.support.transition.ChangeBounds
+import android.support.transition.Transition
 import android.support.transition.TransitionManager
 import android.support.v4.content.ContextCompat
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AnimationUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.lychee.R
-import com.lychee.R.id.guideline
-import com.lychee.R.id.root_layout
 import com.lychee.databinding.FragmentMapBinding
 import com.lychee.extensions.update
+import com.lychee.mock.MockData
 import com.lychee.ui.base.BaseFragment
 import com.lychee.ui.main.ActionBarProvider
 import kotlinx.android.synthetic.main.fragment_map.*
@@ -25,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_map.*
  *
  */
 class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>(R.layout.fragment_map),
-        OnMapReadyCallback, TouchEventListener {
+        OnMapReadyCallback {
 
     override val viewModelClass: Class<MapViewModel>
         get() = MapViewModel::class.java
@@ -37,9 +38,24 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>(R.layout.frag
             // MAP
             mapView.getMapAsync(this@MapFragment)
 
-            // DETAIL
-            val handler = TouchEventHandler(mContext, this@MapFragment)
-            itemLayout.setOnTouchListener(handler)
+            // VIEW PAGER
+            itemViewPager.adapter = MapPagerAdapter(MockData.get()) // TEST
+
+            // SCALE BUTTON
+            scaleButton.setOnClickListener {
+                val percent = (guideline.layoutParams as ConstraintLayout.LayoutParams).guidePercent
+
+                if(percent == MAX_LIMIT) {
+                    shrink()
+                    it.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.reverse_rotaion_animation))
+                } // IF EXPAND STATE
+                else {
+                    expand()
+                    it.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.rotation_animation))
+                } // ELSE IF SHRINK STATE
+
+
+            }
         }
 
         (mContext as ActionBarProvider).setActionBarColor(ContextCompat.getColor(mContext, R.color.map_action_bar))
@@ -111,41 +127,30 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>(R.layout.frag
         }
     }
 
-    override fun moveUp(per: Float) {
-        (guideline.layoutParams as ConstraintLayout.LayoutParams)
-                .takeIf { it.guidePercent > TouchEventHandler.MAX_LIMIT }
-                ?.let {
-                    it.guidePercent += per
-                    guideline.layoutParams = it
-                }
-
-        // TODO HANDLING OTHER VIEWS VISIBILITY OR TRANSITION
-    }
-
-    override fun moveDown(per: Float) {
-        (guideline.layoutParams as ConstraintLayout.LayoutParams)
-                .takeIf { it.guidePercent < TouchEventHandler.MIN_LIMIT }
-                ?.let {
-                    it.guidePercent += per
-                    guideline.layoutParams = it
-                }
-    }
-
-    override fun expand() {
-        // CONSTRAINT LAYOUT UPDATE
+    private fun expand() {
         root_layout.update {
-            setGuidelinePercent(R.id.guideline, TouchEventHandler.MAX_LIMIT)
+            setGuidelinePercent(R.id.guideline, MAX_LIMIT)
 
             TransitionManager.beginDelayedTransition(root_layout, ChangeBounds().apply {
                 interpolator = AccelerateDecelerateInterpolator()
                 duration = 500
+
+                addListener(object : Transition.TransitionListener {
+                    override fun onTransitionEnd(transition: Transition) {}
+
+                    override fun onTransitionResume(transition: Transition) {}
+
+                    override fun onTransitionPause(transition: Transition) {}
+
+                    override fun onTransitionCancel(transition: Transition) {}
+
+                    override fun onTransitionStart(transition: Transition) { binding.itemViewPager.onExpand() }
+                })
             })
         }
 
         // MAP
         Handler().postDelayed({
-            // TODO 일단 POINT 로 정중앙 이동한 다음
-            // 아래와 같이 축소
             map.apply {
                 moveCamera(CameraUpdateFactory.newLatLng(LatLng(37.56, 126.97))) // SEOUL
                 moveCamera(CameraUpdateFactory.scrollBy (0f, mContext.resources.displayMetrics.heightPixels * .25f))
@@ -153,14 +158,26 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>(R.layout.frag
         }, 250)
     }
 
-    override fun shrink() {
+    private fun shrink() {
         // CONSTRAINT LAYOUT UPDATE
         root_layout.update {
-            setGuidelinePercent(R.id.guideline, TouchEventHandler.MIN_LIMIT)
+            setGuidelinePercent(R.id.guideline, MIN_LIMIT)
 
             TransitionManager.beginDelayedTransition(root_layout, ChangeBounds().apply {
                 interpolator = AccelerateDecelerateInterpolator()
                 duration = 500
+
+                addListener(object : Transition.TransitionListener {
+                    override fun onTransitionEnd(transition: Transition) {}
+
+                    override fun onTransitionResume(transition: Transition) {}
+
+                    override fun onTransitionPause(transition: Transition) {}
+
+                    override fun onTransitionCancel(transition: Transition) {}
+
+                    override fun onTransitionStart(transition: Transition) { binding.itemViewPager.onShrink() }
+                })
             })
         }
 
@@ -170,5 +187,11 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>(R.layout.frag
                 moveCamera(CameraUpdateFactory.newLatLng(LatLng(37.56, 126.97))) // SEOUL
             }
         }, 250)
+    }
+
+    companion object {
+        // 최대 확장/축소값
+        const val MAX_LIMIT = 0.35f
+        const val MIN_LIMIT = 0.8f
     }
 }

@@ -6,6 +6,15 @@
 
     <color name="tranparent">#00000000</color>
 
+    <!-- CALENDAR -->
+    <color name="currentMonthColor">#000000</color>
+    <color name="currentMonthSaturdayColor">#648eff</color>
+    <color name="currentMonthHolidayColor">#FF0000</color>
+
+    <color name="otherMonthColor">#78000000</color>
+    <color name="otherMonthSaturdayColor">#78648eff</color>
+    <color name="otherMonthHolidayColor">#78ff0000</color>
+
     <!-- MAP -->
     <color name="map_action_bar">#FF4081</color>
 

@@ -28,10 +28,6 @@ fun View.visible() { visibility = View.VISIBLE }
 fun View.invisible() { visibility = View.INVISIBLE }
 fun View.gone() { visibility = View.GONE }
 
-// UNUSED
-fun View.elevation(dp : Float) { ViewCompat.setElevation(this, dp) }
-fun View.translationZ(value : Float) { ViewCompat.setTranslationZ(this, value) }
-
 // VIEW GROUP
 fun ViewGroup.replaceFragment(supportFragmentManager: FragmentManager, fragment: Fragment)
     = supportFragmentManager.beginTransaction().replace(this.id, fragment).commit()
@@ -79,3 +75,9 @@ fun BottomNavigationView.disableShiftMode() {
     catch (e : NoSuchFieldException) { Log.e("JUWONLEE", "Unable to get shift mode field") }
     catch (e : IllegalAccessException) { Log.e("JUWONLEE", "Unable to change value of shift mode") }
 }
+
+
+// ===========================================================================================================
+// UNUSED, FOR STUDY
+fun View.elevation(dp : Float) { ViewCompat.setElevation(this, dp) }
+fun View.translationZ(value : Float) { ViewCompat.setTranslationZ(this, value) }
