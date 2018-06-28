@@ -13,7 +13,9 @@ class MonthView : BaseView {
 
     constructor(context: Context) : this(context, null)
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+
+    }
 
     fun set(year : Int, month : Int) {
         mDates = getMDates(year, month)
@@ -55,7 +57,10 @@ class MonthView : BaseView {
         // DATA
         mDate.data
                 ?.let {
+                    // 그려야 할 데이터
+                    val expenditure = it[index]
 
+                    // TODO 그리기
                 }
     }
 

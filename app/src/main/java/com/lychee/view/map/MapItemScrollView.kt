@@ -11,7 +11,14 @@ class MapItemScrollView : ScrollView {
 
     constructor(context: Context) : this(context, null)
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        init()
+    }
+
+    private fun init() {
+        isHorizontalScrollBarEnabled = false
+        isVerticalScrollBarEnabled = false
+    }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         super.onLayout(changed, l, t, r, b)

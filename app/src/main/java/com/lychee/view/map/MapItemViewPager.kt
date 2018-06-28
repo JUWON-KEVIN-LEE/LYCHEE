@@ -3,19 +3,42 @@ package com.lychee.view.map
 import android.content.Context
 import android.support.v4.view.ViewPager
 import android.util.AttributeSet
-import android.util.Log
+import com.lychee.extensions.dpToPx
 
-class MapItemViewPager : ViewPager {
+class MapItemViewPager : ViewPager, OnBoundTransition {
 
-    constructor(context: Context) : super(context)
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    var mOldHeight : Int = 0
 
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        Log.d("JUWONLEE", "ViewPager onLayout() called")
-        super.onLayout(changed, l, t, r, b)
+    constructor(context: Context) : this(context, null)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        init(context)
     }
 
-    fun onExpand() { (getChildAt(currentItem) as? MapItemScrollView)?.isExpanded = true }
+    private fun init(context: Context) {
+        // RESTRICTED
+        pageMargin = context.dpToPx(8)
+    }
 
-    fun onShrink() { (getChildAt(currentItem) as? MapItemScrollView)?.isExpanded = false }
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        super.onLayout(changed, l, t, r, b)
+
+        if(mOldHeight != 0) {
+            if(height > mOldHeight) onExpand()
+            else onShrink()
+        }
+
+        mOldHeight = height
+    }
+
+    override fun onExpand() {
+        for(i in 0 until childCount) {
+            (getChildAt(i) as? MapItemScrollView)?.isExpanded = true
+        }
+    }
+
+    override fun onShrink() {
+        for(i in 0 until childCount) {
+            (getChildAt(i) as? MapItemScrollView)?.isExpanded = false
+        }
+    }
 }

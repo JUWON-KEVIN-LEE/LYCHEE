@@ -58,7 +58,9 @@ object MockData {
                     false,
                     true,
                     false,
-                    0),
+                    0,
+                    37.56,
+                    126.97),
             Expenditure(4,
                     "",
                     "신한카드",
@@ -69,7 +71,9 @@ object MockData {
                     false,
                     true,
                     false,
-                    0)
+                    0,
+                    37.56,
+                    126.97)
     )
 
     fun get_() : List<Card>

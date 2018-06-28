@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.constraint.ConstraintLayout
 import android.support.transition.ChangeBounds
-import android.support.transition.Transition
 import android.support.transition.TransitionManager
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewPager
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnimationUtils
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -31,7 +31,7 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>(R.layout.frag
     override val viewModelClass: Class<MapViewModel>
         get() = MapViewModel::class.java
 
-    lateinit var map : GoogleMap
+    var map : GoogleMap? = null
 
     override fun onCreateView() {
         binding.apply {
@@ -39,22 +39,41 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>(R.layout.frag
             mapView.getMapAsync(this@MapFragment)
 
             // VIEW PAGER
+            itemViewPager.apply {
+                val data = MockData.get()
+                adapter = MapPagerAdapter(data) // TEST
+
+                addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                    override fun onPageScrollStateChanged(state: Int) {}
+
+                    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+
+                    override fun onPageSelected(position: Int) {
+                        data[position].apply {
+                            val location = LatLng(lat, lng)
+
+                            map?.run {
+                                moveCamera(CameraUpdateFactory.newLatLng(location))
+                                // IF EXPAND STATE
+                                if(isExpanded())
+                                    moveCamera(CameraUpdateFactory.scrollBy (0f, mContext.resources.displayMetrics.heightPixels * .25f))
+                            }
+                        }
+                    }
+                })
+            }
             itemViewPager.adapter = MapPagerAdapter(MockData.get()) // TEST
 
             // SCALE BUTTON
             scaleButton.setOnClickListener {
-                val percent = (guideline.layoutParams as ConstraintLayout.LayoutParams).guidePercent
-
-                if(percent == MAX_LIMIT) {
+                if(isExpanded()) { // IF EXPAND STATE
                     shrink()
                     it.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.reverse_rotaion_animation))
-                } // IF EXPAND STATE
-                else {
+                }
+                else { // ELSE IF SHRINK STATE
                     expand()
                     it.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.rotation_animation))
-                } // ELSE IF SHRINK STATE
-
-
+                }
             }
         }
 
@@ -127,6 +146,8 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>(R.layout.frag
         }
     }
 
+    private fun isExpanded() : Boolean = ((guideline.layoutParams as ConstraintLayout.LayoutParams).guidePercent == MAX_LIMIT)
+
     private fun expand() {
         root_layout.update {
             setGuidelinePercent(R.id.guideline, MAX_LIMIT)
@@ -134,24 +155,12 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>(R.layout.frag
             TransitionManager.beginDelayedTransition(root_layout, ChangeBounds().apply {
                 interpolator = AccelerateDecelerateInterpolator()
                 duration = 500
-
-                addListener(object : Transition.TransitionListener {
-                    override fun onTransitionEnd(transition: Transition) {}
-
-                    override fun onTransitionResume(transition: Transition) {}
-
-                    override fun onTransitionPause(transition: Transition) {}
-
-                    override fun onTransitionCancel(transition: Transition) {}
-
-                    override fun onTransitionStart(transition: Transition) { binding.itemViewPager.onExpand() }
-                })
             })
         }
 
         // MAP
         Handler().postDelayed({
-            map.apply {
+            map?.apply {
                 moveCamera(CameraUpdateFactory.newLatLng(LatLng(37.56, 126.97))) // SEOUL
                 moveCamera(CameraUpdateFactory.scrollBy (0f, mContext.resources.displayMetrics.heightPixels * .25f))
             }
@@ -166,25 +175,13 @@ class MapFragment : BaseFragment<FragmentMapBinding, MapViewModel>(R.layout.frag
             TransitionManager.beginDelayedTransition(root_layout, ChangeBounds().apply {
                 interpolator = AccelerateDecelerateInterpolator()
                 duration = 500
-
-                addListener(object : Transition.TransitionListener {
-                    override fun onTransitionEnd(transition: Transition) {}
-
-                    override fun onTransitionResume(transition: Transition) {}
-
-                    override fun onTransitionPause(transition: Transition) {}
-
-                    override fun onTransitionCancel(transition: Transition) {}
-
-                    override fun onTransitionStart(transition: Transition) { binding.itemViewPager.onShrink() }
-                })
             })
         }
 
         // MAP
         Handler().postDelayed({
-            map.apply {
-                moveCamera(CameraUpdateFactory.newLatLng(LatLng(37.56, 126.97))) // SEOUL
+            map?.apply {
+                moveCamera(CameraUpdateFactory.newLatLng(LatLng(37.56, 126.97))) // TODO APPLY DATA'S LATLNG
             }
         }, 250)
     }
