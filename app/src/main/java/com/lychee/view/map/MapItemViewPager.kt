@@ -15,7 +15,6 @@ class MapItemViewPager : ViewPager, OnBoundTransition {
     }
 
     private fun init(context: Context) {
-        // RESTRICTED
         pageMargin = context.dpToPx(8)
     }
 
@@ -31,14 +30,12 @@ class MapItemViewPager : ViewPager, OnBoundTransition {
     }
 
     override fun onExpand() {
-        for(i in 0 until childCount) {
+        for(i in 0 until childCount)
             (getChildAt(i) as? MapItemScrollView)?.isExpanded = true
-        }
     }
 
     override fun onShrink() {
-        for(i in 0 until childCount) {
+        for(i in 0 until childCount)
             (getChildAt(i) as? MapItemScrollView)?.isExpanded = false
-        }
     }
 }

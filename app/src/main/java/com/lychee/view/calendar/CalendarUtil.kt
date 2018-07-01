@@ -11,7 +11,7 @@ object CalendarUtil {
 
         Calendar.getInstance().let {
             // YEAR
-            it.apply { set(Calendar.YEAR, year); set(Calendar.DATE, 1) }
+            it.apply { setYear(year); setDate(1) }
 
             // LAST MONTH
             val numberOfDatesLastMonth = it.apply { set(Calendar.MONTH, month - 2) }.getActualMaximum(Calendar.DATE)

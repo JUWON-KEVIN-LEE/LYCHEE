@@ -16,6 +16,7 @@ class MapItemScrollView : ScrollView {
     }
 
     private fun init() {
+        // SCROLL BAR DISABLED
         isHorizontalScrollBarEnabled = false
         isVerticalScrollBarEnabled = false
     }

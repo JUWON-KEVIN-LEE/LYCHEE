@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import com.lychee.data.model.Expenditure
 import com.lychee.view.calendar.CalendarUtil.getMDates
@@ -72,6 +73,7 @@ class MonthView : BaseView {
     }
 
     override fun onClick(view: View) {
+        Log.d("JUWONLEE", "onClick()")
         if(isClicked) {
             val index = getIndex()
 
@@ -81,6 +83,9 @@ class MonthView : BaseView {
 
                         if(!mDate.isCurrentMonth) {
                             // MOVE VIEW PAGER
+                        } else {
+                            mPosition = index
+                            invalidate()
                         }
                     }
         }
@@ -96,8 +101,17 @@ class MonthView : BaseView {
     )
 
     // 지출 내역
-    fun onDrawData(canvas : Canvas, data : List<Expenditure>, x : Int, y : Int, index : Int) {
+    fun onDrawData(canvas : Canvas, data : List<Expenditure>, x : Float, y : Float, index : Int) {
+        val top = y + mDateHeight / 6
 
+        val between = (mDateHeight * 5 / 6 - 3 * mTextHeight) / 3
+
+        val limit = if(data.size > 3) 3 else data.size
+
+        for(i in 0 until limit) {
+            canvas.drawText(data[index].shopName, x, top + between * i, mDataPaint)
+            // canvas.drawRect()
+        }
     }
 
     // 날짜

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Paint
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.lychee.R
@@ -29,13 +30,15 @@ abstract class BaseView : View, View.OnClickListener {
 
     val mTodayCirclePaint = Paint()
 
+    val mDataPaint = Paint()
+
     // CALENDAR
     val mDelegate : CalendarDelegate = CalendarDelegate()
 
     lateinit var mDates : List<MDate>
 
     // CURRENT DATE POSITION
-    var mPosition : Int = -1
+    var mPosition : Int = 10 // TEST
 
     var mDateHeight : Float = 0f
 
@@ -52,7 +55,7 @@ abstract class BaseView : View, View.OnClickListener {
 
     var isClicked : Boolean = true
 
-    constructor(context: Context) : this(context, null) // UNUSED
+    constructor(context: Context) : this(context, null)
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         initPaint(context)
@@ -133,10 +136,17 @@ abstract class BaseView : View, View.OnClickListener {
             style = Paint.Style.FILL
             color = ContextCompat.getColor(context, R.color.colorPrimary)
         }
+
+        mDataPaint.apply {
+            isAntiAlias = true
+            style = Paint.Style.FILL
+            color = ContextCompat.getColor(context, R.color.colorPrimary)
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if(event.pointerCount > 1) return false
+        Log.d("JUWONLEE", "onTouchEvent()")
 
         when(event.action) {
             MotionEvent.ACTION_DOWN -> {

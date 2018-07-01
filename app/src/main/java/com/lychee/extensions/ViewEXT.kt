@@ -23,9 +23,11 @@ import java.lang.reflect.Field
 /**
  * View Extensions
  */
-// VIEW
+// VISIBILITY
 fun View.visible() { visibility = View.VISIBLE }
+
 fun View.invisible() { visibility = View.INVISIBLE }
+
 fun View.gone() { visibility = View.GONE }
 
 // VIEW GROUP
@@ -76,8 +78,7 @@ fun BottomNavigationView.disableShiftMode() {
     catch (e : IllegalAccessException) { Log.e("JUWONLEE", "Unable to change value of shift mode") }
 }
 
-
-// ===========================================================================================================
 // UNUSED, FOR STUDY
 fun View.elevation(dp : Float) { ViewCompat.setElevation(this, dp) }
+
 fun View.translationZ(value : Float) { ViewCompat.setTranslationZ(this, value) }

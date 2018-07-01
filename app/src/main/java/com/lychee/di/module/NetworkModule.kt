@@ -28,7 +28,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkhttpClient(interceptor: Interceptor, cache : Cache) : OkHttpClient
+    fun provideOkHttpClient(interceptor: Interceptor, cache : Cache) : OkHttpClient
             = OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .connectTimeout(30L, TimeUnit.SECONDS)
