@@ -16,6 +16,8 @@ class CalendarDelegate {
 
     val mToday : Calendar = Calendar.getInstance().seoul()
 
+    var mDateHeight :Float = 0f
+
     init {
         mToday.let {
             mSelectedYear = it.get(Calendar.YEAR)
@@ -23,6 +25,8 @@ class CalendarDelegate {
             mSelectedDay = it.get(Calendar.DATE)
         }
     }
+
+
 
     fun onDateSelect(year : Int, month : Int, day : Int) {
         mSelectedYear = year

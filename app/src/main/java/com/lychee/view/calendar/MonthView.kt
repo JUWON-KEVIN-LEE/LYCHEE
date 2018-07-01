@@ -109,6 +109,7 @@ class MonthView : BaseView {
         val limit = if(data.size > 3) 3 else data.size
 
         for(i in 0 until limit) {
+
             canvas.drawText(data[index].shopName, x, top + between * i, mDataPaint)
             // canvas.drawRect()
         }
