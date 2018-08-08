@@ -1,6 +1,6 @@
 package com.lychee.di.module
 
-import android.app.Application
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -16,18 +16,15 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
 
-    @Provides
-    @Singleton
+    @Provides @Singleton
     fun provideInterceptor() : Interceptor
             = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
 
-    @Provides
-    @Singleton
-    fun provideCache(app : Application) : Cache
-            = Cache(app.cacheDir, 10 * 10 * 1024L)
+    @Provides @Singleton
+    fun provideCache(context: Context) : Cache
+            = Cache(context.cacheDir, 10 * 10 * 1024L)
 
-    @Provides
-    @Singleton
+    @Provides @Singleton
     fun provideOkHttpClient(interceptor: Interceptor, cache : Cache) : OkHttpClient
             = OkHttpClient.Builder()
             .addInterceptor(interceptor)
@@ -37,18 +34,15 @@ class NetworkModule {
             .cache(cache)
             .build()
 
-    @Provides
-    @Singleton
+    @Provides @Singleton
     fun provideGsonConverterFactory() : GsonConverterFactory
             = GsonConverterFactory.create()
 
-    @Provides
-    @Singleton
+    @Provides @Singleton
     fun provideRxJava2CallAdapterFactory() : RxJava2CallAdapterFactory
             = RxJava2CallAdapterFactory.create()
 
-    @Provides
-    @Singleton
+    @Provides @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient,
                         gsonConverterFactory: GsonConverterFactory,
                         rxJava2CallAdapterFactory: RxJava2CallAdapterFactory) : Retrofit

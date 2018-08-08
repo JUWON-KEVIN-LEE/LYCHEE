@@ -6,25 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.splash.SplashActivity">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:animateLayoutChanges="true"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/lychee_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/Black"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/lychee_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/Black"
-            android:textSize="18sp" />
-    </LinearLayout>
+        android:text="스플래시 화면" />
 </FrameLayout>

@@ -1,44 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".ui.main.MainActivity">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </android.support.v4.view.ViewPager>
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:elevation="0dp"
-        app:menu="@menu/navigation"
-        app:itemBackground="@android:color/background_light"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-    </android.support.design.widget.BottomNavigationView>
-
-    <FrameLayout
-        android:id="@+id/container"
+    <com.lychee.view.DrawerConstraintLayout
+        android:id="@+id/mainParentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@color/colorPrimaryDark">
 
-    </FrameLayout>
-</android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.Guideline
+            android:id="@+id/mainStartGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="0dp" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/mainEndGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="1" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/mainTopGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/mainBottomGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="1" />
+
+        <FrameLayout
+            android:id="@+id/mainToolbar"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:background="@android:color/background_light"
+            app:layout_constraintEnd_toEndOf="@+id/mainEndGuideline"
+            app:layout_constraintStart_toStartOf="@+id/mainStartGuideline"
+            app:layout_constraintTop_toTopOf="@+id/mainTopGuideline">
+
+            <ImageView
+                android:id="@+id/mainDrawerButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginStart="16dp"
+                android:onClick="onClick" />
+
+            <TextView
+                android:id="@+id/mainTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="가계부"
+                android:textColor="@android:color/black"
+                android:textSize="22sp" />
+        </FrameLayout>
+
+        <com.lychee.view.DrawerViewPager
+            android:id="@+id/mainViewPager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@android:color/background_light"
+            app:layout_constraintBottom_toTopOf="@+id/mainBottomNavigationView"
+            app:layout_constraintEnd_toStartOf="@+id/mainEndGuideline"
+            app:layout_constraintStart_toStartOf="@+id/mainStartGuideline"
+            app:layout_constraintTop_toBottomOf="@+id/mainToolbar" />
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/mainBottomNavigationView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/background_light"
+            android:theme="@style/BottomNavigationStyle"
+            app:itemIconTint="@drawable/main_bottom_navigation_selector"
+            app:itemTextColor="@drawable/main_bottom_navigation_selector"
+            app:layout_constraintBottom_toTopOf="@+id/mainBottomGuideline"
+            app:layout_constraintEnd_toStartOf="@+id/mainEndGuideline"
+            app:layout_constraintStart_toStartOf="@+id/mainStartGuideline"
+            app:menu="@menu/bottom_navigation" />
+
+        <FrameLayout
+            android:id="@+id/mainForegroundLayout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:elevation="8dp"
+            android:foreground="@color/colorPrimaryDark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/mainDrawerMenu"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/mainDrawerMenu"
+            android:layout_width="180dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/DarkBlue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/mainStartGuideline"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </FrameLayout>
+    </com.lychee.view.DrawerConstraintLayout>
+</layout>

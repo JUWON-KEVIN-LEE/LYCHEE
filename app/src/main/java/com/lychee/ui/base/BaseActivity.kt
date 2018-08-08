@@ -2,11 +2,14 @@ package com.lychee.ui.base
 
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.databinding.DataBindingUtil
+import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
+import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.DaggerAppCompatActivity
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
@@ -14,26 +17,32 @@ import javax.inject.Inject
  * TODO
  * Data Binding
  */
-abstract class BaseActivity<V : BaseViewModel> constructor(
-        private val layoutResId : Int
-) : DaggerAppCompatActivity(), HasSupportFragmentInjector {
+abstract class BaseActivity<DataBindingType: ViewDataBinding, ViewModelType: BaseViewModel>
+    : AppCompatActivity(), HasSupportFragmentInjector {
+
+    abstract val layoutResId: Int
+
+    lateinit var mBinding: DataBindingType
 
     @Inject
     lateinit var viewModelFactory : ViewModelProvider.Factory
-    open lateinit var viewModel : V
 
-    abstract val viewModelClass : Class<V>
+    lateinit var mViewModel : ViewModelType
+
+    abstract val viewModelClass : Class<ViewModelType>
 
     @Inject
-    lateinit var supportFragmentInjector : DispatchingAndroidInjector<Fragment>
+    lateinit var supportFragmentInjector: DispatchingAndroidInjector<Fragment>
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(layoutResId)
+        mBinding = DataBindingUtil.setContentView(this, layoutResId)
+        mBinding.setLifecycleOwner(this)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(viewModelClass)
+        mViewModel = ViewModelProviders.of(this, viewModelFactory).get(viewModelClass)
 
-        lifecycle.addObserver(viewModel)
+        lifecycle.addObserver(mViewModel)
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = supportFragmentInjector

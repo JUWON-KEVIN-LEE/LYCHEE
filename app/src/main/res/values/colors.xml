@@ -1,38 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#648eff</color> <!-- 0.3921568, 0.5568627, 1 -->
-    <color name="colorPrimaryDark">#7f000000</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#8c000000</color>
+    <color name="colorAccent">#0d5de5</color>
 
-    <color name="tranparent">#00000000</color>
+    <color name="colorSelected">#4182eb</color>
 
-    <!-- CALENDAR -->
-    <color name="currentMonthColor">#000000</color>
-    <color name="currentMonthSaturdayColor">#648eff</color>
-    <color name="currentMonthHolidayColor">#FF0000</color>
+    <color name="colorSuperLightGrey">#e2f0f0f0</color>
 
-    <color name="otherMonthColor">#78000000</color>
-    <color name="otherMonthSaturdayColor">#78648eff</color>
-    <color name="otherMonthHolidayColor">#78ff0000</color>
+    <color name="colorBlueStart">#48d2e6</color>
+    <color name="colorBlueCenter">#0a83ee</color>
+    <color name="colorBlueEnd">#023fea</color>
 
-    <!-- MAP -->
-    <color name="map_action_bar">#FF4081</color>
-
-    <!-- CARD -->
-    <color name="add">#b8cbff</color>
-    <color name="edit">#3c000000</color>
-
-    <color name="start_0">#48d2e6</color>
-    <color name="center_0">#0a83ee</color>
-    <color name="end_0">#023fea</color>
-
-    <color name="start_1">#f694ac</color>
-    <color name="center_1">#cd4cca</color>
-    <color name="end_1">#aa0eea</color>
-
-    <!-- TEST!! unused -->
-    <color name="static_ball">#b4c8ff</color> <!-- 0.7058823, 0.7843137, 1 -->
-    <color name="transform_ball">#5069af</color> <!-- 0.3137254, 0.4117647, 0.6862745 -->
+    <color name="colorPurpleStart">#f694ac</color>
+    <color name="colorPurpleCenter">#cd4cca</color>
+    <color name="colorPurpleEnd">#aa0eea</color>
 
     <color name="Grey">#979797</color>
     <color name="White">#FFFFFF</color>

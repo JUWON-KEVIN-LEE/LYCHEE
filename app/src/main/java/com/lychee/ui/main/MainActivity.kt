@@ -1,118 +1,181 @@
 package com.lychee.ui.main
 
-import android.content.Context
-import android.content.Intent
-import android.graphics.drawable.ColorDrawable
+import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.support.transition.ChangeBounds
+import android.support.transition.TransitionManager
 import android.support.v4.view.ViewPager
+import android.support.v7.graphics.drawable.DrawerArrowDrawable
+import android.util.Property
+import android.view.MenuItem
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.LinearInterpolator
 import android.widget.Toast
 import com.lychee.R
-import com.lychee.extensions.*
+import com.lychee.databinding.ActivityMainBinding
 import com.lychee.ui.base.BaseActivity
-import com.lychee.ui.calendar.CalendarFragment
-import com.lychee.ui.main.PageInfo.POSITION_HOME
-import com.lychee.ui.main.PageInfo.POSITION_MAP
-import com.lychee.ui.main.PageInfo.POSITION_RECORD
-import com.lychee.ui.main.PageInfo.POSITION_SETTING
-import com.lychee.ui.main.PageInfo.POSITION_STATISTIC
-import com.lychee.ui.main.home.HomeFragment
-import kotlinx.android.synthetic.main.activity_main.*
+import com.lychee.ui.main.adapter.MainViewPagerAdapter
+import com.lychee.util.extensions.dpToPx
+import com.lychee.util.extensions.update
+import com.lychee.view.disableShiftMode
 
 /**
  * TODO
  * Config Change Handling
  */
-class MainActivity : BaseActivity<MainViewModel>(R.layout.activity_main),
-        HomeFragment.InteractionListener, ActionBarProvider {
+class MainActivity:
+        BaseActivity<ActivityMainBinding, MainViewModel>(),
+        PageOnClickListner
+{
 
-    private var backPressedTime : Long = 0L
+    override val layoutResId: Int
+        get() = R.layout.activity_main
 
     override val viewModelClass: Class<MainViewModel>
         get() = MainViewModel::class.java
 
+    private var prevMenuItem: MenuItem? = null
+
+    private var prevBackButtonPressedTime: Long = 0L
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        // DI, SET CONTENT VIEW, BIND VIEW MODEL
         super.onCreate(savedInstanceState)
 
-        view_pager.apply {
-            adapter = MainViewPagerAdapter(supportFragmentManager)
+        initView()
+    }
 
-            addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-                override fun onPageScrollStateChanged(state: Int) {}
-                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
-                override fun onPageSelected(position: Int) {
-                    when(position) {
-                        POSITION_HOME -> { bottom_navigation_view.selectedItemId = R.id.action_home }
-                        POSITION_RECORD -> { bottom_navigation_view.selectedItemId = R.id.action_record }
-                        POSITION_MAP -> { bottom_navigation_view.selectedItemId = R.id.action_map }
-                        POSITION_STATISTIC -> { bottom_navigation_view.selectedItemId = R.id.action_statistic }
-                        POSITION_SETTING -> { bottom_navigation_view.selectedItemId = R.id.action_setting }
+    private fun initView() {
+        with(mBinding) {
+            mainBottomNavigationView.disableShiftMode()
+
+            mainBottomNavigationView.setOnNavigationItemSelectedListener {menuItem ->
+                when(menuItem.itemId) {
+                    R.id.action_menu_home -> {
+                        mainViewPager.currentItem = 0
+                        true
                     }
+                    R.id.action_menu_record -> {
+                        mainViewPager.currentItem = 1
+                        true
+                    }
+                    R.id.action_menu_map -> {
+                        mainViewPager.currentItem = 2
+                        true
+                    }
+                    R.id.action_menu_setting -> {
+                        mainViewPager.currentItem = 3
+                        true
+                    }
+                    else -> throw IllegalArgumentException("unexpected error")
+                }
+            }
+
+            mainViewPager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener {
+                override fun onPageScrollStateChanged(state: Int) {}
+
+                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+
+                override fun onPageSelected(position: Int) {
+                    prevMenuItem
+                            ?.setChecked(false)
+                            ?:let { mainBottomNavigationView.menu.getItem(0).isChecked = false }
+
+                    mainBottomNavigationView.menu.getItem(position).isChecked = true
+                    prevMenuItem = mainBottomNavigationView.menu.getItem(position)
                 }
             })
-        }
+            mainViewPager.adapter = MainViewPagerAdapter(supportFragmentManager)
+            mainViewPager.onSwipeOutListener = mainParentLayout
 
-        bottom_navigation_view.apply {
-            disableShiftMode() // delete shifting animation
-
-            setOnNavigationItemSelectedListener {
-                when(it.itemId) {
-                    R.id.action_home -> {
-                        view_pager.currentItem = POSITION_HOME
-                        true
-                    }
-                    R.id.action_record -> {
-                        view_pager.currentItem = POSITION_RECORD
-                        true
-                    }
-                    R.id.action_map -> {
-                        view_pager.currentItem = POSITION_MAP
-                        true
-                    }
-                    R.id.action_statistic -> {
-                        view_pager.currentItem = POSITION_STATISTIC
-                        true
-                    }
-                    R.id.action_setting -> {
-                        view_pager.currentItem = POSITION_SETTING
-                        true
-                    }
-                    else -> {
-                        throw IllegalArgumentException("Bottom Navigation View Item Selected Position Error")
-                    }
-                }
+            mainDrawerButton.setImageDrawable(DrawerArrowDrawable(this@MainActivity))
+            mainDrawerButton.setOnClickListener{
+                if(mainParentLayout.drawerArrowDrawableProgress == 0f) mainParentLayout.drawerArrowDrawableProgress = 1f
+                else if(mainParentLayout.drawerArrowDrawableProgress == 1f) mainParentLayout.drawerArrowDrawableProgress = 0f
             }
         }
     }
 
-    // HOME CALENDAR
-    override fun openCalendar() : Unit = container.run { visible(); replaceFragment(supportFragmentManager, CalendarFragment()) }
+    /**
+     * 페이지 내부 뷰들과 액티비티 뷰들의 클릭 이벤트를 처리
+     */
+    override fun onClick(view: View) {
+        when(view.id) {
+            /*
+            R.id.mainDrawerButton -> {
+                val drawerArrowDrawable = mBinding.mainDrawerButton.drawable as DrawerArrowDrawable
 
-    private fun closeCalendar() : Unit = container.run { gone(); removeFragment(supportFragmentManager, CalendarFragment()) }
-
-    // BACK KEY
-    override fun onBackPressed()
-        = container.takeIf { it.visibility == View.VISIBLE }
-                  ?.let { closeCalendar() }
-                  ?:backPressedTime
-                        .takeIf { System.currentTimeMillis() - it < SHORT_DURATION_TIMEOUT }
-                        ?.let { super.onBackPressed() }
-                        ?:run { onBackPressedFeedback(EXIT_MESSAGE); backPressedTime = System.currentTimeMillis() }
-    // EXIT MEASSAGE
-    private fun onBackPressedFeedback(message : String)
-        = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-
-    // ACTION BAR
-    override fun setActionBarColor(color: Int) {
-        supportActionBar?.setBackgroundDrawable(ColorDrawable(color))
+                animateDrawer(drawerArrowDrawable)
+            }
+            */
+        }
     }
 
-    companion object {
-        fun start(context : Context) = context.startActivity(Intent(context, MainActivity::class.java))
+    private fun animateDrawer(drawerArrowDrawable: DrawerArrowDrawable) {
+        val openAction = drawerArrowDrawable.progress == 0f
 
-        // COST : RES > STATIC
+        val from: Float
+        val to: Float
+
+        if(openAction) { from = 0f; to = 1f }
+        else { from = 1f; to = 0f }
+
+        val animator = ObjectAnimator.ofFloat(
+                drawerArrowDrawable,
+                object: Property<DrawerArrowDrawable, Float>(Float::class.java, "progress") {
+                    override fun set(drawable: DrawerArrowDrawable, value: Float) { drawable.progress = value }
+                    override fun get(drawable: DrawerArrowDrawable): Float = drawable.progress
+                },
+                from,
+                to)
+        animator.interpolator = AccelerateDecelerateInterpolator()
+        animator.duration = 500L
+        animator.start()
+
+        mBinding.mainForegroundLayout
+                .animate()
+                .alpha(to)
+                .setDuration(500L)
+                .setInterpolator(LinearInterpolator())
+                .start()
+
+        mBinding.mainParentLayout.update {
+            setGuidelineBegin(R.id.mainStartGuideline, if(openAction) dpToPx(196) else 0)
+            setGuidelinePercent(R.id.mainTopGuideline, if(openAction) .1f else 0f)
+            setGuidelinePercent(R.id.mainBottomGuideline, if(openAction) .9f else 1f)
+            setGuidelinePercent(R.id.mainEndGuideline, if(openAction) 1.5f else 1f)
+        }
+
+        TransitionManager.beginDelayedTransition(
+                mBinding.mainParentLayout,
+                ChangeBounds().apply {
+                    duration = 500L
+                    interpolator = LinearInterpolator()
+                }
+        )
+    }
+
+    override fun onBackPressed() { // TODO NOT WORKING
+        if(prevBackButtonPressedTime == 0L) {
+            prevBackButtonPressedTime = System.currentTimeMillis()
+            onBackPressedFeedback(EXIT_MESSAGE)
+        } else {
+            val now = System.currentTimeMillis()
+
+            if(now - prevBackButtonPressedTime < EXIT_TIMEOUT) {
+                super.onBackPressed()
+            } else {
+                prevBackButtonPressedTime = now
+                onBackPressedFeedback(EXIT_MESSAGE)
+            }
+        }
+    }
+
+    private fun onBackPressedFeedback(message : String)
+            = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+
+    companion object {
         const val EXIT_MESSAGE = "한번 더 누르시면 종료됩니다."
-        const val SHORT_DURATION_TIMEOUT = 2000L
+        const val EXIT_TIMEOUT = 2000L
     }
 }

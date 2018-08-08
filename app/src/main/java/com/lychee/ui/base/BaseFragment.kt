@@ -6,49 +6,52 @@ import android.content.Context
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import dagger.android.support.DaggerFragment
+import com.lychee.di.qualifier.FragmentLevel
+import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-abstract class BaseFragment<D: ViewDataBinding, V : BaseViewModel> constructor(
-        private val resId : Int
-) : DaggerFragment() {
+abstract class BaseFragment<DataBindingType: ViewDataBinding, ViewModelType : BaseViewModel>: Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory : ViewModelProvider.Factory
+    abstract val layoutResId: Int
 
-    open lateinit var viewModel : V
+    @Inject @field:FragmentLevel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    abstract val viewModelClass : Class<V>
+    lateinit var mViewModel: ViewModelType
 
-    open lateinit var binding : D
+    abstract val viewModelClass: Class<ViewModelType>
 
-    open lateinit var mContext : Context
+    lateinit var mBinding: DataBindingType
 
-    override fun onAttach(context: Context?) {
+    lateinit var mContext: Context
+
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
         super.onAttach(context)
-        context?.let { mContext = it }
+        mContext = context
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, resId, container, false)
+        mBinding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
+        mBinding.setLifecycleOwner(this)
 
-        onCreateView()
+        onCreateView(savedInstanceState)
 
-        return binding.root
+        return mBinding.root
     }
 
-    abstract fun onCreateView()
+    abstract fun onCreateView(savedInstanceState: Bundle?)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(viewModelClass)
+        mViewModel = ViewModelProviders.of(this, viewModelFactory).get(viewModelClass)
 
-        lifecycle.addObserver(viewModel)
-        binding.setLifecycleOwner(this)
+        lifecycle.addObserver(mViewModel)
     }
 
 }

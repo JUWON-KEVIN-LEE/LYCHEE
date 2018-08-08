@@ -1,15 +1,8 @@
 package com.lychee.data.repository
 
-import com.lychee.data.model.Expenditure
-import io.reactivex.Flowable
-
 /**
- * TODO
- * MUTABLE LIST
+ * TODO 용도에 맞게 REFACTOR
  */
 interface ExpenditureRepository {
-
-    fun getAll() : Flowable<List<Expenditure>>
-
-    fun getRecent(size : Int) : Flowable<List<Expenditure>>
+    // SOMETHING
 }
