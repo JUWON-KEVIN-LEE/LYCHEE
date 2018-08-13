@@ -8,7 +8,7 @@
 
 
     <string name="degree">°</string>
-
+    <string name="won">"원"</string>
 
     <string name="manage_my_card">내 카드 관리</string>
     <string name="personal_setting">개인 설정</string>

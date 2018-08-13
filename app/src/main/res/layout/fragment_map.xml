@@ -10,16 +10,90 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mapView"
+        <fragment
+            android:id="@+id/mapSupportMapFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+        </fragment>
 
-        </com.google.android.gms.maps.MapView>
+        <android.support.constraint.Guideline
+            android:id="@+id/mapTopGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".04" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/mapBottomGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="120dp" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/mapEndGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="1" />
+
+        <FrameLayout
+            android:id="@+id/mapSearchParentLayout"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:background="@android:color/background_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/mapTopGuideline">
+
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/mapFilterButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="144dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/background_round_accent"
+            android:padding="12dp"
+            android:src="@drawable/round_tune_white_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/mapEndGuideline" />
+
+        <ImageView
+            android:id="@+id/mapMyLocationButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/background_round_white"
+            android:padding="12dp"
+            android:src="@drawable/round_my_location_black_24"
+            app:layout_constraintBottom_toTopOf="@+id/mapFilterButton"
+            app:layout_constraintEnd_toEndOf="@+id/mapEndGuideline" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/mapViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/mapBottomGuideline" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/mapDetailViewPager"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mapViewPager" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

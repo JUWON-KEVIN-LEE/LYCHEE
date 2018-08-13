@@ -19,3 +19,12 @@ fun Context.pxToDp(px : Float) : Float = px / this.resources.displayMetrics.dens
 // TOAST
 fun Context.toast(message : String, @IntRange(from = 0, to = 1) length : Int)
         = Toast.makeText(this, message, length).show()
+
+fun Context.getStatusBarHeight(): Int {
+    var result = 0
+    val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+    if (resourceId > 0) {
+        result = resources.getDimensionPixelSize(resourceId)
+    }
+    return result
+}

@@ -5,201 +5,258 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.main.page.home.HomeFragment">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/homeParentLayout"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/homeWelcomeTextView"
-            android:layout_width="wrap_content"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/homeParentLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="사용자님 좋은 오후입니다."
-            android:textColor="@android:color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:paddingBottom="180dp"
+            android:scrollbars="none">
 
-        <TextView
-            android:id="@+id/homeBriefTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="사용자님을 위한 오늘의 브리핑입니다."
-            android:textStyle="normal"
-            app:layout_constraintStart_toStartOf="@+id/homeWelcomeTextView"
-            app:layout_constraintTop_toBottomOf="@+id/homeWelcomeTextView" />
+            <TextView
+                android:id="@+id/homeWelcomeTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="사용자님 좋은 오후입니다."
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/homeWeatherImageView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/homeWeatherTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="26	°"
-            android:textColor="@android:color/black"
-            android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="@+id/homeBriefTextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/homeWelcomeTextView" />
+            <TextView
+                android:id="@+id/homeBriefTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:text="사용자님을 위한 오늘의 브리핑입니다."
+                android:textStyle="normal"
+                app:layout_constraintEnd_toStartOf="@+id/homeWeatherImageView"
+                app:layout_constraintStart_toStartOf="@+id/homeWelcomeTextView"
+                app:layout_constraintTop_toBottomOf="@+id/homeWelcomeTextView" />
 
-        <View
-            android:id="@+id/homeDivider1"
-            android:layout_width="0dp"
-            android:layout_height="12dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/colorSuperLightGrey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeBriefTextView" />
+            <TextView
+                android:id="@+id/homeWeatherTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="26	°"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="@+id/homeBriefTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/homeWelcomeTextView" />
 
-        <ImageView
-            android:id="@+id/homeWeatherImageView"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="8dp"
-            android:src="@color/LightGrey"
-            app:layout_constraintBottom_toBottomOf="@+id/homeWeatherTextView"
-            app:layout_constraintEnd_toStartOf="@+id/homeWeatherTextView"
-            app:layout_constraintTop_toTopOf="@+id/homeWeatherTextView" />
+            <View
+                android:id="@+id/homeDivider1"
+                android:layout_width="0dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorSuperLightGrey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeBriefTextView" />
 
-        <TextView
-            android:id="@+id/homeMonthTotalTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="8월 총 소비 금액"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:textStyle="normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeDivider1" />
+            <ImageView
+                android:id="@+id/homeWeatherImageView"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp"
+                android:src="@color/LightGrey"
+                app:layout_constraintBottom_toBottomOf="@+id/homeWeatherTextView"
+                app:layout_constraintEnd_toStartOf="@+id/homeWeatherTextView"
+                app:layout_constraintTop_toTopOf="@+id/homeWeatherTextView" />
 
-        <TextView
-            android:id="@+id/homeMonthTotalValueTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="198,000\"
-            android:textColor="@android:color/black"
-            android:textSize="24sp"
-            android:textStyle="normal|bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeMonthTotalTextView" />
+            <TextView
+                android:id="@+id/homeMonthTotalTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="8월 총 소비 금액"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeDivider1" />
 
-        <TextView
-            android:id="@+id/homeMonthIncTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="수입"
-            android:textColor="@android:color/black"
-            android:textStyle="normal"
-            app:layout_constraintEnd_toStartOf="@+id/homeMonthExpCountTextView"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/homeMonthExpTextView"
-            app:layout_constraintTop_toBottomOf="@+id/homeMonthTotalValueTextView" />
+            <TextView
+                android:id="@+id/homeMonthTotalValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="198,000\"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                android:textStyle="normal|bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeMonthTotalTextView" />
 
-        <TextView
-            android:id="@+id/homeMonthExpTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="지출"
-            android:textColor="@android:color/black"
-            android:textStyle="normal"
-            app:layout_constraintEnd_toStartOf="@+id/homeMonthIncTextView"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeMonthTotalValueTextView" />
+            <TextView
+                android:id="@+id/homeMonthMoreInfoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="더보기"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="@+id/homeMonthTotalTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/homeMonthTotalTextView" />
 
-        <TextView
-            android:id="@+id/homeMonthExpCountTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="지출 건수"
-            android:textColor="@android:color/black"
-            android:textStyle="normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/homeMonthIncTextView"
-            app:layout_constraintTop_toBottomOf="@+id/homeMonthTotalValueTextView" />
+            <TextView
+                android:id="@+id/homeMonthIncTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="수입"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toStartOf="@+id/homeMonthExpCountTextView"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/homeMonthExpTextView"
+                app:layout_constraintTop_toBottomOf="@+id/homeMonthTotalValueTextView" />
 
-        <TextView
-            android:id="@+id/homeMonthExpValueTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="198,000\"
-            android:textStyle="normal"
-            app:layout_constraintEnd_toEndOf="@+id/homeMonthExpTextView"
-            app:layout_constraintStart_toStartOf="@+id/homeMonthExpTextView"
-            app:layout_constraintTop_toBottomOf="@+id/homeMonthExpTextView" />
+            <TextView
+                android:id="@+id/homeMonthExpTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="지출"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toStartOf="@+id/homeMonthIncTextView"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeMonthTotalValueTextView" />
 
-        <TextView
-            android:id="@+id/homeMonthIncValueTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="478,000\"
-            android:textStyle="normal"
-            app:layout_constraintEnd_toEndOf="@+id/homeMonthIncTextView"
-            app:layout_constraintStart_toStartOf="@+id/homeMonthIncTextView"
-            app:layout_constraintTop_toBottomOf="@+id/homeMonthIncTextView" />
+            <TextView
+                android:id="@+id/homeMonthExpCountTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="지출 건수"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/homeMonthIncTextView"
+                app:layout_constraintTop_toBottomOf="@+id/homeMonthTotalValueTextView" />
 
-        <TextView
-            android:id="@+id/homeMonthExpCountValueTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="468건"
-            android:textStyle="normal"
-            app:layout_constraintEnd_toEndOf="@+id/homeMonthExpCountTextView"
-            app:layout_constraintStart_toStartOf="@+id/homeMonthExpCountTextView"
-            app:layout_constraintTop_toBottomOf="@+id/homeMonthExpCountTextView" />
+            <TextView
+                android:id="@+id/homeMonthExpValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="198,000\"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="@+id/homeMonthExpTextView"
+                app:layout_constraintStart_toStartOf="@+id/homeMonthExpTextView"
+                app:layout_constraintTop_toBottomOf="@+id/homeMonthExpTextView" />
 
-        <View
-            android:id="@+id/homeDivider2"
-            android:layout_width="0dp"
-            android:layout_height="12dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/colorSuperLightGrey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeMonthIncValueTextView" />
+            <TextView
+                android:id="@+id/homeMonthIncValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="478,000\"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="@+id/homeMonthIncTextView"
+                app:layout_constraintStart_toStartOf="@+id/homeMonthIncTextView"
+                app:layout_constraintTop_toBottomOf="@+id/homeMonthIncTextView" />
 
-        <TextView
-            android:id="@+id/homeRecentExpTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="최근 소비내역"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:textStyle="normal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeDivider2" />
+            <TextView
+                android:id="@+id/homeMonthExpCountValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="468건"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="@+id/homeMonthExpCountTextView"
+                app:layout_constraintStart_toStartOf="@+id/homeMonthExpCountTextView"
+                app:layout_constraintTop_toBottomOf="@+id/homeMonthExpCountTextView" />
 
-        <TextView
-            android:id="@+id/homeMonthMoreInfoTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="더보기"
-            android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="@+id/homeMonthTotalTextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/homeMonthTotalTextView" />
+            <View
+                android:id="@+id/homeDivider2"
+                android:layout_width="0dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorSuperLightGrey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeMonthIncValueTextView" />
 
-    </android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/homeRecentExpTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="최근 소비내역"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeDivider2" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/homeRecentRecyclerView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeRecentExpTextView" />
+
+            <View
+                android:id="@+id/homeDivider3"
+                android:layout_width="0dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorSuperLightGrey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeRecentRecyclerView" />
+
+            <TextView
+                android:id="@+id/homeExpMapTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="소비 지도"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeDivider3" />
+
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/homeMapView"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeExpMapTextView">
+
+            </com.google.android.gms.maps.MapView>
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 </layout>

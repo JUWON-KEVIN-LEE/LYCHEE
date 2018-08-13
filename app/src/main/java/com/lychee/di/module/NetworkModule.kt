@@ -1,6 +1,7 @@
 package com.lychee.di.module
 
 import android.content.Context
+import com.lychee.di.scope.ApplicationScope
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -11,20 +12,19 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 
 @Module
 class NetworkModule {
 
-    @Provides @Singleton
+    @Provides @ApplicationScope
     fun provideInterceptor() : Interceptor
             = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
 
-    @Provides @Singleton
+    @Provides @ApplicationScope
     fun provideCache(context: Context) : Cache
             = Cache(context.cacheDir, 10 * 10 * 1024L)
 
-    @Provides @Singleton
+    @Provides @ApplicationScope
     fun provideOkHttpClient(interceptor: Interceptor, cache : Cache) : OkHttpClient
             = OkHttpClient.Builder()
             .addInterceptor(interceptor)
@@ -34,15 +34,15 @@ class NetworkModule {
             .cache(cache)
             .build()
 
-    @Provides @Singleton
+    @Provides @ApplicationScope
     fun provideGsonConverterFactory() : GsonConverterFactory
             = GsonConverterFactory.create()
 
-    @Provides @Singleton
+    @Provides @ApplicationScope
     fun provideRxJava2CallAdapterFactory() : RxJava2CallAdapterFactory
             = RxJava2CallAdapterFactory.create()
 
-    @Provides @Singleton
+    @Provides @ApplicationScope
     fun provideRetrofit(okHttpClient: OkHttpClient,
                         gsonConverterFactory: GsonConverterFactory,
                         rxJava2CallAdapterFactory: RxJava2CallAdapterFactory) : Retrofit

@@ -12,7 +12,8 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
+
         startActivity(Intent(this, MainActivity::class.java))
-        finish()
+        // finish()
     }
 }

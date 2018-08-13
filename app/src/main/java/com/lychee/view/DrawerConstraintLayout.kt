@@ -75,14 +75,16 @@ class DrawerConstraintLayout: ConstraintLayout, DrawerViewPager.OnSwipeOutListen
         override fun get(drawable: DrawerArrowDrawable): Float = drawable.progress
     }
 
+    private val mDuration = 200L
+
     private val transition: Transition = ChangeBounds()
             .apply {
-                duration = 500L
+                duration = mDuration
                 interpolator = LinearInterpolator()
             }
 
     /* TOUCH EVENT */
-    private val menuWidth = context.dpToPx(180)
+    private val menuWidth = context.dpToPx(240)
 
     private var mX: Float = 0f
 
@@ -96,9 +98,9 @@ class DrawerConstraintLayout: ConstraintLayout, DrawerViewPager.OnSwipeOutListen
 
     private fun openDrawer() {
         update {
-            setGuidelineBegin(R.id.mainStartGuideline, context.dpToPx(196))
-            setGuidelinePercent(R.id.mainTopGuideline, .1f)
-            setGuidelinePercent(R.id.mainBottomGuideline, .9f)
+            setGuidelineBegin(R.id.mainStartGuideline, menuWidth)
+            // setGuidelinePercent(R.id.mainTopGuideline, .1f)
+            // setGuidelinePercent(R.id.mainBottomGuideline, .9f)
             setGuidelinePercent(R.id.mainEndGuideline, 1.5f)
         }
 
@@ -108,8 +110,8 @@ class DrawerConstraintLayout: ConstraintLayout, DrawerViewPager.OnSwipeOutListen
     private fun closeDrawer() {
         update {
             setGuidelineBegin(R.id.mainStartGuideline, 0)
-            setGuidelinePercent(R.id.mainTopGuideline, 0f)
-            setGuidelinePercent(R.id.mainBottomGuideline, 1f)
+            // setGuidelinePercent(R.id.mainTopGuideline, 0f)
+            // setGuidelinePercent(R.id.mainBottomGuideline, 1f)
             setGuidelinePercent(R.id.mainEndGuideline, 1f)
         }
 
@@ -119,23 +121,23 @@ class DrawerConstraintLayout: ConstraintLayout, DrawerViewPager.OnSwipeOutListen
     private fun drawerIconAnimate(from: Float, to: Float) {
         val animator = ObjectAnimator.ofFloat(drawerArrowDrawable, animationProperty, from, to)
         animator.interpolator = AccelerateDecelerateInterpolator()
-        animator.duration = 500L
+        animator.duration = mDuration
         animator.start()
     }
 
     private fun foregroundAlphaAnimate(to: Float)
-            = foregroundAlphaLayout.animate().alpha(to).setDuration(500L).setInterpolator(LinearInterpolator()).start()
+            = foregroundAlphaLayout.animate().alpha(to).setDuration(mDuration).setInterpolator(LinearInterpolator()).start()
 
     private fun onMoveDrawer(@FloatRange(from = 0.0, to = 1.0) progress: Float) {
-        val startTo = context.dpToPx(196 * progress).toInt()
+        val startTo = context.dpToPx(240 * progress).toInt()
         val topTo = .1f * progress
         val bottomTo = 1f + -.1f * progress
         val endTo = 1f + .5f * progress
 
         update {
             setGuidelineBegin(R.id.mainStartGuideline, startTo)
-            setGuidelinePercent(R.id.mainTopGuideline, topTo)
-            setGuidelinePercent(R.id.mainBottomGuideline, bottomTo)
+            // setGuidelinePercent(R.id.mainTopGuideline, topTo)
+            // setGuidelinePercent(R.id.mainBottomGuideline, bottomTo)
             setGuidelinePercent(R.id.mainEndGuideline, endTo)
         }
 

@@ -1,15 +1,14 @@
 package com.lychee.ui.main
 
-import android.animation.ObjectAnimator
+import android.os.Build
 import android.os.Bundle
 import android.support.transition.ChangeBounds
 import android.support.transition.TransitionManager
+import android.support.v4.view.ViewCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.graphics.drawable.DrawerArrowDrawable
-import android.util.Property
 import android.view.MenuItem
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.Toast
 import com.lychee.R
@@ -26,7 +25,8 @@ import com.lychee.view.disableShiftMode
  */
 class MainActivity:
         BaseActivity<ActivityMainBinding, MainViewModel>(),
-        PageOnClickListner
+        PageOnClickListener,
+        PageInteractionListener
 {
 
     override val layoutResId: Int
@@ -47,6 +47,8 @@ class MainActivity:
 
     private fun initView() {
         with(mBinding) {
+            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) ViewCompat.setElevation(mainBottomNavigationView, 0f)
+
             mainBottomNavigationView.disableShiftMode()
 
             mainBottomNavigationView.setOnNavigationItemSelectedListener {menuItem ->
@@ -86,7 +88,6 @@ class MainActivity:
                 }
             })
             mainViewPager.adapter = MainViewPagerAdapter(supportFragmentManager)
-            mainViewPager.onSwipeOutListener = mainParentLayout
 
             mainDrawerButton.setImageDrawable(DrawerArrowDrawable(this@MainActivity))
             mainDrawerButton.setOnClickListener{
@@ -111,51 +112,37 @@ class MainActivity:
         }
     }
 
-    private fun animateDrawer(drawerArrowDrawable: DrawerArrowDrawable) {
-        val openAction = drawerArrowDrawable.progress == 0f
-
-        val from: Float
-        val to: Float
-
-        if(openAction) { from = 0f; to = 1f }
-        else { from = 1f; to = 0f }
-
-        val animator = ObjectAnimator.ofFloat(
-                drawerArrowDrawable,
-                object: Property<DrawerArrowDrawable, Float>(Float::class.java, "progress") {
-                    override fun set(drawable: DrawerArrowDrawable, value: Float) { drawable.progress = value }
-                    override fun get(drawable: DrawerArrowDrawable): Float = drawable.progress
-                },
-                from,
-                to)
-        animator.interpolator = AccelerateDecelerateInterpolator()
-        animator.duration = 500L
-        animator.start()
-
-        mBinding.mainForegroundLayout
-                .animate()
-                .alpha(to)
-                .setDuration(500L)
-                .setInterpolator(LinearInterpolator())
-                .start()
-
+    override fun showToolbarAndBottomNavigationView() {
         mBinding.mainParentLayout.update {
-            setGuidelineBegin(R.id.mainStartGuideline, if(openAction) dpToPx(196) else 0)
-            setGuidelinePercent(R.id.mainTopGuideline, if(openAction) .1f else 0f)
-            setGuidelinePercent(R.id.mainBottomGuideline, if(openAction) .9f else 1f)
-            setGuidelinePercent(R.id.mainEndGuideline, if(openAction) 1.5f else 1f)
+            setGuidelineBegin(R.id.mainTopGuideline, dpToPx(56))
+            setGuidelineEnd(R.id.mainBottomGuideline, dpToPx(56))
         }
 
-        TransitionManager.beginDelayedTransition(
-                mBinding.mainParentLayout,
-                ChangeBounds().apply {
-                    duration = 500L
-                    interpolator = LinearInterpolator()
-                }
-        )
+        TransitionManager.beginDelayedTransition(mBinding.mainParentLayout, ChangeBounds().apply {
+            startDelay = 250L
+            duration = 200L
+            interpolator = LinearInterpolator()
+        })
     }
 
-    override fun onBackPressed() { // TODO NOT WORKING
+    override fun hideToolbarAndBottomNavigationView() {
+        mBinding.mainParentLayout.update {
+            setGuidelineBegin(R.id.mainTopGuideline, 0)
+            setGuidelineEnd(R.id.mainBottomGuideline, 0)
+        }
+
+        TransitionManager.beginDelayedTransition(mBinding.mainParentLayout, ChangeBounds().apply {
+            startDelay = 250L
+            duration = 200L
+            interpolator = LinearInterpolator()
+        })
+    }
+
+    override fun onScaleToolbarAndBottomNavigationView(toScale: Float) {
+
+    }
+
+    override fun onBackPressed() {
         if(prevBackButtonPressedTime == 0L) {
             prevBackButtonPressedTime = System.currentTimeMillis()
             onBackPressedFeedback(EXIT_MESSAGE)
