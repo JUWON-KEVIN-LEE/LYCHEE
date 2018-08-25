@@ -1,6 +1,7 @@
 package com.lychee.ui.main.page.record
 
 import android.databinding.DataBindingUtil
+import android.icu.text.AlphabeticIndex
 import android.provider.ContactsContract
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -18,11 +19,14 @@ import kotlinx.android.synthetic.main.fragment_record.view.*
 /**
  * Created by user on 2018-08-09.
  */
-class RecyclerAdapter(val itemList:List<Expenditure>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecyclerAdapter(val itemList:List<Expenditure>,listener: RecordExpenditureClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
 
 
     private val TYPE_HEADER : Int  = 0;
     private val TYPE_ITEM : Int = 1
+
+    private val listener = listener
 
 
     override fun getItemCount(): Int {
@@ -31,25 +35,36 @@ class RecyclerAdapter(val itemList:List<Expenditure>) : RecyclerView.Adapter<Rec
 
     override fun onBindViewHolder(holder:RecyclerView.ViewHolder, position: Int) {
 
-        if(position == 0){
 
-        }else{
-            //ItemHolder.bindItems(itemList[position])
+        when(holder){
+            is ItemHolder->{holder.bindItems(itemList[position])}
+
         }
-
-
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        //if(viewType == TYPE_HEADER)
+
+        val itemBinding = DataBindingUtil.inflate<RecordListLayoutBinding>(
+                LayoutInflater.from(parent.context),
+                R.layout.record_list_layout,
+                parent,
+                false
+        )
+
+
+        return ItemHolder(itemBinding,listener)
+
+
+       /* if(viewType == TYPE_HEADER)
         val headerBinding = DataBindingUtil.inflate<RecordHeaderLayoutBinding>(
                 LayoutInflater.from(parent.context),
                 R.layout.record_header_layout,
                 parent,
                 false
         )
-        return HeaderHolder(headerBinding)
+        return HeaderHolder(headerBinding)*/
+
         /*}else if(viewType == TYPE_ITEM){
             val itemBinding = DataBindingUtil.inflate<RecordListLayoutBinding>(
                     LayoutInflater.from(parent.context),
@@ -62,22 +77,7 @@ class RecyclerAdapter(val itemList:List<Expenditure>) : RecyclerView.Adapter<Rec
 
     }
 
-    class ItemHolder(private val binding : RecordListLayoutBinding) :RecyclerView.ViewHolder(binding.root) {
 
-
-
-        fun bindItems(item:Expenditure){
-
-            with(binding){
-                setVariable(BR.expenditure,item)
-                executePendingBindings()
-
-            }
-
-
-
-        }
-    }
 
     class HeaderHolder(private val binding : RecordHeaderLayoutBinding) : RecyclerView.ViewHolder(binding.root){
 

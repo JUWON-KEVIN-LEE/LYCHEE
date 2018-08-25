@@ -13,11 +13,12 @@
         <TextView
             android:id="@+id/recordDateTextView"
             android:layout_width="wrap_content"
-            android:layout_height="18dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:text="8월 2018"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,11 +77,33 @@
             android:id="@+id/recordRecyclerView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
             android:scrollbars="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recordTitleTextView" />
+
+        <ImageView
+            android:id="@+id/recordDateLeftImageView"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/recordDateTextView"
+            app:layout_constraintEnd_toStartOf="@+id/recordDateTextView"
+            app:layout_constraintTop_toTopOf="@+id/recordDateTextView"
+            app:srcCompat="@drawable/path" />
+
+        <ImageView
+            android:id="@+id/recordDateRightImageView"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/recordDateTextView"
+            app:layout_constraintStart_toEndOf="@+id/recordDateTextView"
+            app:layout_constraintTop_toTopOf="@+id/recordDateTextView"
+            app:srcCompat="@drawable/path_right" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

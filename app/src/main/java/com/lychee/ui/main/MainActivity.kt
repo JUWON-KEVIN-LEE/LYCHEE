@@ -102,6 +102,7 @@ class MainActivity:
      */
     override fun onClick(view: View) {
         when(view.id) {
+
             /*
             R.id.mainDrawerButton -> {
                 val drawerArrowDrawable = mBinding.mainDrawerButton.drawable as DrawerArrowDrawable
