@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/mainDrawerParentLayout"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/background_light"
+            android:paddingBottom="200dp"
+            android:onClick="navigate">
+
+            <LinearLayout
+                android:id="@+id/mainDrawerHeader"
+                android:layout_width="match_parent"
+                android:layout_height="204dp"
+                android:background="@color/colorAccentGreen"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/mainDrawerProfileImageView"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="56dp"
+                    app:srcCompat="@android:color/background_light" />
+
+                <TextView
+                    android:id="@+id/mainDrawerProfileTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="사용자님의 프로필"
+                    android:textColor="@android:color/background_light" />
+            </LinearLayout>
+
+            <android.support.constraint.Group
+                android:id="@+id/mainDrawerHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="mainDrawerHomeImageView, mainDrawerHomeTextView"/>
+
+            <ImageView
+                android:id="@+id/mainDrawerHomeImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:padding="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mainDrawerHeader"
+                app:srcCompat="@drawable/round_home_black_24" />
+
+            <TextView
+                android:id="@+id/mainDrawerHomeTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:padding="8dp"
+                android:text="@string/home"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="@+id/mainDrawerHomeImageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/mainDrawerHomeImageView"
+                app:layout_constraintTop_toTopOf="@+id/mainDrawerHomeImageView" />
+
+            <android.support.constraint.Group
+                android:id="@+id/mainDrawerRecord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="mainDrawerRecordImageView, mainDrawerRecordTextView"/>
+
+            <ImageView
+                android:id="@+id/mainDrawerRecordImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="8dp"
+                app:layout_constraintStart_toStartOf="@+id/mainDrawerHomeImageView"
+                app:layout_constraintTop_toBottomOf="@+id/mainDrawerHomeImageView"
+                app:srcCompat="@drawable/round_receipt_black_24" />
+
+            <TextView
+                android:id="@+id/mainDrawerRecordTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:padding="8dp"
+                android:text="@string/record"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="@+id/mainDrawerRecordImageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/mainDrawerRecordImageView"
+                app:layout_constraintTop_toTopOf="@+id/mainDrawerRecordImageView" />
+
+            <android.support.constraint.Group
+                android:id="@+id/mainDrawerStatistic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="mainDrawerStatisticTextView" />
+
+            <TextView
+                android:id="@+id/mainDrawerStatisticTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:padding="8dp"
+                android:text="@string/statistic"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="@+id/mainDrawerRecordTextView"
+                app:layout_constraintStart_toStartOf="@+id/mainDrawerRecordTextView"
+                app:layout_constraintTop_toBottomOf="@+id/mainDrawerRecordTextView" />
+
+            <android.support.constraint.Group
+                android:id="@+id/mainDrawerMap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="mainDrawerMapImageView, mainDrawerMapTextView"/>
+
+            <ImageView
+                android:id="@+id/mainDrawerMapImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="8dp"
+                app:layout_constraintStart_toStartOf="@+id/mainDrawerRecordImageView"
+                app:layout_constraintTop_toBottomOf="@+id/mainDrawerStatisticTextView"
+                app:srcCompat="@drawable/round_place_black_24" />
+
+            <TextView
+                android:id="@+id/mainDrawerMapTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:padding="8dp"
+                android:text="@string/map"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="@+id/mainDrawerMapImageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/mainDrawerMapImageView"
+                app:layout_constraintTop_toTopOf="@+id/mainDrawerMapImageView" />
+
+            <android.support.constraint.Group
+                android:id="@+id/mainDrawerSetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="mainDrawerSettingImageView, mainDrawerSettingTextView"/>
+
+            <ImageView
+                android:id="@+id/mainDrawerSettingImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="8dp"
+                app:layout_constraintStart_toStartOf="@+id/mainDrawerMapImageView"
+                app:layout_constraintTop_toBottomOf="@+id/mainDrawerMapImageView"
+                app:srcCompat="@drawable/round_settings_black_24" />
+
+            <TextView
+                android:id="@+id/mainDrawerSettingTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:padding="8dp"
+                android:text="@string/setting"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="@+id/mainDrawerSettingImageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/mainDrawerSettingImageView"
+                app:layout_constraintTop_toTopOf="@+id/mainDrawerSettingImageView" />
+
+            <View
+                android:id="@+id/mainDrawerDivider1"
+                android:layout_width="0dp"
+                android:layout_height="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorSuperLightGrey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mainDrawerSettingImageView" />
+
+            <ImageView
+                android:id="@+id/mainDrawerNoticeImageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:padding="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mainDrawerDivider1"
+                app:srcCompat="@color/LightGrey" />
+
+            <TextView
+                android:id="@+id/mainDrawerNoticeTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:padding="8dp"
+                android:text="@string/notice"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="@+id/mainDrawerNoticeImageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/mainDrawerNoticeImageView"
+                app:layout_constraintTop_toTopOf="@+id/mainDrawerNoticeImageView" />
+
+            <ImageView
+                android:id="@+id/mainDrawerCSImageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:padding="8dp"
+                app:layout_constraintStart_toStartOf="@+id/mainDrawerNoticeImageView"
+                app:layout_constraintTop_toBottomOf="@+id/mainDrawerNoticeImageView"
+                app:srcCompat="@color/LightGrey" />
+
+            <TextView
+                android:id="@+id/mainDrawerCSTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:padding="8dp"
+                android:text="@string/cs"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="@+id/mainDrawerCSImageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/mainDrawerCSImageView"
+                app:layout_constraintTop_toTopOf="@+id/mainDrawerCSImageView" />
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</layout>

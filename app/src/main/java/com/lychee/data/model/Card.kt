@@ -1,15 +1,17 @@
 package com.lychee.data.model
 
 import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
 /**
- * TODO DATA STRUCTURE 고민
  * 카드
  */
 open class Card (
-        var id : Long = 0,
-        var url : String = "",
-        var bank : String = "",
-        var cardName : String = "",
-        var cardNumber : String = ""
-) : RealmObject()
+        @PrimaryKey
+        var id: Int = 0,
+        var bank: String = "",
+        var cardName: String = "",
+        var cardNumber: String = ""
+) : RealmObject() {
+
+}

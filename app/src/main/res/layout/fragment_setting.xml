@@ -3,9 +3,111 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    </android.support.constraint.ConstraintLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:background="@android:color/background_light" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/settingTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/setting"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                android:textStyle="normal|bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/settingStartGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="32dp" />
+
+            <TextView
+                android:id="@+id/settingProfileName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="김채원"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toStartOf="@+id/settingStartGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/settingTitle" />
+
+            <View
+                android:id="@+id/settingDivider1"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorSuperLightGrey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/settingStartGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/settingProfileName" />
+
+            <TextView
+                android:id="@+id/settingMyCardManagement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="내 카드 관리"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toStartOf="@+id/settingStartGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/settingDivider1" />
+
+            <View
+                android:id="@+id/settingDivider2"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorSuperLightGrey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/settingStartGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/settingMyCardManagement" />
+
+            <TextView
+                android:id="@+id/settingPrivateSetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="개인 설정"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toStartOf="@+id/settingStartGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/settingDivider2" />
+
+            <View
+                android:id="@+id/settingDivider3"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorSuperLightGrey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/settingStartGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/settingPrivateSetting" />
+
+            <TextView
+                android:id="@+id/settingCustomerCenter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="고객센터"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toStartOf="@+id/settingStartGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/settingDivider3" />
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 </layout>

@@ -1,11 +1,13 @@
 <resources>
-    <string name="app_name">가계부</string>
+    <string name="app_name">핀트리</string>
 
     <string name="home">홈</string>
     <string name="record">내역</string>
+    <string name="statistic">통계</string>
     <string name="map">지도</string>
     <string name="setting">설정</string>
-
+    <string name="notice">공지사항</string>
+    <string name="cs">고객센터</string>
 
     <string name="degree">°</string>
     <string name="won">"원"</string>
@@ -22,4 +24,13 @@
     <string name="delete">삭제</string>
     <string name="plus">+</string>
     <string name="new_card_message">새로운 카드를 등록해주세요.</string>
+
+    <!-- GOOGLE MAP -->
+    <string name="permission_rationale_location">위치 서비스를 이용하기 위해서는 ...</string>
+
+    <!-- NAVER MAP -->
+    <string name="str_done">완료</string>
+
+    <string name="open_detail">상세항목 열기</string>
+    <string name="close_detail">상세항목 닫기</string>
 </resources>

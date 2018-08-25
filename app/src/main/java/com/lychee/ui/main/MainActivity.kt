@@ -1,23 +1,17 @@
 package com.lychee.ui.main
 
-import android.os.Build
 import android.os.Bundle
-import android.support.transition.ChangeBounds
-import android.support.transition.TransitionManager
-import android.support.v4.view.ViewCompat
 import android.support.v4.view.ViewPager
-import android.support.v7.graphics.drawable.DrawerArrowDrawable
 import android.view.MenuItem
 import android.view.View
-import android.view.animation.LinearInterpolator
 import android.widget.Toast
 import com.lychee.R
 import com.lychee.databinding.ActivityMainBinding
 import com.lychee.ui.base.BaseActivity
 import com.lychee.ui.main.adapter.MainViewPagerAdapter
-import com.lychee.util.extensions.dpToPx
-import com.lychee.util.extensions.update
-import com.lychee.view.disableShiftMode
+import com.lychee.util.extensions.gone
+import com.lychee.util.extensions.visible
+import com.lychee.view.main.disableShiftMode
 
 /**
  * TODO
@@ -25,8 +19,7 @@ import com.lychee.view.disableShiftMode
  */
 class MainActivity:
         BaseActivity<ActivityMainBinding, MainViewModel>(),
-        PageOnClickListener,
-        PageInteractionListener
+        PageOnClickListener
 {
 
     override val layoutResId: Int
@@ -47,8 +40,6 @@ class MainActivity:
 
     private fun initView() {
         with(mBinding) {
-            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) ViewCompat.setElevation(mainBottomNavigationView, 0f)
-
             mainBottomNavigationView.disableShiftMode()
 
             mainBottomNavigationView.setOnNavigationItemSelectedListener {menuItem ->
@@ -74,11 +65,16 @@ class MainActivity:
             }
 
             mainViewPager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener {
-                override fun onPageScrollStateChanged(state: Int) {}
+                override fun onPageScrollStateChanged(state: Int) {
+                    mainViewPager.lock = state == ViewPager.SCROLL_STATE_IDLE && mainViewPager.currentItem == 2
+                }
 
                 override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
                 override fun onPageSelected(position: Int) {
+                    if(position > 1) { mBinding.mainFloatingButton.gone() }
+                    else { mBinding.mainFloatingButton.visible() }
+
                     prevMenuItem
                             ?.setChecked(false)
                             ?:let { mainBottomNavigationView.menu.getItem(0).isChecked = false }
@@ -89,57 +85,17 @@ class MainActivity:
             })
             mainViewPager.adapter = MainViewPagerAdapter(supportFragmentManager)
 
-            mainDrawerButton.setImageDrawable(DrawerArrowDrawable(this@MainActivity))
-            mainDrawerButton.setOnClickListener{
-                if(mainParentLayout.drawerArrowDrawableProgress == 0f) mainParentLayout.drawerArrowDrawableProgress = 1f
-                else if(mainParentLayout.drawerArrowDrawableProgress == 1f) mainParentLayout.drawerArrowDrawableProgress = 0f
-            }
+            mainFloatingButton
         }
     }
 
     /**
-     * 페이지 내부 뷰들과 액티비티 뷰들의 클릭 이벤트를 처리
+     * 페이지 내부 뷰의 클릭 이벤트를 수신
      */
-    override fun onClick(view: View) {
+    override fun onPageClick(view: View) {
         when(view.id) {
-            /*
-            R.id.mainDrawerButton -> {
-                val drawerArrowDrawable = mBinding.mainDrawerButton.drawable as DrawerArrowDrawable
 
-                animateDrawer(drawerArrowDrawable)
-            }
-            */
         }
-    }
-
-    override fun showToolbarAndBottomNavigationView() {
-        mBinding.mainParentLayout.update {
-            setGuidelineBegin(R.id.mainTopGuideline, dpToPx(56))
-            setGuidelineEnd(R.id.mainBottomGuideline, dpToPx(56))
-        }
-
-        TransitionManager.beginDelayedTransition(mBinding.mainParentLayout, ChangeBounds().apply {
-            startDelay = 250L
-            duration = 200L
-            interpolator = LinearInterpolator()
-        })
-    }
-
-    override fun hideToolbarAndBottomNavigationView() {
-        mBinding.mainParentLayout.update {
-            setGuidelineBegin(R.id.mainTopGuideline, 0)
-            setGuidelineEnd(R.id.mainBottomGuideline, 0)
-        }
-
-        TransitionManager.beginDelayedTransition(mBinding.mainParentLayout, ChangeBounds().apply {
-            startDelay = 250L
-            duration = 200L
-            interpolator = LinearInterpolator()
-        })
-    }
-
-    override fun onScaleToolbarAndBottomNavigationView(toScale: Float) {
-
     }
 
     override fun onBackPressed() {

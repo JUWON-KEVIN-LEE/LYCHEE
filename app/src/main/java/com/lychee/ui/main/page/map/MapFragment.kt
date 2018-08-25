@@ -1,35 +1,31 @@
 package com.lychee.ui.main.page.map
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
-import android.location.Location
 import android.os.Bundle
-import android.os.Looper
-import android.support.transition.ChangeBounds
-import android.support.transition.Transition
-import android.support.transition.TransitionManager
+import android.os.Handler
+import android.support.v4.view.ViewPager
+import android.util.Log
 import android.view.View
-import android.view.animation.LinearInterpolator
-import com.google.android.gms.location.*
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.*
 import com.lychee.R
 import com.lychee.databinding.FragmentMapBinding
-import com.lychee.ui.base.BaseFragment
+import com.lychee.ui.base.BaseMapFragment
+import com.lychee.ui.main.page.map.adapter.MapDetailViewPagerAdapter
 import com.lychee.ui.main.page.map.adapter.MapViewPagerAdapter
+import com.lychee.util.extensions.changeCamera
 import com.lychee.util.extensions.dpToPx
-import com.lychee.util.extensions.moveToMarker
-import com.lychee.util.extensions.update
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 
+@SuppressLint("MissingPermission")
 class MapFragment:
-        BaseFragment<FragmentMapBinding, MapViewModel>(),
-        OnMapReadyCallback,
-        EasyPermissions.PermissionCallbacks
+        BaseMapFragment<FragmentMapBinding, MapViewModel>()
 {
 
     override val layoutResId: Int
@@ -38,199 +34,192 @@ class MapFragment:
     override val viewModelClass: Class<MapViewModel>
         get() = MapViewModel::class.java
 
-    lateinit var mGoogleMap: GoogleMap
+    private var mPreviousMarker: Marker? = null
 
-    // INJECT
-    /*
-    private val mLocationClient = LocationServices.getFusedLocationProviderClient(mContext)
-
-    private val mLocationRequest = LocationRequest.create().apply {
-        interval = LOCATION_UPDATE_INTERVAL
-        fastestInterval = LOCATION_FASTEST_UPDATE_INTERVAL
-        priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
+    private val mFusedLocationProviderClient by lazy {
+        LocationServices.getFusedLocationProviderClient(mContext)
     }
 
-    val mLocationCallback = object: LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
-                super.onLocationResult(locationResult)
-                drawLocation(locationResult.lastLocation)
-            }
-        }
-    */
+    lateinit var mGoogleMap: GoogleMap
 
-    private lateinit var releaseWork: Runnable
+    private val onMapReadyCallback = object: OnMapReadyCallback {
+        override fun onMapReady(map: GoogleMap?) {
+            mGoogleMap = map ?: return
+
+            // ui settings
+            with(mGoogleMap.uiSettings) {
+                // Hide the zoom controls as the button panel will cover it.
+                isZoomControlsEnabled = false
+                isZoomGesturesEnabled = true
+                isRotateGesturesEnabled = true
+                isScrollGesturesEnabled = true
+                isCompassEnabled = false
+                isMyLocationButtonEnabled = false
+                isIndoorLevelPickerEnabled = false
+            }
+
+            // map settings
+            with(mGoogleMap) {
+                // my location button
+                mBinding.mapMyLocationButton.setOnClickListener {
+                    if(!checkLocationPermission()) requestLocationPermission()
+                    else {
+                        isMyLocationEnabled = true
+
+                        (mBinding.mapGoogleMap.findViewById<View>(Integer.parseInt("1")).parent as View)
+                                .findViewById<View>(Integer.parseInt("2")).callOnClick()
+
+                        getLastLocation()
+                    }
+                }
+
+                // controller ui animation
+                setOnMapClickListener {
+                    if(mPreviousMarker != null) {
+                        mPreviousMarker?.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.round_place_black_24))
+                        mPreviousMarker = null
+                    } else {
+                        mViewModel.showOrHideController()
+                    }
+                }
+
+                // marker animation
+                setOnMarkerClickListener {marker ->
+                    mPreviousMarker
+                            ?.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.round_place_black_24))
+
+                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.round_place_black_36))
+
+                    mPreviousMarker = marker
+
+                    false
+                }
+            }
+
+            // TEST
+            Handler().postDelayed({ mViewModel.fetchExpenditures() }, 5000L)
+        }
+    }
 
     override fun onCreateView(savedInstanceState: Bundle?) {
-        // super: initMapView(savedInstanceState)
         with(mBinding) {
-            val supportMapFragment
-                    = childFragmentManager.findFragmentById(R.id.mapSupportMapFragment) as SupportMapFragment
-            supportMapFragment.getMapAsync(this@MapFragment)
+            mMapView = mapGoogleMap
+            mMapView.onCreate(savedInstanceState)
 
-            mapMyLocationButton.setOnClickListener { getCurrentLocation() }
+            // Bitmap Descriptor Factory and Camera Update Factory will be initialized.
+            MapsInitializer.initialize(mContext)
 
-            mapViewPager.adapter = MapViewPagerAdapter(mContext)
+            mMapView.getMapAsync(onMapReadyCallback)
+
+            mapViewPager.adapter = MapViewPagerAdapter { mViewModel.openOrCloseDetail() } // TODO OPEN WITH EXP
+            mapDetailViewPager.adapter = MapDetailViewPagerAdapter()
+
+            // Sync
+            mapViewPager.addOnPageChangeListener(object: ViewPager.SimpleOnPageChangeListener() {
+                override fun onPageSelected(position: Int) { mapDetailViewPager.currentItem = position }
+            })
+            mapDetailViewPager.addOnPageChangeListener(object: ViewPager.SimpleOnPageChangeListener() {
+                override fun onPageSelected(position: Int) { mapViewPager.currentItem = position }
+            })
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mViewModel.isWidgetsVisible.observe(this, Observer { isWidgetsVisible ->
-            isWidgetsVisible
-                    ?.takeIf { it }
-                    ?.let { showWidgets() }
-                    ?:let { hideWidgets() }
+        mBinding.viewModel = mViewModel
+
+        mViewModel.expenditures.observe(this, Observer {
+            it?.let { expenditures ->
+                val boundsBuilder = LatLngBounds.Builder()
+
+                expenditures
+                        .forEach {
+                            val latLng = LatLng(it.lat, it.lng)
+                            mGoogleMap.addMarker(
+                                    MarkerOptions()
+                                            .position(latLng)
+                                            .title(it.shopName)
+                                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.round_place_black_24))
+                            )
+
+                            boundsBuilder.include(latLng)
+                        }
+
+                val bounds = boundsBuilder.build()
+
+                mGoogleMap.changeCamera(CameraUpdateFactory.newLatLngBounds(bounds, mContext.dpToPx(32)), true)
+
+                with(mBinding) {
+                    val data = expenditures.toMutableList()
+
+                    (mapViewPager.adapter as? MapViewPagerAdapter)?.expenditures = data
+                    (mapDetailViewPager.adapter as? MapDetailViewPagerAdapter)?.expenditures = data
+                }
+            }
         })
     }
 
-    override fun onMapReady(googleMap: GoogleMap?) {
-        googleMap?.let {
-            mGoogleMap = it
-            setUpGoogleMap(mGoogleMap)
-        }
-    }
+    private fun checkLocationPermission()
+            = EasyPermissions.hasPermissions(mContext, android.Manifest.permission.ACCESS_FINE_LOCATION)
 
-    private fun setUpGoogleMap(googleMap: GoogleMap) {
-        with(googleMap) {
-            mapType = GoogleMap.MAP_TYPE_NORMAL
-            setOnMapClickListener { mViewModel.isWidgetsVisible.value = !mViewModel.isWidgetsVisible.value!! }
-            getCurrentLocation()
-            /* more ... */
-        }
-    }
-
-    @AfterPermissionGranted(FINE_LOCATION_REQUEST_CODE)
-    private fun getCurrentLocation() {
-        if(EasyPermissions.hasPermissions(mContext, Manifest.permission.ACCESS_FINE_LOCATION)) {
-            findLocation()
-        } else {
-            EasyPermissions.requestPermissions(
-                    this,
-                    "위치 권한 요청 메시지",
-                    FINE_LOCATION_REQUEST_CODE,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-            )
-        }
-    }
-
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        when(requestCode) {
-            FINE_LOCATION_REQUEST_CODE -> {
-                findLocation()
-            }
-        }
-    }
-
-    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        when(requestCode) {
-            FINE_LOCATION_REQUEST_CODE -> {
-
-            }
-        }
-    }
+    private fun requestLocationPermission()
+            = EasyPermissions.requestPermissions(
+            this,
+            getString(R.string.permission_rationale_location),
+            LOCATION_PERMISSION_REQUEST_CODE,
+            android.Manifest.permission.ACCESS_FINE_LOCATION)
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
-    }
 
-    @SuppressLint("MissingPermission")
-    private fun findLocation() {
-        val mLocationClient = LocationServices.getFusedLocationProviderClient(mContext)
-
-        val mLocationRequest = LocationRequest.create().apply {
-            interval = LOCATION_UPDATE_INTERVAL
-            fastestInterval = LOCATION_FASTEST_UPDATE_INTERVAL
-            priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
-        }
-
-        val mLocationCallback = object: LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
-                super.onLocationResult(locationResult)
-                drawLocation(locationResult.lastLocation)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, object: EasyPermissions.PermissionCallbacks {
+            override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {}
+            override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+                when(requestCode) {
+                    LOCATION_PERMISSION_REQUEST_CODE -> getLastLocation()
+                /* ... */
+                }
             }
-        }
-
-        mLocationClient.lastLocation.addOnSuccessListener { drawLocation(it) }
-
-        mLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper())
-
-        LocationServices
-                .getSettingsClient(mContext)
-                .checkLocationSettings(
-                        LocationSettingsRequest
-                                .Builder()
-                                .setAlwaysShow(true)
-                                .setNeedBle(true)
-                                .addLocationRequest(mLocationRequest)
-                                .build()
-                )
-
-        // TEST TODO
-        releaseWork = Runnable {
-            mLocationClient.flushLocations()
-            mLocationClient.removeLocationUpdates(mLocationCallback)
-        }
-    }
-
-    private fun drawLocation(location: Location?) {
-        location?.let {
-            mGoogleMap.moveToMarker(latLng = LatLng(it.latitude, it.longitude), anim = true)
-            releaseWork.run()
-        }
-    }
-
-    private fun showWidgets() {
-        mBinding.mapParentLayout.update {
-            setGuidelinePercent(R.id.mapTopGuideline, .04f)
-            setGuidelinePercent(R.id.mapEndGuideline, 1f)
-            setGuidelineEnd(R.id.mapBottomGuideline, mContext.dpToPx(120))
-        }
-
-        TransitionManager.beginDelayedTransition(mBinding.mapParentLayout, ChangeBounds().apply {
-            duration = 200L
-            interpolator = LinearInterpolator()
-            addListener(object: Transition.TransitionListener {
-                override fun onTransitionEnd(transition: Transition) {
-                    // (mContext as? PageInteractionListener)?.showToolbarAndBottomNavigationView()
+            override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+                when(requestCode) {
+                    LOCATION_PERMISSION_REQUEST_CODE -> {
+                        if(grantResults.isEmpty()) Log.i(TAG, "User Interaction was cancelled.")
+                    }
                 }
-                override fun onTransitionResume(transition: Transition) {}
-                override fun onTransitionPause(transition: Transition) {}
-                override fun onTransitionCancel(transition: Transition) {}
-                override fun onTransitionStart(transition: Transition) {}
-            })
+            }
         })
     }
 
-    private fun hideWidgets() {
-        mBinding.mapParentLayout.update {
-            setGuidelinePercent(R.id.mapTopGuideline, -.5f)
-            setGuidelinePercent(R.id.mapEndGuideline, 1.5f)
-            setGuidelineEnd(R.id.mapBottomGuideline, 0)
-        }
+    @AfterPermissionGranted(LOCATION_PERMISSION_REQUEST_CODE)
+    private fun getLastLocation() {
+        mFusedLocationProviderClient.lastLocation
+                .addOnCompleteListener { task ->
+                    if(task.isSuccessful && task.result != null) {
+                        val latLng = LatLng (
+                                task.result.latitude,
+                                task.result.longitude)
 
-        TransitionManager.beginDelayedTransition(mBinding.mapParentLayout, ChangeBounds().apply {
-            duration = 200L
-            interpolator = LinearInterpolator()
-            addListener(object: Transition.TransitionListener {
-                override fun onTransitionEnd(transition: Transition) {
-                    // (mContext as? PageInteractionListener)?.hideToolbarAndBottomNavigationView()
+                        updateCurrentLocation(latLng)
+                    } else {
+                        /* */
+                    }
                 }
-                override fun onTransitionResume(transition: Transition) {}
-                override fun onTransitionPause(transition: Transition) {}
-                override fun onTransitionCancel(transition: Transition) {}
-                override fun onTransitionStart(transition: Transition) {}
-            })
-        })
+    }
+
+    private fun updateCurrentLocation(latLng: LatLng) {
+        mGoogleMap.changeCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18f), true)
     }
 
     companion object {
-        private const val FINE_LOCATION_REQUEST_CODE = 0
+        private val TAG = MapFragment::class.java.simpleName
 
-        private const val LOCATION_UPDATE_INTERVAL = 15000L
-        private const val LOCATION_FASTEST_UPDATE_INTERVAL = 5000L
+        const val REQUEST_CHECK_SETTINGS = 0x1
 
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 42
+        private const val UPDATE_INTERVAL = 10000L
+        private const val FASTEST_UPDATE_INTERVAL = UPDATE_INTERVAL / 2
 
         fun newInstance(): MapFragment = MapFragment()
     }
 }
+

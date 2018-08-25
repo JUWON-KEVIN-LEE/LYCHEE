@@ -1,6 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:fillViewport="true">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/background_light"
+            android:paddingBottom="64dp">
+
+            <TextView
+                android:id="@+id/mapDetailDeleteTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:text="삭제"
+                android:textColor="@android:color/holo_red_dark"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/mapDetailEditTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="수정"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toStartOf="@+id/mapDetailDeleteTextView"
+                app:layout_constraintTop_toTopOf="@+id/mapDetailDeleteTextView" />
+
+            <ImageView
+                android:id="@+id/mapDetailShopImageView"
+                android:layout_width="120dp"
+                android:layout_height="90dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mapDetailEditTextView"
+                app:srcCompat="@color/LightGrey" />
+
+            <TextView
+                android:id="@+id/mapDetailShopNameTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="투썸플레이스 홍대입구역점"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/mapDetailShopImageView"
+                app:layout_constraintTop_toTopOf="@+id/mapDetailShopImageView"
+                app:layout_constraintVertical_chainStyle="spread_inside" />
+
+            <TextView
+                android:id="@+id/mapDetailTimeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="2018.02.23 금 18:30"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="@+id/mapDetailShopNameTextView"
+                app:layout_constraintTop_toBottomOf="@+id/mapDetailShopNameTextView" />
+
+            <View
+                android:id="@+id/mapDetailDivider1"
+                android:layout_width="2dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:background="@color/colorSuperLightGrey"
+                app:layout_constraintBottom_toBottomOf="@+id/mapDetailTimeTextView"
+                app:layout_constraintStart_toEndOf="@+id/mapDetailTimeTextView"
+                app:layout_constraintTop_toTopOf="@+id/mapDetailTimeTextView" />
+
+            <TextView
+                android:id="@+id/mapDetailCardTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="현대카드"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="@+id/mapDetailDivider1"
+                app:layout_constraintStart_toEndOf="@+id/mapDetailDivider1"
+                app:layout_constraintTop_toTopOf="@+id/mapDetailDivider1" />
+
+            <TextView
+                android:id="@+id/mapDetailPriceTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="6300원"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="@+id/mapDetailShopImageView"
+                app:layout_constraintEnd_toEndOf="@+id/mapDetailShopNameTextView" />
+
+            <View
+                android:id="@+id/mapDetailDivider2"
+                android:layout_width="0dp"
+                android:layout_height="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorSuperLightGrey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mapDetailShopImageView" />
+
+            <TextView
+                android:id="@+id/mapDetailPhotoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="찍은 사진"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mapDetailDivider2" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mapDetailPhotoRecyclerView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mapDetailPhotoTextView" />
+
+            <View
+                android:id="@+id/mapDetailDivider3"
+                android:layout_width="0dp"
+                android:layout_height="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorSuperLightGrey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mapDetailPhotoRecyclerView" />
+
+            <TextView
+                android:id="@+id/mapDetailMemoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="기억하고 싶은 일"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mapDetailDivider3" />
+
+            <TextView
+                android:id="@+id/mapDetailMemoContentTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorSuperLightGrey"
+                android:lineSpacingExtra="2sp"
+                android:paddingBottom="8dp"
+                android:paddingStart="4dp"
+                android:paddingTop="8dp"
+                android:text="여기서 누구랑 뭘 먹었는데 존맛이었다.\n다음엔 다른 맛 먹어봐야지"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/mapDetailMemoTextView"
+                app:layout_constraintTop_toBottomOf="@+id/mapDetailMemoTextView" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.NestedScrollView>
+</layout>

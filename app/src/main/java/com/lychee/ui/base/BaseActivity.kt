@@ -8,9 +8,11 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
+import com.lychee.R
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -57,11 +59,13 @@ abstract class BaseActivity<DataBindingType: ViewDataBinding, ViewModelType: Bas
 
         if (Build.VERSION.SDK_INT >= 21) {
             setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
-            window.statusBarColor = Color.TRANSPARENT
-        }
 
-        if(Build.VERSION.SDK_INT >= 23) {
-
+            if(Build.VERSION.SDK_INT >= 23) {
+                window.statusBarColor = Color.TRANSPARENT
+                window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            } else {
+                window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimaryDark)
+            }
         }
     }
 

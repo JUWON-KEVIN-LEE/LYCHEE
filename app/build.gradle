@@ -10,6 +10,7 @@ android {
         applicationId "com.lychee"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -28,6 +29,10 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Multidex
+    implementation 'com.android.support:multidex:1.0.3'
+
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
@@ -76,9 +81,8 @@ dependencies {
     // Lottie
     implementation "com.airbnb.android:lottie:$lottieVersion"
 
-    // Map
+    // Permission
     implementation "pub.devrel:easypermissions:$easyPermissionsVersion"
-    implementation "com.google.android.gms:play-services-location:$playServicesLocationVersion"
 
     // test
     testImplementation 'junit:junit:4.12'

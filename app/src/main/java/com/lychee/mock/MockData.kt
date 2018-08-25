@@ -15,7 +15,7 @@ object MockData {
                     "2018.06.03",
                     "20:42",
                     "GS25 서울역점",
-                    "1514800",
+                    1514800,
                     false,
                     true,
                     false,
@@ -28,7 +28,7 @@ object MockData {
                     "2018.06.03",
                     "18:55",
                     "파리바게트",
-                    "16000",
+                    16000,
                     false,
                     true,
                     false,
@@ -41,7 +41,7 @@ object MockData {
                     "2018.06.03",
                     "10:23",
                     "서울병원",
-                    "132000",
+                    132000,
                     false,
                     true,
                     false,
@@ -54,7 +54,7 @@ object MockData {
                     "2018.06.02",
                     "19:11",
                     "카페 Alef",
-                    "2800",
+                    2800,
                     false,
                     true,
                     false,
@@ -67,7 +67,7 @@ object MockData {
                     "2018.06.01",
                     "18:05",
                     "스타벅스 서울대점",
-                    "11201800",
+                    11201800,
                     false,
                     true,
                     false,
@@ -78,10 +78,10 @@ object MockData {
 
     fun get_() : List<Card>
         = mutableListOf(
-            Card(0, "http://www.card-gorilla.com/upload/2013check_b3.png", "신한카드", cardNumber = "8418"),
-            Card(1, "https://www.shinhancard.com/_ICSFiles/afieldfile/2018/03/23/check_ediya.png", "KB국민카드", cardNumber = "1234"),
-            Card(2, "http://www.card-gorilla.com/upload/nhcH_20habom.png", "하나카드", cardNumber = "1597"),
-            Card(3, "http://www.card-gorilla.com/upload/WR_SUM.PNG", "IBK기업은행", cardNumber = "3696"),
-            Card(4, "http://www.card-gorilla.com/upload/hn_kakaopaycheck.png", "케이뱅크", cardNumber = "2580")
+            Card(0, "신한카드", "", cardNumber = "8418"),
+            Card(1, "KB국민카드", "", cardNumber = "1234"),
+            Card(2, "하나카드", "", cardNumber = "1597"),
+            Card(3, "IBK기업은행", "", cardNumber = "3696"),
+            Card(4, "케이뱅크", "", cardNumber = "2580")
         )
 }

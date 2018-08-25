@@ -5,144 +5,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.main.MainActivity">
 
-    <com.lychee.view.DrawerConstraintLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/mainParentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/background_light">
 
-        <android.support.constraint.Guideline
-            android:id="@+id/mainStartGuideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="0dp" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/mainEndGuideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="1" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/mainTopGuideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="80dp" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/mainBottomGuideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="56dp" />
-
-        <FrameLayout
-            android:id="@+id/mainToolbar"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="24dp"
-            android:background="@android:color/background_light"
-            app:layout_constraintBottom_toTopOf="@+id/mainTopGuideline"
-            app:layout_constraintEnd_toEndOf="@+id/mainEndGuideline"
-            app:layout_constraintStart_toStartOf="@+id/mainStartGuideline"
-            app:layout_constraintTop_toTopOf="@+id/mainForegroundLayout">
-
-            <ImageView
-                android:id="@+id/mainDrawerButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|start"
-                android:layout_marginStart="8dp"
-                android:onClick="onClick"
-                android:padding="4dp" />
-
-            <TextView
-                android:id="@+id/mainTitleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="가계부"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
-        </FrameLayout>
-
-        <android.support.v4.view.ViewPager
+        <com.lychee.view.main.LockViewPager
             android:id="@+id/mainViewPager"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@android:color/background_light"
-            app:layout_constraintBottom_toTopOf="@+id/mainBottomGuideline"
-            app:layout_constraintEnd_toStartOf="@+id/mainEndGuideline"
-            app:layout_constraintStart_toStartOf="@+id/mainStartGuideline"
-            app:layout_constraintTop_toBottomOf="@+id/mainTopGuideline" />
+            app:layout_constraintBottom_toTopOf="@+id/mainBottomNavigationView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/mainFloatingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:tint="@android:color/background_light"
+            app:layout_constraintBottom_toTopOf="@+id/mainBottomNavigationView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/baseline_add_24" />
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/mainBottomNavigationView"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:background="@android:color/background_light"
             android:theme="@style/BottomNavigationStyle"
             app:itemIconTint="@drawable/selector_bottom_navigation_main"
             app:itemTextColor="@drawable/selector_bottom_navigation_main"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/mainEndGuideline"
-            app:layout_constraintStart_toStartOf="@+id/mainStartGuideline"
-            app:layout_constraintTop_toTopOf="@+id/mainBottomGuideline"
-            app:menu="@menu/bottom_navigation" />
-
-        <FrameLayout
-            android:id="@+id/mainForegroundLayout"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:alpha="0"
-            android:elevation="8dp"
-            android:foreground="@color/colorPrimaryDark"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/mainDrawerMenu"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/mainDrawerMenu"
-            android:layout_width="240dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginRight="0dp"
-            android:background="@android:color/background_light"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/mainStartGuideline"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="204dp"
-                android:background="@color/colorAccentGreen"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/mainDrawerProfileImageView"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="56dp"
-                    app:srcCompat="@android:color/background_light" />
-
-                <TextView
-                    android:id="@+id/mainDrawerProfileTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:text="사용자님의 프로필"
-                    android:textColor="@android:color/background_light" />
-            </LinearLayout>
-        </android.support.constraint.ConstraintLayout>
-    </com.lychee.view.DrawerConstraintLayout>
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/bottom_navigation" />
+    </android.support.constraint.ConstraintLayout>
 </layout>

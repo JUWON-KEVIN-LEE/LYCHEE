@@ -10,7 +10,7 @@ import java.util.List;
  *  TODO 불완전할 것 같다...
  *  다시 만들어야 할 것 !!
  */
-public class SmsParcer {
+public class SmsParcerJava {
 
     List<String> splits; // 분해된 메시지
 
@@ -23,7 +23,7 @@ public class SmsParcer {
      * 메시지를 분해하고 expenditure 객체를 초기화한다.
      * @param body 메시지
      */
-    public SmsParcer(String body) {
+    public SmsParcerJava(String body) {
         splits = split(body);
         nc_appr = true;
         this.expenditure = new Expenditure();
@@ -128,7 +128,7 @@ public class SmsParcer {
 
                 if(split.contains(",") && split.contains("원")) {
                     String price = split.substring(0, split.indexOf("원")).replace(",", "");
-                    expenditure.setPrice(price);
+                    // expenditure.setPrice(price);
                     splits.remove(i);
                     break;
                 }

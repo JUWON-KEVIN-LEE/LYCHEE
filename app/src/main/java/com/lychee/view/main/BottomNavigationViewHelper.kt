@@ -1,4 +1,4 @@
-package com.lychee.view
+package com.lychee.view.main
 
 import android.annotation.SuppressLint
 import android.support.design.internal.BottomNavigationItemView
