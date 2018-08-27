@@ -53,5 +53,4 @@ abstract class BaseFragment<DataBindingType: ViewDataBinding, ViewModelType : Ba
 
         lifecycle.addObserver(mViewModel)
     }
-
 }

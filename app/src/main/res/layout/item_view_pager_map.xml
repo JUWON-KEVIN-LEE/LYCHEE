@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
+<layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
-            name="viewModel"
-            type="com.lychee.ui.main.page.map.MapViewModel"/>
+            name="expenditure"
+            type="com.lychee.data.model.Expenditure"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -23,7 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="스타벅스 미아점"
+            android:layout_marginTop="8dp"
+            android:text="@{expenditure.shopName}"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="normal"
@@ -35,16 +36,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="카페"
+            android:text="@{expenditure.category}"
             app:layout_constraintBottom_toBottomOf="@+id/mapItemShopNameTextView"
             app:layout_constraintStart_toEndOf="@+id/mapItemShopNameTextView" />
+
+        <TextView
+            android:id="@+id/mapItemIndexTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            app:layout_constraintEnd_toEndOf="@+id/mapItemPriceTextView"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/mapItemDateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="2018년 4월 28일"
+            android:text="@{expenditure.date}"
             android:textSize="14sp"
             android:textStyle="normal"
             android:visibility="visible"
@@ -91,17 +100,17 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
-            android:text="144,800원"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/mapItemCardTextView"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:toWon="@{expenditure.price}"/>
 
         <TextView
             android:id="@+id/mapItemCardTextView"
             android:layout_width="wrap_content"
-            android:layout_height="22dp"
-            android:text="삼성카드"
+            android:layout_height="wrap_content"
+            android:text="@{expenditure.cardName}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/mapItemPriceTextView" />
 

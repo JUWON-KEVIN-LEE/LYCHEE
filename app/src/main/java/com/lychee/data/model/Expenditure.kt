@@ -13,6 +13,7 @@ open class Expenditure(
         var cardName: String? = null, // 또는 현대카드 X ( 카드 이름 )
         var date: String? = null,
         var time: String? = null,
+        var category: String? = null,
         var shopName: String? = null,
         var price: Int = 0,
         var isForeign: Boolean = false,

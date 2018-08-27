@@ -4,6 +4,8 @@ import android.content.Context
 import com.lychee.TreeApp
 import com.lychee.di.scope.ActivityScope
 import com.lychee.di.scope.ApplicationScope
+import com.lychee.ui.add.AddActivity
+import com.lychee.ui.add.AddModule
 import com.lychee.ui.main.MainActivity
 import com.lychee.ui.main.MainModule
 import dagger.Binds
@@ -23,4 +25,8 @@ abstract class AppModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = [MainModule::class])
     abstract fun contributesMainActivity(): MainActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [AddModule::class])
+    abstract fun contributesAddActivity(): AddActivity
 }

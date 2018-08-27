@@ -1,5 +1,6 @@
 package com.lychee.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.view.MenuItem
@@ -7,7 +8,8 @@ import android.view.View
 import android.widget.Toast
 import com.lychee.R
 import com.lychee.databinding.ActivityMainBinding
-import com.lychee.ui.base.BaseActivity
+import com.lychee.ui.add.AddActivity
+import com.lychee.ui.base.BaseActivityHasFragmentInjector
 import com.lychee.ui.main.adapter.MainViewPagerAdapter
 import com.lychee.util.extensions.gone
 import com.lychee.util.extensions.visible
@@ -18,7 +20,7 @@ import com.lychee.view.main.disableShiftMode
  * Config Change Handling
  */
 class MainActivity:
-        BaseActivity<ActivityMainBinding, MainViewModel>(),
+        BaseActivityHasFragmentInjector<ActivityMainBinding, MainViewModel>(),
         PageOnClickListener
 {
 
@@ -85,7 +87,10 @@ class MainActivity:
             })
             mainViewPager.adapter = MainViewPagerAdapter(supportFragmentManager)
 
-            mainFloatingButton
+            mainFloatingButton.setOnClickListener {
+                val intent = Intent(this@MainActivity, AddActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 

@@ -25,7 +25,9 @@
             android:value="AIzaSyAT_xKWDQhTZaA3LZ1p6al6K8uSAUdG65M"/>
 
         <!-- 스플래시 -->
-        <activity android:name=".ui.splash.SplashActivity">
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,7 +37,13 @@
 
         <!-- 메인 -->
         <activity
-            android:name=".ui.main.MainActivity" />
+            android:name=".ui.main.MainActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- 추가 -->
+        <activity
+            android:name=".ui.add.AddActivity"
+            android:screenOrientation="portrait"/>
 
         <receiver android:name=".sms.SmsRecevier">
             <intent-filter

@@ -24,8 +24,7 @@
             android:id="@+id/mapControllerParentLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:controllerVisibility="@{viewModel.controllerVisibility}"
-            app:expandDetailPage="@{viewModel.expandDetail}">
+            app:controllerVisibility="@{viewModel.controllerVisibility}">
 
             <android.support.constraint.Guideline
                 android:id="@+id/mapTopGuideline"

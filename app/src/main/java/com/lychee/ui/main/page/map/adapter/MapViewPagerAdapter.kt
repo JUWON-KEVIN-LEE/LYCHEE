@@ -14,6 +14,7 @@ class MapViewPagerAdapter constructor(
         private val detailShowTask: () -> Unit
 ): PagerAdapter() {
 
+
     var expenditures: MutableList<Expenditure> = mutableListOf()
         set(value) {
             field.clear()
@@ -43,6 +44,11 @@ class MapViewPagerAdapter constructor(
                     container,
                     false)
 
+            // Data binding
+            binding.expenditure = expenditures[position]
+            binding.mapItemIndexTextView.text = "${position + 1} / ${expenditures.size}"
+
+            // when click show expenditure details
             binding.root.setOnClickListener { detailShowTask() }
 
             container.addView(binding.root)

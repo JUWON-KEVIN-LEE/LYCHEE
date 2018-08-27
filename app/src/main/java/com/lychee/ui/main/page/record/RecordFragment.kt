@@ -1,29 +1,18 @@
 package com.lychee.ui.main.page.record
 
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.arch.lifecycle.Observer
-import android.content.ClipData
-import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.DatePicker
-import android.widget.LinearLayout
 import android.widget.Toast
 import com.lychee.R
 import com.lychee.data.model.Expenditure
 import com.lychee.databinding.FragmentRecordBinding
-import com.lychee.mock.MockData
 import com.lychee.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.fragment_record.*
-import kotlinx.android.synthetic.main.year_month_picker.*
 
 class RecordFragment : BaseFragment<FragmentRecordBinding, RecordViewModel>() {
-
-
 
     override val layoutResId: Int
         get() = R.layout.fragment_record
@@ -41,7 +30,7 @@ class RecordFragment : BaseFragment<FragmentRecordBinding, RecordViewModel>() {
 
         with(mBinding) {
             recordRecyclerView.apply {
-                adapter = RecyclerAdapter( MockData.get(),listener)
+                // adapter = RecyclerAdapter( MockData.get(),listener)
                 layoutManager = LinearLayoutManager(context)
             }
 

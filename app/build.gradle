@@ -49,6 +49,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-location:$googleMapVersion"
 
     // Data Binding compiler
+    implementation 'com.android.support:support-v4:27.1.1'
     kapt "com.android.databinding:compiler:$androidPlugInVersion"
 
     // ViewModel and LiveData

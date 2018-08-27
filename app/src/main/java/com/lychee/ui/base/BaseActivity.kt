@@ -7,16 +7,12 @@ import android.databinding.ViewDataBinding
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
 import com.lychee.R
 import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
 
@@ -25,7 +21,7 @@ import javax.inject.Inject
  * https://learnpainless.com/android/material/make-fully-android-transparent-status-bar
  */
 abstract class BaseActivity<DataBindingType: ViewDataBinding, ViewModelType: BaseViewModel>
-    : AppCompatActivity(), HasSupportFragmentInjector {
+    : AppCompatActivity() {
 
     abstract val layoutResId: Int
 
@@ -37,9 +33,6 @@ abstract class BaseActivity<DataBindingType: ViewDataBinding, ViewModelType: Bas
     lateinit var mViewModel : ViewModelType
 
     abstract val viewModelClass : Class<ViewModelType>
-
-    @Inject
-    lateinit var supportFragmentInjector: DispatchingAndroidInjector<Fragment>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -79,6 +72,4 @@ abstract class BaseActivity<DataBindingType: ViewDataBinding, ViewModelType: Bas
         }
         win.attributes = winParams
     }
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> = supportFragmentInjector
 }

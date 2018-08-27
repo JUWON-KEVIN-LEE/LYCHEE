@@ -1,20 +1,33 @@
 package com.lychee.ui.add
 
-import android.databinding.DataBindingUtil
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.lychee.R
 import com.lychee.databinding.ActivityAddBinding
+import com.lychee.ui.base.BaseActivity
 
-class AddActivity : AppCompatActivity() {
+class AddActivity : BaseActivity<ActivityAddBinding, AddViewModel>() {
 
-    lateinit var binding: ActivityAddBinding
+    override val layoutResId: Int
+        get() = R.layout.activity_add
+
+    override val viewModelClass: Class<AddViewModel>
+        get() = AddViewModel::class.java
+
+    // private val mCompositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_add)
 
-        with(binding) {
+        with(mBinding) {
+            /*
+            addPriceEditText
+                    .textChanges()
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .skip(1)
+                    .filter { it.length != 1 }
+                    .subscribe()
+                    .addTo(mCompositeDisposable)
+                    */
             /**
              * 사진 추가 버튼을 클릭하면
              * 일단 권한 요청을 합니다!

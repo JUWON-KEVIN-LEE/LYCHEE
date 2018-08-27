@@ -1,4 +1,4 @@
-package com.lychee.ui.add
+package com.lychee.ui.add.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup

@@ -35,32 +35,3 @@ fun ConstraintLayout.controllerVisibility(visible: Boolean) {
         })
     }
 }
-
-@BindingAdapter("expandDetailPage")
-fun ConstraintLayout.expandDetailPage(expand: Boolean) {
-    if(expand) {
-        update {
-            setGuidelinePercent(R.id.mapTopGuideline, -.5f)
-            setGuidelinePercent(R.id.mapBottomGuideline, .4f)
-            setGuidelinePercent(R.id.mapStartGuideline, -.5f)
-            setGuidelinePercent(R.id.mapEndGuideline, 1.5f)
-        }
-
-        TransitionManager.beginDelayedTransition(this, ChangeBounds().apply {
-            duration = 500L
-            interpolator = AccelerateDecelerateInterpolator()
-        })
-    } else {
-        update {
-            setGuidelineBegin(R.id.mapTopGuideline, context.dpToPx(32))
-            setGuidelinePercent(R.id.mapBottomGuideline, 1f)
-            setGuidelinePercent(R.id.mapStartGuideline, 0f)
-            setGuidelinePercent(R.id.mapEndGuideline, 1f)
-        }
-
-        TransitionManager.beginDelayedTransition(this, ChangeBounds().apply {
-            duration = 500L
-            interpolator = AccelerateDecelerateInterpolator()
-        })
-    }
-}
