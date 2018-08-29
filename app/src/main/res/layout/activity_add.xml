@@ -62,7 +62,6 @@
                     android:id="@+id/addWonTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
                     android:layout_marginEnd="16dp"
                     android:text="원"
                     android:textColor="@android:color/white"
@@ -104,6 +103,7 @@
                     android:text="2018년 8월 27일"
                     android:textColor="@android:color/black" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/addPlaceLayout"
                 android:layout_width="0dp"
@@ -169,10 +169,7 @@
                     android:text="메모를 작성하세요"
                     android:textColor="@android:color/black" />
 
-
             </LinearLayout>
-
-
 
             <LinearLayout
                 android:id="@+id/addPhotoLayout"

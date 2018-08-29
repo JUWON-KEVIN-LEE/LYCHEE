@@ -2,7 +2,7 @@ package com.lychee.ui.main
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import com.lychee.data.model.Expenditure
+import com.lychee.data.model.core.Expenditure
 import com.lychee.ui.base.BaseViewModel
 import javax.inject.Inject
 

@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.lychee.R
-import com.lychee.data.model.Expenditure
+import com.lychee.data.model.core.Expenditure
 import com.lychee.databinding.RecordListLayoutBinding
 
 /**

@@ -1,6 +1,6 @@
 package com.lychee.sms;
 
-import com.lychee.data.model.Expenditure;
+import com.lychee.data.model.core.Expenditure;
 
 import java.util.ArrayList;
 import java.util.Arrays;

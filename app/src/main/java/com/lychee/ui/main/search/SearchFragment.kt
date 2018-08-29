@@ -19,5 +19,9 @@ class SearchFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
-
+    companion object {
+        fun newInstance(): SearchFragment {
+            return SearchFragment()
+        }
+    }
 }

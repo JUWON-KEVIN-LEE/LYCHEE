@@ -1,9 +1,12 @@
 package com.lychee.ui.add
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import com.lychee.R
 import com.lychee.databinding.ActivityAddBinding
 import com.lychee.ui.base.BaseActivity
+import pub.devrel.easypermissions.EasyPermissions
 
 class AddActivity : BaseActivity<ActivityAddBinding, AddViewModel>() {
 
@@ -19,6 +22,16 @@ class AddActivity : BaseActivity<ActivityAddBinding, AddViewModel>() {
         super.onCreate(savedInstanceState)
 
         with(mBinding) {
+            /*
+            * TODO
+            * */
+
+            addPhotoLayout.setOnClickListener {
+                val intent = Intent(Intent.ACTION_GET_CONTENT)
+                intent.addCategory(Intent.CATEGORY_OPENABLE)
+                intent.type = "image/*"
+                startActivityForResult(Intent.createChooser(intent, "사진을 선택하세요."), EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE)
+            }
             /*
             addPriceEditText
                     .textChanges()
@@ -49,5 +62,44 @@ class AddActivity : BaseActivity<ActivityAddBinding, AddViewModel>() {
              0번째는 사진 찍는 버튼 그 이후로 갤러리~
              */
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK) {
+            try {
+
+            } catch (e: Exception) {
+
+            }
+        }
+    }
+
+    private fun requestPermission() {
+        EasyPermissions.requestPermissions(this,
+                "사진을 등록하기 위해서는 저장소에 대한 권한을 승인해주셔야 합니다.",
+                EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, object: EasyPermissions.PermissionCallbacks {
+            override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+
+            }
+
+            override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+
+            }
+
+            override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+
+            }
+        })
+    }
+
+    companion object {
+        private const val EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 10
     }
 }

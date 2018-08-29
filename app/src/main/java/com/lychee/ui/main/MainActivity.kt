@@ -11,6 +11,7 @@ import com.lychee.databinding.ActivityMainBinding
 import com.lychee.ui.add.AddActivity
 import com.lychee.ui.base.BaseActivityHasFragmentInjector
 import com.lychee.ui.main.adapter.MainViewPagerAdapter
+import com.lychee.ui.main.search.SearchFragment
 import com.lychee.util.extensions.gone
 import com.lychee.util.extensions.visible
 import com.lychee.view.main.disableShiftMode
@@ -121,6 +122,13 @@ class MainActivity:
 
     private fun onBackPressedFeedback(message : String)
             = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+
+    fun showSearchPage()
+            = supportFragmentManager
+                .beginTransaction()
+                .add(R.id.mainFragmentContainer, SearchFragment(), "search")
+                .commitNow()
+
 
     companion object {
         const val EXIT_MESSAGE = "한번 더 누르시면 종료됩니다."

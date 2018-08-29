@@ -8,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
 import com.lychee.R
-import com.lychee.data.model.Expenditure
+import com.lychee.data.model.core.Expenditure
 import com.lychee.databinding.FragmentRecordBinding
 import com.lychee.ui.base.BaseFragment
 

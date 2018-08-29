@@ -1,4 +1,4 @@
-package com.lychee.data.model
+package com.lychee.data.model.core
 
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey

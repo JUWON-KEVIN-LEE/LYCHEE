@@ -1,7 +1,7 @@
 package com.lychee.mock
 
-import com.lychee.data.model.Card
-import com.lychee.data.model.Expenditure
+import com.lychee.data.model.core.Card
+import com.lychee.data.model.core.Expenditure
 
 /**
  *  TEST
