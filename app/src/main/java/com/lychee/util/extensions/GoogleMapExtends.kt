@@ -14,17 +14,17 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 
 
-fun Geocoder.getAddress(latLng: LatLng): String {
+fun Geocoder.getAddress(latLng: LatLng): String? {
     return try {
         val addresses = getFromLocation(latLng.latitude, latLng.longitude, 1)
 
         if(addresses.isEmpty()) {
-            "일시적인 오류로 주소를 표시할 수 없습니다."
+            null
         } else {
             addresses[0].getAddressLine(0).toString()
         }
     } catch (exception: Exception) {
-        "일시적인 오류로 주소를 표시할 수 없습니다."
+        null
     }
 }
 

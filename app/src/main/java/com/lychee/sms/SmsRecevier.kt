@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.provider.Telephony
-import com.lychee.data.model.core.Expenditure
+import com.lychee.data.core.model.Expenditure
 
 class SmsRecevier: BroadcastReceiver() {
 

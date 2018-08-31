@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="expenditure"
+            type="com.lychee.data.core.model.Expenditure"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/commonCategoryImageView"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@color/LightGrey" />
+
+        <TextView
+            android:id="@+id/commonShopNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{expenditure.shopName}"
+            android:textColor="@android:color/black"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toTopOf="@+id/commonDateTextView"
+            app:layout_constraintEnd_toStartOf="@+id/commonPriceTextView"
+            app:layout_constraintStart_toEndOf="@+id/commonCategoryImageView"
+            app:layout_constraintTop_toTopOf="@+id/commonCategoryImageView"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/commonDateTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text='@{expenditure.date+" "+expenditure.time}'
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/commonCategoryImageView"
+            app:layout_constraintEnd_toStartOf="@+id/commonCardTextView"
+            app:layout_constraintStart_toStartOf="@+id/commonShopNameTextView"
+            app:layout_constraintTop_toBottomOf="@+id/commonShopNameTextView" />
+
+        <TextView
+            android:id="@+id/commonPriceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/commonShopNameTextView"
+            app:toWon="@{expenditure.price}" />
+
+        <TextView
+            android:id="@+id/commonCardTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{expenditure.cardName}"
+            app:layout_constraintBottom_toBottomOf="@+id/commonDateTextView"
+            app:layout_constraintEnd_toEndOf="@+id/commonPriceTextView" />
+    </android.support.constraint.ConstraintLayout>
+</layout>

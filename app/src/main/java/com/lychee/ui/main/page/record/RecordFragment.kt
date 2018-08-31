@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import android.widget.Toast
 import com.lychee.R
-import com.lychee.data.model.core.Expenditure
+import com.lychee.data.core.model.Expenditure
 import com.lychee.databinding.FragmentRecordBinding
 import com.lychee.ui.base.BaseFragment
+import com.lychee.ui.main.page.record.adapter.RecordRecyclerViewAdapter
+import com.lychee.ui.main.page.record.dialog.YearMonthPickerDialog
+import java.util.*
 
 class RecordFragment : BaseFragment<FragmentRecordBinding, RecordViewModel>() {
 
@@ -20,29 +22,29 @@ class RecordFragment : BaseFragment<FragmentRecordBinding, RecordViewModel>() {
     override val viewModelClass: Class<RecordViewModel>
         get() = RecordViewModel::class.java
 
+    private val mCalendar = Calendar.getInstance()
+
     override fun onCreateView(savedInstanceState: Bundle?) {
-
-        val listener = object:RecordExpenditureClickListener{
-            override fun onClick(expenditure: Expenditure) {
-                Toast.makeText(context,"상점명 :  ${expenditure.shopName}", Toast.LENGTH_LONG).show()
-            }
-        }
-
         with(mBinding) {
             recordRecyclerView.apply {
-                // adapter = RecyclerAdapter( MockData.get(),listener)
+                adapter = RecordRecyclerViewAdapter(context)
                 layoutManager = LinearLayoutManager(context)
             }
 
             recordDateTextView.setOnClickListener {
-                val dialog = YearMonthPickerDialog.newInstance(mViewModel.month.value!!, mViewModel.year.value!!)
+                val dialog = YearMonthPickerDialog.newInstance(
+                        mViewModel.month.value ?: mCalendar.get(Calendar.MONTH) + 1,
+                        mViewModel.year.value ?: mCalendar.get(Calendar.YEAR)
+                )
 
-                dialog.mListener = DatePickerDialog.OnDateSetListener { _, year, month, _ ->
-                    mViewModel.month.value = month
-                    mViewModel.year.value = year
+                with(dialog) {
+                    onDateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, _ ->
+                        mViewModel.year.value = year
+                        mViewModel.month.value = month
+                    }
+                    val supportFragmentManger = (mContext as AppCompatActivity).supportFragmentManager
+                    show(supportFragmentManger, YearMonthPickerDialog.TAG)
                 }
-
-                dialog.show((mContext as AppCompatActivity).supportFragmentManager, "picker")
             }
 
             recordDateLeftImageView.setOnClickListener {
@@ -50,33 +52,40 @@ class RecordFragment : BaseFragment<FragmentRecordBinding, RecordViewModel>() {
                     mViewModel.month.value = 12
                     mViewModel.year.value = mViewModel.year.value?.dec()
                 }
-                else mViewModel.month.value = mViewModel.month.value?.dec()
-
+                else {
+                    mViewModel.month.value = mViewModel.month.value?.dec()
+                }
             }
 
             recordDateRightImageView.setOnClickListener {
                 if(mViewModel.month.value == 12) {
                     mViewModel.month.value = 1
                     mViewModel.year.value = mViewModel.year.value?.inc()
-
                 }
-                else
+                else {
                     mViewModel.month.value = mViewModel.month.value?.inc()
-
+                }
             }
         }
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mViewModel.month.observe(this, Observer {
-            mBinding.recordDateTextView.text = "${it}월  ${mViewModel.year.value}"
+
+        mViewModel.date.observe(this, Observer {
+            it?.let { date ->
+                mBinding.recordDateTextView.text = date
+            }
         })
 
-        mViewModel.year.observe(this, Observer {
-            mBinding.recordDateTextView.text = "${mViewModel.month.value}월  $it"
+        mViewModel.expenditures.observe(this, Observer {
+            it?.let { expenditures ->
+                val adapter = (mBinding.recordRecyclerView.adapter as RecordRecyclerViewAdapter)
+                adapter.expenditures = expenditures as MutableList<Expenditure>
+            }
         })
+
+        mViewModel.fetchExpenditures()
     }
 
 

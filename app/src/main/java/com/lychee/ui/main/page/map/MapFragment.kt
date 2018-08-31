@@ -3,23 +3,22 @@ package com.lychee.ui.main.page.map
 import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.os.Handler
 import android.support.transition.ChangeBounds
 import android.support.transition.TransitionManager
 import android.support.v4.view.ViewPager
 import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
 import com.lychee.R
+import com.lychee.data.core.model.Expenditure
 import com.lychee.databinding.FragmentMapBinding
 import com.lychee.ui.base.BaseMapFragment
-import com.lychee.ui.main.MainActivity
 import com.lychee.ui.main.page.map.adapter.MapDetailViewPagerAdapter
 import com.lychee.ui.main.page.map.adapter.MapViewPagerAdapter
 import com.lychee.util.extensions.changeCamera
@@ -27,6 +26,7 @@ import com.lychee.util.extensions.dpToPx
 import com.lychee.util.extensions.update
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
+import javax.inject.Inject
 
 @SuppressLint("MissingPermission")
 class MapFragment:
@@ -43,9 +43,7 @@ class MapFragment:
 
     private val mMarkers: MutableList<Marker> = mutableListOf()
 
-    private val mFusedLocationProviderClient by lazy {
-        LocationServices.getFusedLocationProviderClient(mContext)
-    }
+    @Inject lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
 
     lateinit var mGoogleMap: GoogleMap
 
@@ -60,20 +58,13 @@ class MapFragment:
                 isZoomGesturesEnabled = true
                 isRotateGesturesEnabled = true
                 isScrollGesturesEnabled = true
-                isCompassEnabled = false
+                isCompassEnabled = true
                 isMyLocationButtonEnabled = false
                 isIndoorLevelPickerEnabled = false
             }
 
             // map settings
             with(mGoogleMap) {
-                // init with my location if allowed
-                if(checkLocationPermission()) {
-                    isMyLocationEnabled = true
-
-                    getLastLocation()
-                }
-
                 // my location button
                 mBinding.mapMyLocationButton.setOnClickListener {
                     if(!checkLocationPermission()) requestLocationPermission()
@@ -108,8 +99,7 @@ class MapFragment:
                 }
             }
 
-            // TEST
-            Handler().postDelayed({ mViewModel.fetchExpenditures() }, 5000L)
+            mViewModel.fetchExpenditures()
         }
     }
 
@@ -144,44 +134,39 @@ class MapFragment:
         super.onViewCreated(view, savedInstanceState)
         mBinding.viewModel = mViewModel
 
-        mViewModel.expenditures.observe(this, Observer {
-            it?.let { expenditures ->
-                mMarkers.clear()
+        mViewModel.expenditures.observe(this, Observer { expenditures ->
+            expenditures
+                    ?.takeIf { it.isNotEmpty() }
+                    ?.let {
+                        mMarkers.clear()
 
-                val boundsBuilder = LatLngBounds.Builder()
+                        val boundsBuilder = LatLngBounds.Builder()
 
-                expenditures
-                        .forEach {
-                            val latLng = LatLng(it.lat, it.lng)
+                        expenditures
+                                .forEach {
+                                    val latLng = LatLng(it.lat, it.lng)
 
-                            // add to google map
-                            mGoogleMap.addMarker(
-                                    MarkerOptions()
-                                            .position(latLng)
-                                            .title(it.shopName)
-                                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.round_place_black_24))
-                            // add to local variable
-                            ).let { mMarkers.add(it) }
+                                    // add to google map
+                                    mGoogleMap.addMarker(
+                                            MarkerOptions()
+                                                    .position(latLng)
+                                                    .title(it.shopName)
+                                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.round_place_black_24))
+                                            // add to local variable
+                                    ).let { mMarkers.add(it) }
 
-                            boundsBuilder.include(latLng)
-                        }
+                                    boundsBuilder.include(latLng)
+                                }
 
-                val bounds = boundsBuilder.build()
+                        val bounds = boundsBuilder.build()
 
-                mGoogleMap.changeCamera(CameraUpdateFactory.newLatLngBounds(bounds, mContext.dpToPx(64)), true)
+                        mGoogleMap.changeCamera(CameraUpdateFactory.newLatLngBounds(bounds, mContext.dpToPx(64)), true)
 
-                with(mBinding) {
-                    val expenditures = expenditures.toMutableList()
+                        fetchExpendituresToAdapter(expenditures = expenditures as MutableList<Expenditure>)
 
-                    (mapViewPager.adapter as? MapViewPagerAdapter)?.expenditures = expenditures
-                    (mapDetailViewPager.adapter as? MapDetailViewPagerAdapter)?.expenditures = expenditures
-                }
-
-                mViewModel.setCurrentPosition(0) // Init
-            }
+                        mViewModel.setCurrentPosition(0) // Init Position
+                    }
         })
-
-        (mContext as MainActivity).mViewModel
 
         mViewModel.currentItem.observe(this, Observer {
             it?.takeIf { it < mMarkers.size }
@@ -248,6 +233,13 @@ class MapFragment:
         })
     }
 
+    private fun fetchExpendituresToAdapter(expenditures: MutableList<Expenditure>) {
+        with(mBinding) {
+            (mapViewPager.adapter as MapViewPagerAdapter).expenditures = expenditures
+            (mapDetailViewPager.adapter as MapDetailViewPagerAdapter).expenditures = expenditures
+        }
+    }
+
     private fun checkLocationPermission()
             = EasyPermissions.hasPermissions(mContext, android.Manifest.permission.ACCESS_FINE_LOCATION)
 
@@ -293,7 +285,7 @@ class MapFragment:
 
                         mGoogleMap.changeCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14f), true)
                     } else {
-                        /* */
+                        /*  */
                     }
                 }
     }

@@ -2,7 +2,7 @@ package com.lychee.ui.main.page.map
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import com.lychee.data.model.core.Expenditure
+import com.lychee.data.core.model.Expenditure
 import com.lychee.mock.MockData
 import com.lychee.ui.base.BaseViewModel
 

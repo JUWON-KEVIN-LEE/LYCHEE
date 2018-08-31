@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.lychee.R
-import com.lychee.data.model.core.Expenditure
+import com.lychee.data.core.model.Expenditure
 import com.lychee.databinding.ItemViewPagerEmptyMapBinding
 import com.lychee.databinding.ItemViewPagerMapBinding
 

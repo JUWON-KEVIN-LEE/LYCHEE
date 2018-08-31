@@ -45,11 +45,13 @@ dependencies {
     implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
 
     // Map
-    implementation "com.google.android.gms:play-services-maps:$googleMapVersion"
-    implementation "com.google.android.gms:play-services-location:$googleMapVersion"
+    implementation "com.google.android.gms:play-services-maps:$googlePlayServiceVersion"
+    implementation "com.google.android.gms:play-services-location:$googlePlayServiceVersion"
+    implementation "com.google.android.gms:play-services-places:$googlePlayServiceVersion"
 
     // Data Binding compiler
     implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     kapt "com.android.databinding:compiler:$androidPlugInVersion"
 
     // ViewModel and LiveData

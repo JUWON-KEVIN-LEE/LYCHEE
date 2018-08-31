@@ -1,13 +1,13 @@
 package com.lychee.ui.splash
 
 import android.arch.lifecycle.ViewModelProvider
-import com.lychee.di.scope.ActivityScope
+import com.lychee.di.scope.ActivityScoped
 import dagger.Binds
 import dagger.Module
 
 @Module
 abstract class SplashModule {
 
-    @Binds @ActivityScope
+    @Binds @ActivityScoped
     abstract fun provideViewModelFactory(splashViewModelFactory: SplashViewModelFactory): ViewModelProvider.Factory
 }

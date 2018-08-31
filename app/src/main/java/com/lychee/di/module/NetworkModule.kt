@@ -1,7 +1,9 @@
 package com.lychee.di.module
 
 import android.content.Context
-import com.lychee.di.scope.ApplicationScope
+import com.lychee.data.weather.remote.WeatherApi
+import com.lychee.di.qualifier.ApplicationLevel
+import com.lychee.di.scope.ApplicationScoped
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -16,15 +18,15 @@ import java.util.concurrent.TimeUnit
 @Module
 class NetworkModule {
 
-    @Provides @ApplicationScope
+    @Provides @ApplicationScoped
     fun provideInterceptor() : Interceptor
             = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
 
-    @Provides @ApplicationScope
-    fun provideCache(context: Context) : Cache
+    @Provides @ApplicationScoped
+    fun provideCache(@ApplicationLevel context: Context) : Cache
             = Cache(context.cacheDir, 10 * 10 * 1024L)
 
-    @Provides @ApplicationScope
+    @Provides @ApplicationScoped
     fun provideOkHttpClient(interceptor: Interceptor, cache : Cache) : OkHttpClient
             = OkHttpClient.Builder()
             .addInterceptor(interceptor)
@@ -34,15 +36,15 @@ class NetworkModule {
             .cache(cache)
             .build()
 
-    @Provides @ApplicationScope
+    @Provides @ApplicationScoped
     fun provideGsonConverterFactory() : GsonConverterFactory
             = GsonConverterFactory.create()
 
-    @Provides @ApplicationScope
+    @Provides @ApplicationScoped
     fun provideRxJava2CallAdapterFactory() : RxJava2CallAdapterFactory
             = RxJava2CallAdapterFactory.create()
 
-    @Provides @ApplicationScope
+    @Provides @ApplicationScoped
     fun provideRetrofit(okHttpClient: OkHttpClient,
                         gsonConverterFactory: GsonConverterFactory,
                         rxJava2CallAdapterFactory: RxJava2CallAdapterFactory) : Retrofit
@@ -53,7 +55,10 @@ class NetworkModule {
             .client(okHttpClient)
             .build()
 
+    @Provides @ApplicationScoped
+    fun provideWeahterApi(retrofit: Retrofit): WeatherApi = retrofit.create(WeatherApi::class.java)
+
     companion object {
-        const val BASE_URL = ""
+        const val BASE_URL = "https://api.openweathermap.org"
     }
 }

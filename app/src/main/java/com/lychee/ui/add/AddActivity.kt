@@ -25,15 +25,23 @@ class AddActivity : BaseActivity<ActivityAddBinding, AddViewModel>() {
             /*
             * TODO
             * */
-
             addPhotoLayout.setOnClickListener {
-                val intent = Intent(Intent.ACTION_GET_CONTENT)
-                intent.addCategory(Intent.CATEGORY_OPENABLE)
-                intent.type = "image/*"
-                startActivityForResult(Intent.createChooser(intent, "사진을 선택하세요."), EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE)
+                if(EasyPermissions.hasPermissions(this@AddActivity, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    EasyPermissions.requestPermissions(
+                            this@AddActivity,
+                            "",
+                            EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE,
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                } else {
+                    val intent = Intent(Intent.ACTION_GET_CONTENT)
+                    intent.addCategory(Intent.CATEGORY_OPENABLE)
+                    intent.type = "image/*"
+                    startActivityForResult(Intent.createChooser(intent, "사진을 선택하세요."), GALLERY_REQUEST_CODE)
+                }
             }
             /*
             addPriceEditText
+
                     .textChanges()
                     .subscribeOn(AndroidSchedulers.mainThread())
                     .skip(1)
@@ -90,7 +98,11 @@ class AddActivity : BaseActivity<ActivityAddBinding, AddViewModel>() {
             }
 
             override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-
+                when(requestCode) {
+                    EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE -> {
+                        /* GALLERY 로 가면 된다. */
+                    }
+                }
             }
 
             override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -100,6 +112,8 @@ class AddActivity : BaseActivity<ActivityAddBinding, AddViewModel>() {
     }
 
     companion object {
+        private const val GALLERY_REQUEST_CODE = 11
+
         private const val EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 10
     }
 }

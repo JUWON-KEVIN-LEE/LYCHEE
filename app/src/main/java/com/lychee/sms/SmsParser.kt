@@ -1,6 +1,6 @@
 package com.lychee.sms
 
-import com.lychee.data.model.core.Expenditure
+import com.lychee.data.core.model.Expenditure
 
 class SmsParser { // class ? object ?
 
@@ -27,4 +27,6 @@ class SmsParser { // class ? object ?
 
     private fun removeHeader(words: MutableList<String>)
             = words.remove("[Web발신]")
+
+
 }

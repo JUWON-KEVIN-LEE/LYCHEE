@@ -6,7 +6,7 @@
     <data>
         <variable
             name="expenditure"
-            type="com.lychee.data.model.core.Expenditure"/>
+            type="com.lychee.data.core.model.Expenditure"/>
     </data>
 
     <android.support.constraint.ConstraintLayout

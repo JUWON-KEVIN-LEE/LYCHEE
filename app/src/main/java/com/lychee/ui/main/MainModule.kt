@@ -1,8 +1,10 @@
 package com.lychee.ui.main
 
 import android.arch.lifecycle.ViewModelProvider
-import com.lychee.di.scope.ActivityScope
-import com.lychee.di.scope.FragmentScope
+import android.content.Context
+import com.lychee.di.qualifier.ActivityLevel
+import com.lychee.di.scope.ActivityScoped
+import com.lychee.di.scope.FragmentScoped
 import com.lychee.ui.main.page.home.HomeFragment
 import com.lychee.ui.main.page.home.HomeModule
 import com.lychee.ui.main.page.map.MapFragment
@@ -21,28 +23,29 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class MainModule {
 
-    @Binds @ActivityScope
+    @Binds @ActivityScoped @ActivityLevel
+    abstract fun provideMainActivityContext(mainActivity: MainActivity): Context
+
+    @Binds @ActivityScoped
     abstract fun provideViewModelFactory(mainViewModelFactory: MainViewModelFactory): ViewModelProvider.Factory
 
-    @FragmentScope
+    @FragmentScoped
     @ContributesAndroidInjector(modules = [HomeModule::class])
     abstract fun contributesHomeFragment() : HomeFragment
 
-    @FragmentScope
+    @FragmentScoped
     @ContributesAndroidInjector(modules = [RecordModule::class])
     abstract fun contributesRecordFragment() : RecordFragment
 
-    @FragmentScope
+    @FragmentScoped
     @ContributesAndroidInjector(modules = [MapModule::class])
     abstract fun contributesMapFragment() : MapFragment
 
-    @FragmentScope
+    @FragmentScoped
     @ContributesAndroidInjector(modules = [StatisticModule::class])
     abstract fun contributesStatisticFragment() : StatisticFragment
 
-    @FragmentScope
+    @FragmentScoped
     @ContributesAndroidInjector(modules = [SettingModule::class])
     abstract fun contributesSettingFragment() : SettingFragment
-
-
 }
