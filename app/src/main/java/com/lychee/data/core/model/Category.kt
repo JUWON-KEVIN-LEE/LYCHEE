@@ -1,5 +1,9 @@
 package com.lychee.data.core.model
 
-data class Category(
-        var category: String? = ""
-)
+import io.realm.RealmObject
+
+open class Category (
+        var id: Int = 0,
+        var category: String? = null,
+        var image: String? = null
+): RealmObject()

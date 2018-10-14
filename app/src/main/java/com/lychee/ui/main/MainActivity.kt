@@ -1,28 +1,42 @@
 package com.lychee.ui.main
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v4.view.ViewPager
+import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.Fragment
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import com.lychee.R
 import com.lychee.databinding.ActivityMainBinding
 import com.lychee.ui.add.AddActivity
-import com.lychee.ui.base.BaseActivityHasFragmentInjector
-import com.lychee.ui.main.adapter.MainViewPagerAdapter
+import com.lychee.ui.base.ui.BaseActivity
+import com.lychee.ui.home.HomeFragment
+import com.lychee.ui.map.MapFragment
+import com.lychee.ui.record.RecordFragment
+import com.lychee.ui.setting.SettingFragment
+import com.lychee.util.extensions.consume
 import com.lychee.util.extensions.gone
 import com.lychee.util.extensions.visible
-import com.lychee.view.main.disableShiftMode
+import com.lychee.widget.disableShiftMode
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
+import javax.inject.Inject
 
 /**
  * TODO
  * Config Change Handling
  */
 class MainActivity:
-        BaseActivityHasFragmentInjector<ActivityMainBinding, MainViewModel>(),
-        PageOnClickListener
+        BaseActivity<ActivityMainBinding, MainViewModel>(),
+        HasSupportFragmentInjector
 {
+
+    @Inject
+    lateinit var supportFragmentInjector: DispatchingAndroidInjector<Fragment>
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> = supportFragmentInjector
 
     override val layoutResId: Int
         get() = R.layout.activity_main
@@ -34,58 +48,109 @@ class MainActivity:
 
     private var prevBackButtonPressedTime: Long = 0L
 
+    private var mNavigationFragment: NavigationFragment? = null
+
+    @Inject lateinit var mSharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initView()
+
+        savedInstanceState
+                ?.let {
+                    mNavigationFragment =
+                            supportFragmentManager.findFragmentById(FRAGMENT_CONTAINER_ID) as? NavigationFragment
+                            ?: throw IllegalArgumentException("Activity Recreated. But Fragment Not Found.")
+                }
+                ?:let { mBinding.mainBottomNavigationView.selectedItemId = R.id.action_menu_home }
     }
 
     private fun initView() {
         with(mBinding) {
             mainBottomNavigationView.disableShiftMode()
 
-            mainBottomNavigationView.setOnNavigationItemSelectedListener {menuItem ->
+            mainBottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
                 when(menuItem.itemId) {
-                    R.id.action_menu_home -> {
-                        mainViewPager.currentItem = 0
-                        true
+                    R.id.action_menu_home -> consume {
+                        mainBottomNavigationView.selectBottomNavigationMenuItem(0)
+
+                        mainFloatingButton.visible()
+
+                        hideCurrentShowingFragment()
+
+                        val fragment = supportFragmentManager.findFragmentByTag(HomeFragment.TAG)
+
+                        if(fragment != null) {
+                            showFragment(fragment)
+                        } else {
+                            addFragment(
+                                    HomeFragment.newInstance().apply { mNavigationFragment = this },
+                                    HomeFragment.TAG
+                            )
+                        }
                     }
-                    R.id.action_menu_record -> {
-                        mainViewPager.currentItem = 1
-                        true
+
+                    R.id.action_menu_record -> consume {
+                        mainBottomNavigationView.selectBottomNavigationMenuItem(1)
+
+                        mainFloatingButton.visible()
+
+                        hideCurrentShowingFragment()
+
+                        val fragment = supportFragmentManager.findFragmentByTag(RecordFragment.TAG)
+
+                        if(fragment != null) {
+                            showFragment(fragment)
+                        } else {
+                            addFragment(
+                                    RecordFragment.newInstance().apply { mNavigationFragment = this },
+                                    RecordFragment.TAG
+                            )
+                        }
                     }
-                    R.id.action_menu_map -> {
-                        mainViewPager.currentItem = 2
-                        true
+
+                    R.id.action_menu_map -> consume {
+                        mainBottomNavigationView.selectBottomNavigationMenuItem(2)
+
+                        mainFloatingButton.gone()
+
+                        hideCurrentShowingFragment()
+
+                        val fragment = supportFragmentManager.findFragmentByTag(MapFragment.TAG)
+
+                        if(fragment != null) {
+                            showFragment(fragment)
+                        } else {
+                            addFragment(
+                                    MapFragment.newInstance().apply { mNavigationFragment = this },
+                                    MapFragment.TAG
+                            )
+                        }
                     }
-                    R.id.action_menu_setting -> {
-                        mainViewPager.currentItem = 3
-                        true
+
+                    R.id.action_menu_setting -> consume {
+                        mainBottomNavigationView.selectBottomNavigationMenuItem(3)
+
+                        mainFloatingButton.gone()
+
+                        hideCurrentShowingFragment()
+
+                        val fragment = supportFragmentManager.findFragmentByTag(SettingFragment.TAG)
+
+                        if(fragment != null) {
+                            showFragment(fragment)
+                        } else {
+                            addFragment(
+                                    SettingFragment.newInstance().apply { mNavigationFragment = this },
+                                    SettingFragment.TAG
+                            )
+                        }
                     }
-                    else -> throw IllegalArgumentException("unexpected error")
+
+                    else -> false
                 }
             }
-
-            mainViewPager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener {
-                override fun onPageScrollStateChanged(state: Int) {
-                    mainViewPager.lock = state == ViewPager.SCROLL_STATE_IDLE && mainViewPager.currentItem == 2
-                }
-
-                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
-
-                override fun onPageSelected(position: Int) {
-                    if(position > 1) { mBinding.mainFloatingButton.gone() }
-                    else { mBinding.mainFloatingButton.visible() }
-
-                    prevMenuItem
-                            ?.setChecked(false)
-                            ?:let { mainBottomNavigationView.menu.getItem(0).isChecked = false }
-
-                    mainBottomNavigationView.menu.getItem(position).isChecked = true
-                    prevMenuItem = mainBottomNavigationView.menu.getItem(position)
-                }
-            })
-            mainViewPager.adapter = MainViewPagerAdapter(supportFragmentManager)
 
             mainFloatingButton.setOnClickListener {
                 val intent = Intent(this@MainActivity, AddActivity::class.java)
@@ -94,16 +159,52 @@ class MainActivity:
         }
     }
 
-    /**
-     * 페이지 내부 뷰의 클릭 이벤트를 수신
-     */
-    override fun onPageClick(view: View) {
-        when(view.id) {
+    private fun hideCurrentShowingFragment() {
+        (mNavigationFragment as? Fragment)
+                ?.let { currentFragment ->
+                    supportFragmentManager
+                            .beginTransaction()
+                            .hide(currentFragment)
+                            .commitNow()
+                }
+    }
 
-        }
+    private fun showFragment(fragment: Fragment) {
+        supportFragmentManager
+                .beginTransaction()
+                .disallowAddToBackStack()
+                .show(fragment)
+                .commitNow()
+
+        mNavigationFragment =
+                fragment as? NavigationFragment
+                ?: throw IllegalArgumentException("Not a Navigation Fragment")
+    }
+
+    private fun addFragment(fragment: Fragment, tag: String) {
+        supportFragmentManager
+                .beginTransaction()
+                .disallowAddToBackStack()
+                .add(FRAGMENT_CONTAINER_ID, fragment, tag)
+                .commitNow()
+    }
+
+    private fun BottomNavigationView.selectBottomNavigationMenuItem(position: Int) {
+        prevMenuItem
+                ?.setChecked(false)
+                ?:let { menu.getItem(0).isChecked = false }
+
+        menu.getItem(position).isChecked = true
+        prevMenuItem = menu.getItem(position)
     }
 
     override fun onBackPressed() {
+        if(mNavigationFragment?.onBackPressed() == false) {
+            handleBackPressed()
+        }
+    }
+
+    private fun handleBackPressed() {
         if(prevBackButtonPressedTime == 0L) {
             prevBackButtonPressedTime = System.currentTimeMillis()
             onBackPressedFeedback(EXIT_MESSAGE)
@@ -123,10 +224,12 @@ class MainActivity:
             = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
     fun navigateToMapPage() {
-        mBinding.mainViewPager.currentItem = 2
+
     }
 
     companion object {
+        private const val FRAGMENT_CONTAINER_ID = R.id.mainFragmentContainer
+
         const val EXIT_MESSAGE = "한번 더 누르시면 종료됩니다."
         const val EXIT_TIMEOUT = 2000L
     }

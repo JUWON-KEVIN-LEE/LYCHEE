@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.main.page.home.HomeFragment">
+    tools:context=".ui.home.HomeFragment">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.lychee.ui.main.page.home.HomeViewModel"/>
+            type="com.lychee.ui.home.HomeViewModel" />
     </data>
 
     <LinearLayout
@@ -22,6 +22,7 @@
             android:background="@color/colorAccent" />
 
         <ScrollView
+            android:id="@+id/homeScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none">
@@ -31,8 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorSuperLightGrey"
-                android:paddingBottom="24dp"
-                android:scrollbars="none">
+                android:descendantFocusability="blocksDescendants">
 
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/homeToolbar"
@@ -44,313 +44,465 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/homeTitle"
+                        android:id="@+id/homeAppNameTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
+                        android:text="핀트리"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/homeTitleTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/home"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"
                         android:textStyle="normal|bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintBottom_toBottomOf="@+id/homeAppNameTextView"
+                        app:layout_constraintStart_toEndOf="@+id/homeAppNameTextView" />
 
                     <ImageView
-                        android:id="@+id/homeWeatherImageView"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginTop="16dp"
-                        app:layout_constraintEnd_toStartOf="@+id/homeWeatherTextView"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/homeTitle" />
-
-                    <TextView
-                        android:id="@+id/homeWeatherTextView"
+                        android:id="@+id/homeSearchImageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:gravity="center"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp"
-                        android:textStyle="normal"
-                        app:layout_constraintBottom_toBottomOf="@+id/homeWeatherImageView"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintStart_toEndOf="@+id/homeWeatherImageView"
-                        app:layout_constraintTop_toTopOf="@+id/homeWeatherImageView" />
-
-                    <TextView
-                        android:id="@+id/homeWelcomeTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:gravity="center_horizontal"
-                        android:text="안녕하세요. 사용자님 좋은 오후입니다."
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/homeWeatherImageView" />
-
-                    <TextView
-                        android:id="@+id/homeBriefTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="106dp"
-                        android:layout_marginTop="8dp"
-                        android:gravity="center_horizontal"
-                        android:text="사용자님을 위한 오늘의 브리핑입니다."
-                        android:textColor="@android:color/white"
-                        android:textStyle="normal"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/homeWelcomeTextView"
-                        app:layout_constraintStart_toStartOf="@+id/homeWelcomeTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/homeWelcomeTextView"
-                        app:layout_constraintVertical_bias="0.0" />
-
-                    <ImageView
-                        android:id="@+id/homeSearch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="16dp"
+                        android:padding="4dp"
                         android:tint="@android:color/white"
-                        app:srcCompat="@drawable/round_search_24"
-                        app:layout_constraintBottom_toBottomOf="@+id/homeTitle"
+                        app:layout_constraintBottom_toBottomOf="@+id/homeTitleTextView"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/homeTitle" />
-
-                </android.support.constraint.ConstraintLayout>
-
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/homeMonthOverview"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:background="@drawable/background_rectangle_corner_rounded_white"
-                    app:layout_constraintBottom_toBottomOf="@+id/homeToolbar"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/homeToolbar">
+                        app:layout_constraintTop_toTopOf="@+id/homeTitleTextView"
+                        app:srcCompat="@drawable/round_search_24" />
 
                     <TextView
-                        android:id="@+id/homeMonthTotalTextView"
+                        android:id="@+id/homeMonthValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="8월 총 잔액"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"
-                        android:textStyle="normal"
-                        app:layout_constraintBottom_toTopOf="@+id/homeMonthTotalValueTextView"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:layout_marginTop="16dp"
+                        android:text="0"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintStart_toStartOf="@+id/homeAppNameTextView"
+                        app:layout_constraintTop_toBottomOf="@+id/homeAppNameTextView" />
+
+                    <TextView
+                        android:id="@+id/homeAssetsTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="월 잔액"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintStart_toEndOf="@+id/homeMonthValue"
+                        app:layout_constraintTop_toTopOf="@+id/homeMonthValue" />
 
                     <TextView
                         android:id="@+id/homeMonthTotalValueTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:layout_marginBottom="16dp"
+                        android:letterSpacing="0.05"
+                        android:text="0"
+                        android:textColor="@android:color/white"
+                        android:textSize="30sp"
                         android:textStyle="normal|bold"
-                        app:highlightBalance="@{viewModel.monthTotalIncome - viewModel.monthTotalExpenditure}"
-                        app:layout_constraintBottom_toTopOf="@+id/homeMonthIncTextView"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/homeMonthTotalTextView"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/homeMonthValue"
+                        app:layout_constraintTop_toBottomOf="@+id/homeMonthValue"
                         app:toWon="@{viewModel.monthBalance}" />
 
                     <TextView
-                        android:id="@+id/homeMonthMoreInfoTextView"
+                        android:id="@+id/homeWonTextView3"
+                        android:layout_width="19dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginStart="2dp"
+                        android:text="원"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/homeMonthTotalValueTextView"
+                        app:layout_constraintStart_toEndOf="@+id/homeMonthTotalValueTextView" />
+
+                    <TextView
+                        android:id="@+id/homeMonthMoreTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginTop="12dp"
-                        android:padding="4dp"
+                        android:layout_marginStart="16dp"
+                        android:background="@drawable/background_rectangle_corner_rounded_white"
+                        android:paddingBottom="2dp"
+                        android:paddingEnd="4dp"
+                        android:paddingStart="4dp"
+                        android:paddingTop="2dp"
                         android:text="더보기"
-                        android:textStyle="normal"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/homeMonthExpTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="지출"
                         android:textColor="@android:color/black"
-                        android:textStyle="normal"
-                        app:layout_constraintEnd_toEndOf="@+id/homeMonthExpValueTextView"
-                        app:layout_constraintHorizontal_chainStyle="spread"
-                        app:layout_constraintStart_toStartOf="@+id/homeMonthExpValueTextView"
-                        app:layout_constraintTop_toTopOf="@+id/homeMonthIncTextView" />
-
-                    <TextView
-                        android:id="@+id/homeMonthIncTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="수입"
-                        android:textColor="@android:color/black"
-                        android:textStyle="normal"
-                        app:layout_constraintBottom_toTopOf="@+id/homeMonthIncValueTextView"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/homeMonthTotalValueTextView" />
-
-                    <TextView
-                        android:id="@+id/homeMonthExpCountTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="지출 건수"
-                        android:textColor="@android:color/black"
-                        android:textStyle="normal"
-                        app:layout_constraintEnd_toEndOf="@+id/homeMonthExpCountValueTextView"
-                        app:layout_constraintHorizontal_chainStyle="spread"
-                        app:layout_constraintStart_toStartOf="@+id/homeMonthExpCountValueTextView"
-                        app:layout_constraintTop_toTopOf="@+id/homeMonthIncTextView" />
-
-                    <TextView
-                        android:id="@+id/homeMonthExpValueTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@android:color/black"
-                        android:textStyle="normal"
-                        app:layout_constraintEnd_toStartOf="@+id/homeMonthIncValueTextView"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/homeMonthIncValueTextView"
-                        app:toWon="@{viewModel.monthTotalExpenditure}" />
-
-                    <TextView
-                        android:id="@+id/homeMonthIncValueTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:textColor="@android:color/black"
-                        android:textStyle="normal"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/homeMonthIncTextView"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="@+id/homeMonthIncTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/homeMonthIncTextView"
-                        app:toWon="@{viewModel.monthTotalIncome}" />
-
-                    <TextView
-                        android:id="@+id/homeMonthExpCountValueTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@android:color/black"
-                        android:textStyle="normal"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/homeMonthIncValueTextView"
-                        app:layout_constraintTop_toTopOf="@+id/homeMonthIncValueTextView"
-                        app:toCount="@{viewModel.monthCount}" />
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/homeWonTextView3"
+                        app:layout_constraintStart_toEndOf="@+id/homeWonTextView3" />
 
                 </android.support.constraint.ConstraintLayout>
 
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/homeRecentRecordParentLayout"
+                <android.support.v7.widget.CardView
+                    android:id="@+id/homeRecentRecordCardView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:background="@drawable/background_rectangle_corner_rounded_white"
+                    app:cardCornerRadius="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/homeMonthOverview">
+                    app:layout_constraintTop_toBottomOf="@+id/homeBudgetCardView">
 
-                    <TextView
-                        android:id="@+id/homeRecentExpTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:text="최근 소비내역"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"
-                        android:textStyle="normal"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/homeRecentRecordParentLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/homeRecentRecyclerView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/homeRecentExpTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/homeRecentExpTextView" />
-                </android.support.constraint.ConstraintLayout>
+                        <TextView
+                            android:id="@+id/homeRecentExpTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="12dp"
+                            android:text="최근 소비내역"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:textStyle="normal"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/homeMapParentLayout"
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/homeRecentRecyclerView"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintBottom_toTopOf="@+id/homeRecentMoreTextView"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/homeRecentExpTextView"
+                            tools:listitem="@layout/item_recycler_view_common" />
+
+                        <TextView
+                            android:id="@+id/homeRecentMoreTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:padding="4dp"
+                            android:text="더보기"
+                            android:textColor="@android:color/black"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/homeMapCardView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="32dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    app:cardCornerRadius="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/homeRecentRecordCardView">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/homeMapParentLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/homeExpMapTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="12dp"
+                            android:text="소비 지도"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:textStyle="normal"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.gms.maps.MapView
+                            android:id="@+id/homeMapView"
+                            android:layout_width="0dp"
+                            android:layout_height="140dp"
+                            android:layout_marginBottom="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/homeExpMapTextView" />
+
+                        <TextView
+                            android:id="@+id/homeMapShopTextView"
+                            android:layout_width="0dp"
+                            android:layout_height="70dp"
+                            android:background="@drawable/background_gradient_black"
+                            android:paddingStart="8dp"
+                            android:paddingTop="8dp"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp"
+                            app:layout_constraintEnd_toEndOf="@+id/homeMapView"
+                            app:layout_constraintStart_toStartOf="@+id/homeMapView"
+                            app:layout_constraintTop_toTopOf="@+id/homeMapView" />
+
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/homeExpenseCardView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    app:cardBackgroundColor="@android:color/background_light"
+                    app:cardCornerRadius="8dp"
+                    app:layout_constraintEnd_toStartOf="@+id/homeIncomeCardView"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/homeToolbar">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/homeExpenseParentLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/homeExpenseTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="12dp"
+                            android:text="지출"
+                            android:textColor="@android:color/black"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/homeExpenseValue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginTop="8dp"
+                            android:maxLines="1"
+                            android:text="1,500,000"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:autoSizeTextType="uniform"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/homeExpenseTextView"
+                            app:layout_constraintTop_toBottomOf="@+id/homeExpenseTextView" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/homeExpenseDeltaValue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:layout_marginEnd="8dp"
+                            android:maxLines="1"
+                            android:text="+10,000"
+                            android:textColor="@android:color/black"
+                            app:autoSizeTextType="uniform"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/homeExpenseTextView"
+                            app:layout_constraintTop_toBottomOf="@+id/homeExpenseDeltaTextView" />
+
+                        <TextView
+                            android:id="@+id/homeExpenseDeltaTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="오늘 변동량"
+                            app:layout_constraintStart_toStartOf="@+id/homeExpenseValue"
+                            app:layout_constraintTop_toBottomOf="@+id/homeExpenseValue" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/homeIncomeCardView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="8dp"
+                    app:cardBackgroundColor="@android:color/background_light"
+                    app:cardCornerRadius="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/homeExpenseCardView"
+                    app:layout_constraintTop_toTopOf="@+id/homeExpenseCardView">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/homeIncomeParentLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/homeIncomeTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="12dp"
+                            android:text="수입"
+                            android:textColor="@android:color/black"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/homeIncomeValue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginTop="8dp"
+                            android:maxLines="1"
+                            android:text="200,000"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:autoSizeTextType="uniform"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_chainStyle="packed"
+                            app:layout_constraintStart_toStartOf="@+id/homeIncomeTextView"
+                            app:layout_constraintTop_toBottomOf="@+id/homeIncomeTextView" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/homeIncomeDeltaValue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:layout_marginEnd="8dp"
+                            android:maxLines="1"
+                            android:text="+1,000"
+                            android:textColor="@android:color/black"
+                            app:autoSizeTextType="uniform"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/homeIncomeTextView"
+                            app:layout_constraintTop_toBottomOf="@+id/homeIncomeDeltaTextView" />
+
+                        <TextView
+                            android:id="@+id/homeIncomeDeltaTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="오늘 변동량"
+                            app:layout_constraintStart_toStartOf="@+id/homeIncomeValue"
+                            app:layout_constraintTop_toBottomOf="@+id/homeIncomeValue" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/homeBudgetCardView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:background="@drawable/background_rectangle_corner_rounded_white"
+                    app:cardCornerRadius="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/homeRecentRecordParentLayout">
+                    app:layout_constraintTop_toBottomOf="@+id/homeExpenseCardView">
 
-                    <TextView
-                        android:id="@+id/homeExpMapTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:text="소비 지도"
-                        android:textColor="@android:color/black"
-                        android:textStyle="normal"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/homeBudgetParentLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    <FrameLayout
-                        android:id="@+id/homeMapContainer"
-                        android:layout_width="0dp"
-                        android:layout_height="140dp"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/homeExpMapTextView">
-
-                        <com.google.android.gms.maps.MapView
-                            android:id="@+id/homeMapView"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+                        <ProgressBar
+                            android:id="@+id/homeBudgetProgressBar"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="0dp"
+                            android:layout_height="6dp"
+                            android:layout_marginBottom="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:max="100"
+                            android:progress="75"
+                            android:progressDrawable="@drawable/background_gradient_progress"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/homeBudgetPriceValue" />
 
                         <TextView
-                            android:id="@+id/homeMapShopTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="80dp"
-                            android:background="@drawable/background_gradient_black"
-                            android:text="삼양시장 떡볶이\n삼양동, 강북구, 서울특별시, 대한민국"
-                            android:textColor="@android:color/white"
-                            android:textSize="12sp" />
-                    </FrameLayout>
-                </android.support.constraint.ConstraintLayout>
+                            android:id="@+id/homeBudgetTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="12dp"
+                            android:text="예산"
+                            android:textColor="@android:color/black"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/homeBudgetPriceTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="설정한 금액"
+                            app:layout_constraintStart_toStartOf="@+id/homeBudgetTextView"
+                            app:layout_constraintTop_toBottomOf="@+id/homeBudgetTextView" />
+
+                        <TextView
+                            android:id="@+id/homeBudgetPriceValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1,000"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintHorizontal_chainStyle="spread_inside"
+                            app:layout_constraintStart_toStartOf="@+id/homeBudgetPriceTextView"
+                            app:layout_constraintTop_toBottomOf="@+id/homeBudgetPriceTextView" />
+
+                        <android.support.constraint.Barrier
+                            android:id="@+id/homeBudgetBarrier"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:barrierDirection="end"
+                            app:constraint_referenced_ids="homeBudgetPriceTextView,homeBudgetPriceValue" />
+
+                        <TextView
+                            android:id="@+id/homeExpenseTextView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="지출된 금액"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/homeBudgetBarrier"
+                            app:layout_constraintTop_toTopOf="@+id/homeBudgetPriceTextView" />
+
+                        <TextView
+                            android:id="@+id/homeExpensePriceValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1,000"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="@+id/homeExpenseTextView2"
+                            app:layout_constraintTop_toBottomOf="@+id/homeExpenseTextView2" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+
             </android.support.constraint.ConstraintLayout>
         </ScrollView>
     </LinearLayout>

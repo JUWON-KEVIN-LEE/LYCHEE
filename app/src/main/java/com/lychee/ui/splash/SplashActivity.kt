@@ -1,14 +1,14 @@
 package com.lychee.ui.splash
 
 import android.Manifest
-import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.Handler
 import com.lychee.R
 import com.lychee.databinding.ActivitySplashBinding
-import com.lychee.ui.base.BaseActivity
-import com.lychee.ui.main.MainActivity
+import com.lychee.ui.base.ui.BaseActivity
+import com.lychee.util.extensions.gone
 import pub.devrel.easypermissions.EasyPermissions
+import javax.inject.Inject
 
 class SplashActivity:
         BaseActivity<ActivitySplashBinding, SplashViewModel>(),
@@ -26,18 +26,27 @@ class SplashActivity:
             Manifest.permission.READ_SMS,
             Manifest.permission.RECEIVE_SMS)
 
+    @Inject lateinit var mSharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mBinding.splashStartButton.setOnClickListener { startMainActivityDelayed() }
+        mBinding.splashIntroLayout.gone()
+
+        mBinding.splashStartButton.setOnClickListener { finish() }
     }
 
     override fun onResume() {
         super.onResume()
 
-        // Refactor Logic TODO
         if(EasyPermissions.hasPermissions(this, *permissions)) {
+            /* Unreachable */
+            with(mSharedPreferences.edit()) {
+                putBoolean("permission", true)
+                apply()
+            }
 
+            finish()
         } else {
             EasyPermissions.requestPermissions(
                     this,
@@ -48,24 +57,26 @@ class SplashActivity:
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        startMainActivityDelayed()
+        with(mSharedPreferences.edit()) {
+            putBoolean("permission", true)
+            apply()
+        }
+
+        finish()
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        startMainActivityDelayed()
+        with(mSharedPreferences.edit()) {
+            putBoolean("permission", false)
+            apply()
+        }
+
+        finish()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
-    }
-
-    private fun startMainActivityDelayed() {
-        Handler().postDelayed({
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }, 500L)
     }
 
     companion object {

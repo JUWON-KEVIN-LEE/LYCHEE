@@ -2,12 +2,29 @@
 <resources>
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#8c000000</color>
-    <color name="colorAccent">#567df3</color>
+    <color name="colorAccent">#6565ff</color>
 
+    <color name="colorAccent2">#0038a5</color>
+
+    <color name="colorAccentStart">#8c5ee5</color>
+    <color name="colorAccentEnd">#593cca</color>
+
+    <color name="colorBlueAccentStart">#0a83ee</color>
+    <color name="colorBlueAccentEnd">#023fea</color>
+
+    <color name="colorGreenAccentStart">#5e9a90</color>
+    <color name="colorGreenAccentEnd">#206f76</color>
+
+    <color name="recordTextColor">#1b2c6d</color>
+    <color name="recordUnderTextColor">#88a2c4</color>
+
+    <color name="colorCard0">#17c264</color>
+    <color name="colorCard1">#ed376f</color>
+    <color name="colorCard2">#37b5ed</color>
+    <color name="colorCard3">#212121</color>
 
     <color name="colorAccentGreen">#17c264</color>
 
-    <color name="colorSelected">#4182eb</color>
 
     <color name="colorSuperLightGrey">#e2f0f0f0</color>
 

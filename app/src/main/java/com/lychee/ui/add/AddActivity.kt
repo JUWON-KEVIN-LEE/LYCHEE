@@ -1,12 +1,27 @@
 package com.lychee.ui.add
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.location.LocationManager
 import android.os.Bundle
+import android.provider.MediaStore
+import android.support.v7.widget.LinearLayoutManager
+import com.google.android.gms.location.places.PlaceDetectionClient
+import com.google.android.gms.location.places.ui.PlacePicker
 import com.lychee.R
+import com.lychee.data.core.model.Place
 import com.lychee.databinding.ActivityAddBinding
-import com.lychee.ui.base.BaseActivity
+import com.lychee.ui.add.adapter.image.AddImageRecyclerViewAdapter
+import com.lychee.ui.add.adapter.place.AddPlaceRecyclerViewAdapter
+import com.lychee.ui.base.ui.BaseActivity
+import com.lychee.util.extensions.gone
+import com.lychee.util.extensions.visible
 import pub.devrel.easypermissions.EasyPermissions
+import java.util.*
+import javax.inject.Inject
 
 class AddActivity : BaseActivity<ActivityAddBinding, AddViewModel>() {
 
@@ -16,104 +31,285 @@ class AddActivity : BaseActivity<ActivityAddBinding, AddViewModel>() {
     override val viewModelClass: Class<AddViewModel>
         get() = AddViewModel::class.java
 
-    // private val mCompositeDisposable = CompositeDisposable()
+    private val permissions= arrayOf(
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            android.Manifest.permission.READ_EXTERNAL_STORAGE,
+            android.Manifest.permission.CAMERA
+    )
+
+    private val locationPermission = android.Manifest.permission.ACCESS_FINE_LOCATION
+
+    private var permissionsGranted: Boolean = false
+
+    /* MOVE TO GPS PROVIDER SETTING */
+    private var locationPermissionGranted: Boolean = false
+
+    @Inject lateinit var mPlaceDetectionClient: PlaceDetectionClient
+
+    private val mToday = Calendar.getInstance()
+
+    private val mOnDateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+        val isToday = (year == mToday.get(Calendar.YEAR)
+                && month == mToday.get(Calendar.MONTH)
+                && dayOfMonth == mToday.get(Calendar.DATE))
+
+        mBinding.addDateTextView.text = if(isToday) "오늘" else "${year}년 ${month + 1}월 ${dayOfMonth}일"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if(permissionsGranted || EasyPermissions.hasPermissions(this@AddActivity, *permissions)) {
+            permissionsGranted = true
+        }
+
+        if(locationPermissionGranted ||
+                (EasyPermissions.hasPermissions(this@AddActivity, locationPermission) &&
+                        (getSystemService(Context.LOCATION_SERVICE) as LocationManager).isProviderEnabled(LocationManager.GPS_PROVIDER))) {
+            locationPermissionGranted = true
+
+            findCurrentPlaces()
+        } else {
+            requestLocationPermission()
+        }
+
+        initView()
+
+        if(permissionsGranted) loadAllImagesFromGallery()
+
+        // if(locationPermissionGranted)
+    }
+
+    private fun initView() {
         with(mBinding) {
-            /*
-            * TODO
-            * */
-            addPhotoLayout.setOnClickListener {
-                if(EasyPermissions.hasPermissions(this@AddActivity, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    EasyPermissions.requestPermissions(
-                            this@AddActivity,
-                            "",
-                            EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE,
-                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            /**
+             * 뒤로 가기 버튼
+             */
+            addBackButton.setOnClickListener { finish() }
+
+            /**
+             * 날짜 선택
+             */
+            addDateLayout.setOnClickListener {
+                val initial = addDateTextView.text == "오늘"
+
+                val year: Int
+                val month: Int
+                val dayOfMonth: Int
+
+                if(initial) {
+                    year = mToday.get(Calendar.YEAR)
+                    month = mToday.get(Calendar.MONTH)
+                    dayOfMonth = mToday.get(Calendar.DATE)
                 } else {
-                    val intent = Intent(Intent.ACTION_GET_CONTENT)
-                    intent.addCategory(Intent.CATEGORY_OPENABLE)
-                    intent.type = "image/*"
-                    startActivityForResult(Intent.createChooser(intent, "사진을 선택하세요."), GALLERY_REQUEST_CODE)
+                    val d = addDateTextView.text.split(". ")
+
+                    year = d[0].toInt()
+                    month = d[1].toInt() - 1
+                    dayOfMonth = d[2].toInt()
+                }
+
+                AddDatePicker.newInstance(mOnDateSetListener, year, month, dayOfMonth, initial)
+                        .show(supportFragmentManager, AddDatePicker.TAG)
+            }
+
+            /**
+             * 장소 선택
+             */
+            addPlaceLayout.setOnClickListener {
+                try {
+                    val intent = PlacePicker.IntentBuilder().build(this@AddActivity)
+
+                    startActivityForResult(intent, PLACE_PICKER_REQUEST_CODE)
+                } catch (exception: Exception) {
+                    exception.printStackTrace()
                 }
             }
-            /*
-            addPriceEditText
 
-                    .textChanges()
-                    .subscribeOn(AndroidSchedulers.mainThread())
-                    .skip(1)
-                    .filter { it.length != 1 }
-                    .subscribe()
-                    .addTo(mCompositeDisposable)
-                    */
+            addPlaceRecyclerView.apply {
+                adapter = AddPlaceRecyclerViewAdapter(context)
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            }
+
             /**
-             * 사진 추가 버튼을 클릭하면
-             * 일단 권한 요청을 합니다!
-             * 관련 권한은 EXTERNAL ~~ 구글링을 해보면 나옵니다.
-             *
-             * 그렇게 권한 요청을 해서 성공을 하면 갤러리에 있는 사진을 가져와서 RecyclerView 에 세팅합니다.
-             * 그리고 만약 권한이 승인되어있는 상태였다면 바로 갤러리에 있는 사진을 가져옵니다.
-             *
-             * http://superwony.tistory.com/5
-             *
-             * 학생들을 가르치며 보람을 느낍니다.
-             * 언젠가는 한번 가르쳐 보고 싶습니다.
-             * 그게 언제일까요.
-             * 흠
-             *
-             * 어떻게 해야 되지?
-             * 사진을 먼저 찍게 해야되나?
-             저렇게 하면 좋을거 같다!
-             0번째는 사진 찍는 버튼 그 이후로 갤러리~
+             * 메모
              */
+            addMemoLayout.setOnClickListener {
+
+            }
+
+            /**
+             * 사진 선택
+             */
+            addPhotoLayout.setOnClickListener {
+                if(permissionsGranted || EasyPermissions.hasPermissions(this@AddActivity, *permissions)) {
+                    permissionsGranted = true
+
+                    selectImagesFromGallery()
+                } else {
+                    requestPermissions()
+                }
+            }
+
+            addPhotoRecyclerView.apply {
+                adapter = AddImageRecyclerViewAdapter(this@AddActivity)
+                layoutManager = LinearLayoutManager(this@AddActivity, LinearLayoutManager.HORIZONTAL, false)
+            }
         }
+    }
+
+    private fun loadAllImagesFromGallery() {
+        val images = mutableListOf<String>()
+
+        val isSDCardAvailable = android.os.Environment.getExternalStorageState() == android.os.Environment.MEDIA_MOUNTED
+
+        val uri = if(isSDCardAvailable) MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        else MediaStore.Images.Media.INTERNAL_CONTENT_URI
+
+        val projections = arrayOf(
+                MediaStore.Images.Media._ID,
+                MediaStore.Images.Media.DATA)
+
+        val cursor = contentResolver.query(
+                uri,
+                projections,
+                null,
+                null,
+                MediaStore.Images.Media.DATE_TAKEN + " DESC")
+
+        with(cursor) {
+            if(cursor.count > 0) {
+                for(index in 0 until count) {
+                    cursor.moveToPosition(index)
+
+                    val id = getString(getColumnIndexOrThrow(MediaStore.Images.Media._ID))
+                    val uri = getString(getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
+
+                    images.add(uri)
+                }
+
+                (mBinding.addPhotoRecyclerView.adapter as? AddImageRecyclerViewAdapter)?.images = images
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun findCurrentPlaces() {
+        mPlaceDetectionClient.getCurrentPlace(null)
+                .addOnCompleteListener { task ->
+                    with(task) {
+                        if(isSuccessful && result != null) {
+                            val places = mutableListOf<Place>()
+
+                            for(placeLikelihood in result) {
+                                with(placeLikelihood.place) {
+                                    places.add(
+                                            Place(
+                                                    name = name?.toString(),
+                                                    address = address?.toString(),
+                                                    latitude = latLng.latitude,
+                                                    longitude = latLng.longitude)
+                                    )
+                                }
+                            }
+
+                            (mBinding.addPlaceRecyclerView.adapter as? AddPlaceRecyclerViewAdapter)
+                                    ?.places = places
+                        } else {
+                            mBinding.addPlaceRecyclerView.gone()
+                        }
+                    }
+                }
+    }
+
+    private fun selectImagesFromGallery() {
+        val intent = Intent(Intent.ACTION_PICK).apply {
+            type = MediaStore.Images.Media.CONTENT_TYPE
+            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        }
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGES_FROM_GALLERY_REQUEST_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == Activity.RESULT_OK) {
-            try {
+            when(requestCode) {
+                PICK_IMAGES_FROM_GALLERY_REQUEST_CODE -> {
 
-            } catch (e: Exception) {
+                }
+                TAKE_PHOTO_REQUEST_CODE -> {
 
+                }
+                PLACE_PICKER_REQUEST_CODE -> {
+                    val place = PlacePicker.getPlace(this, data)
+
+                    with(mBinding) {
+                        addPlaceRecyclerView.gone()
+
+                        addPlaceResultCardView.visible()
+                        addPlaceResultTextView.text = "${place.name}\n${place.address}"
+                    }
+                }
             }
         }
     }
 
-    private fun requestPermission() {
+    private fun requestPermissions() {
         EasyPermissions.requestPermissions(this,
-                "사진을 등록하기 위해서는 저장소에 대한 권한을 승인해주셔야 합니다.",
-                EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                "사진을 등록하기 위해서는 권한을 승인해주세요.",
+                IMAGE_PERMISSION_REQUEST_CODE,
+                *permissions)
+    }
+
+    private fun requestLocationPermission() {
+        EasyPermissions.requestPermissions(this,
+                "위치 서비스를 사용하기 위해서는 권한을 승인해주세요.",
+                IMAGE_PERMISSION_REQUEST_CODE,
+                locationPermission)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, object: EasyPermissions.PermissionCallbacks {
-            override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
 
-            }
+        EasyPermissions.onRequestPermissionsResult(
+                requestCode,
+                permissions,
+                grantResults,
+                object: EasyPermissions.PermissionCallbacks {
+                    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {}
 
-            override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-                when(requestCode) {
-                    EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE -> {
-                        /* GALLERY 로 가면 된다. */
+                    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+                        when(requestCode) {
+                            IMAGE_PERMISSION_REQUEST_CODE -> {
+                                permissionsGranted = true
+
+                                loadAllImagesFromGallery()
+                            }
+
+                            LOCATION_PERMISSION_REQUEST_CODE -> {
+                                locationPermissionGranted =
+                                        (getSystemService(Context.LOCATION_SERVICE) as LocationManager)
+                                                .isProviderEnabled(LocationManager.GPS_PROVIDER)
+
+                                if(locationPermissionGranted) findCurrentPlaces()
+                            }
+                        }
                     }
-                }
-            }
 
-            override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-
-            }
-        })
+                    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {}
+                })
     }
 
     companion object {
-        private const val GALLERY_REQUEST_CODE = 11
+        const val PLACE_PICKER_REQUEST_CODE = 2
 
-        private const val EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 10
+        private const val PICK_IMAGES_FROM_GALLERY_REQUEST_CODE = 8
+
+        const val TAKE_PHOTO_REQUEST_CODE = 9
+
+        /* PERMISSION REQUEST CODE */
+        private const val IMAGE_PERMISSION_REQUEST_CODE = 10
+
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 11
     }
 }

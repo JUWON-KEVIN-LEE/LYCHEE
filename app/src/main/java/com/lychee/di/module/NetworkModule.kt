@@ -23,7 +23,7 @@ class NetworkModule {
             = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
 
     @Provides @ApplicationScoped
-    fun provideCache(@ApplicationLevel context: Context) : Cache
+    fun provideCache(context: Context) : Cache
             = Cache(context.cacheDir, 10 * 10 * 1024L)
 
     @Provides @ApplicationScoped

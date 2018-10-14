@@ -27,6 +27,11 @@
         <!-- 스플래시 -->
         <activity
             android:name=".ui.splash.SplashActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 메인 -->
+        <activity
+            android:name=".ui.main.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,24 +40,20 @@
             </intent-filter>
         </activity>
 
-        <!-- 메인 -->
-        <activity
-            android:name=".ui.main.MainActivity"
-            android:screenOrientation="portrait" />
-
         <!-- 추가 -->
         <activity
             android:name=".ui.add.AddActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.settings.MyCardActivity" />
+        <activity android:name=".ui.search.SearchActivity" />
 
-        <receiver android:name=".sms.SmsRecevier">
+        <receiver android:name=".sms.receiver.SmsRecevier">
             <intent-filter android:priority="10000">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
 
-        <activity android:name=".ui.settings.MyCardActivity" />
-        <activity android:name=".ui.search.SearchActivity"></activity>
+        <activity android:name=".ui.launch.LaunchActivity"></activity>
     </application>
 
 </manifest>

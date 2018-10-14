@@ -12,8 +12,7 @@
             android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:background="@android:color/background_light"
-            android:paddingBottom="200dp"
-            android:onClick="navigate">
+            android:paddingBottom="200dp">
 
             <LinearLayout
                 android:id="@+id/mainDrawerHeader"

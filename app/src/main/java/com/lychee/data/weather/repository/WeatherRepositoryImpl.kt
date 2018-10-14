@@ -1,16 +1,25 @@
 package com.lychee.data.weather.repository
 
-import android.arch.lifecycle.LiveData
 import com.google.android.gms.maps.model.LatLng
-import com.lychee.data.common.Resource
-import com.lychee.data.weather.model.WResponse
-import com.lychee.data.weather.remote.WeatherRemoteDataSource
+import com.lychee.data.weather.model.WeatherResponse
+import com.lychee.data.weather.remote.WeatherApi
+import com.lychee.di.scope.ApplicationScoped
+import io.reactivex.Single
 import javax.inject.Inject
 
+@ApplicationScoped
 class WeatherRepositoryImpl @Inject constructor(
-        private val weatherRemoteDataSource: WeatherRemoteDataSource
+        private val weatherApi: WeatherApi
 ): WeatherRepository {
 
-    override fun getWeatherByCoordinates(latLng: LatLng): LiveData<Resource<WResponse>>
-            = weatherRemoteDataSource.getWeatherByCoordinates(latLng)
+    override fun fetchWeatherByCoordinates(latLng: LatLng): Single<WeatherResponse> {
+
+        return weatherApi.fetchWeather(
+                mutableMapOf(
+                        Pair("lat", latLng.latitude.toString()),
+                        Pair("lon", latLng.longitude.toString()),
+                        Pair("appid", "878d7026e3ade7448f1dda3538c9d93f"),
+                        Pair("lang","kr"))
+        )
+    }
 }

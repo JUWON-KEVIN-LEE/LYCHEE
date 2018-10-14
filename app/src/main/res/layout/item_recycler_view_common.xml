@@ -6,24 +6,38 @@
 
     <data>
         <variable
-            name="expenditure"
-            type="com.lychee.data.core.model.Expenditure"/>
+            name="expense"
+            type="com.lychee.data.core.model.Expense"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp">
 
-        <ImageView
-            android:id="@+id/commonCategoryImageView"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
+        <android.support.v7.widget.CardView
+            android:id="@+id/commonCategoryCardView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
+            app:cardBackgroundColor="@color/colorAccent"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@color/LightGrey" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/commonCategoryImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:tint="@android:color/white"
+                app:srcCompat="@drawable/round_local_dining_black_24" />
+
+        </android.support.v7.widget.CardView>
 
         <TextView
             android:id="@+id/commonShopNameTextView"
@@ -33,46 +47,36 @@
             android:layout_marginStart="16dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{expenditure.shopName}"
             android:textColor="@android:color/black"
             android:textStyle="normal"
-            app:layout_constraintBottom_toTopOf="@+id/commonDateTextView"
+            app:layout_constraintBottom_toTopOf="@+id/commonCardTextView"
             app:layout_constraintEnd_toStartOf="@+id/commonPriceTextView"
-            app:layout_constraintStart_toEndOf="@+id/commonCategoryImageView"
-            app:layout_constraintTop_toTopOf="@+id/commonCategoryImageView"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toEndOf="@+id/commonCategoryCardView"
+            app:layout_constraintTop_toTopOf="@+id/commonCategoryCardView"
             app:layout_constraintVertical_chainStyle="packed" />
-
-        <TextView
-            android:id="@+id/commonDateTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="2dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text='@{expenditure.date+" "+expenditure.time}'
-            android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="@+id/commonCategoryImageView"
-            app:layout_constraintEnd_toStartOf="@+id/commonCardTextView"
-            app:layout_constraintStart_toStartOf="@+id/commonShopNameTextView"
-            app:layout_constraintTop_toBottomOf="@+id/commonShopNameTextView" />
 
         <TextView
             android:id="@+id/commonPriceTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
-            android:textStyle="bold"
+            android:letterSpacing=".05"
+            app:layout_constraintBottom_toBottomOf="@+id/commonCardTextView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/commonShopNameTextView"
-            app:toWon="@{expenditure.price}" />
+            app:layout_constraintTop_toTopOf="@+id/commonShopNameTextView" />
 
         <TextView
             android:id="@+id/commonCardTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{expenditure.cardName}"
-            app:layout_constraintBottom_toBottomOf="@+id/commonDateTextView"
-            app:layout_constraintEnd_toEndOf="@+id/commonPriceTextView" />
+            android:textColor="@color/LightGrey"
+            app:layout_constraintBottom_toBottomOf="@+id/commonCategoryCardView"
+            app:layout_constraintEnd_toEndOf="@+id/commonShopNameTextView"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@+id/commonShopNameTextView"
+            app:layout_constraintTop_toBottomOf="@+id/commonShopNameTextView" />
     </android.support.constraint.ConstraintLayout>
 </layout>

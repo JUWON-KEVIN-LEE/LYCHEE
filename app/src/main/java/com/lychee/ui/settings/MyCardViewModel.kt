@@ -1,7 +1,10 @@
 package com.lychee.ui.settings
 
-import com.lychee.ui.base.BaseViewModel
+import com.lychee.ui.base.viewmodel.BaseViewModel
+import javax.inject.Inject
 
-class MyCardViewModel: BaseViewModel() { //
+class MyCardViewModel @Inject constructor(
+
+): BaseViewModel() {
 
 }

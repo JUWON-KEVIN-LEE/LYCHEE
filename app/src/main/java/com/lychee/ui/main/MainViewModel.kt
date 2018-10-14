@@ -1,27 +1,26 @@
 package com.lychee.ui.main
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
-import com.lychee.data.core.model.Expenditure
-import com.lychee.mock.MockData
-import com.lychee.ui.base.BaseViewModel
+import com.lychee.data.core.model.Expense
+import com.lychee.data.core.repository.ExpenseRepository
+import com.lychee.ui.base.viewmodel.BaseViewModel
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor() : BaseViewModel() {
+class MainViewModel @Inject constructor(
+        private val expenseRepository: ExpenseRepository
+) : BaseViewModel() {
 
-    private val _expenditures = MutableLiveData<List<Expenditure>>()
+    private val _expenditures = MediatorLiveData<List<Expense>>()
+    val expenditures: LiveData<List<Expense>>
+        get() = _expenditures
 
-    val expenditures: LiveData<List<Expenditure>> get() = _expenditures
-
-    private val _searchResult = MutableLiveData<Expenditure>()
-
-    val searchResult: LiveData<Expenditure> get() = _searchResult
+    private val _searchResult = MutableLiveData<Expense>()
+    val searchResult: LiveData<Expense>
+        get() = _searchResult
 
     init {
-        _expenditures.value = emptyList()
-    }
 
-    fun fetchExpendituresFromDB() {
-        _expenditures.value = MockData.get()
     }
 }

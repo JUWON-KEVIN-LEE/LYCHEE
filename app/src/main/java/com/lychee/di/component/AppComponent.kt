@@ -1,10 +1,7 @@
 package com.lychee.di.component
 
 import com.lychee.Application
-import com.lychee.di.module.ActivityBindingModule
-import com.lychee.di.module.AppModule
-import com.lychee.di.module.NetworkModule
-import com.lychee.di.module.RepositoryModule
+import com.lychee.di.module.*
 import com.lychee.di.scope.ApplicationScoped
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -16,7 +13,10 @@ import dagger.android.support.AndroidSupportInjectionModule
     AppModule::class,
     ActivityBindingModule::class,
     NetworkModule::class,
-    RepositoryModule::class
+    RepositoryModule::class,
+    SharedPreferenceModule::class,
+    LocationModule::class,
+    ViewModelModule::class
 ])
 interface AppComponent : AndroidInjector<Application> {
 

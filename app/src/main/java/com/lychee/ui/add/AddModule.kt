@@ -1,13 +1,16 @@
 package com.lychee.ui.add
 
-import android.arch.lifecycle.ViewModelProvider
-import com.lychee.di.scope.ActivityScoped
+import android.arch.lifecycle.ViewModel
+import com.lychee.di.qualifier.ViewModelKey
 import dagger.Binds
 import dagger.Module
+import dagger.multibindings.IntoMap
 
 @Module
 abstract class AddModule {
 
-    @Binds @ActivityScoped
-    abstract fun provideViewModelFactory(addViewModelFactory: AddViewModelFactory): ViewModelProvider.Factory
+    @Binds
+    @IntoMap
+    @ViewModelKey(AddViewModel::class)
+    abstract fun bindAddViewModel(addViewModel: AddViewModel): ViewModel
 }

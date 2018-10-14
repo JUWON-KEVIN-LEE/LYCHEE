@@ -14,6 +14,8 @@ class MyCardPagerAdapter constructor(
         private val context: Context
 ): PagerAdapter() {
 
+    private val colors = arrayOf(R.color.colorCard0, R.color.colorCard1, R.color.colorCard2, R.color.colorCard3)
+
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val mBinding = DataBindingUtil.inflate<ItemViewPagerMyCardBinding>(
                 LayoutInflater.from(context),
@@ -21,10 +23,7 @@ class MyCardPagerAdapter constructor(
                 container,
                 false)
 
-        // TEST
-        if(position % 2 != 0) {
-            mBinding.itemMyCardParentLayout.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorAccentGreen))
-        }
+        mBinding.itemMyCardParentLayout.setCardBackgroundColor(ContextCompat.getColor(context, colors[position % 4]))
 
         container.addView(mBinding.root)
 

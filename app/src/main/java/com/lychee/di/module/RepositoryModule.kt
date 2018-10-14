@@ -1,7 +1,7 @@
 package com.lychee.di.module
 
-import com.lychee.data.weather.remote.WeatherRemoteDataSource
-import com.lychee.data.weather.remote.WeatherRemoteDataSourceImpl
+import com.lychee.data.core.repository.ExpenseRepository
+import com.lychee.data.core.repository.ExpenseRepositoryImpl
 import com.lychee.data.weather.repository.WeatherRepository
 import com.lychee.data.weather.repository.WeatherRepositoryImpl
 import com.lychee.di.scope.ApplicationScoped
@@ -12,8 +12,7 @@ import dagger.Module
 abstract class RepositoryModule {
 
     @Binds @ApplicationScoped
-    abstract fun provideWeatherRemoteDataSource(weatherRemoteDataSourceImpl: WeatherRemoteDataSourceImpl)
-            : WeatherRemoteDataSource
+    abstract fun provideExpenseRepository(expenseRepositoryImpl: ExpenseRepositoryImpl): ExpenseRepository
 
     @Binds @ApplicationScoped
     abstract fun provideWeatherRepository(weatherRepositoryImpl: WeatherRepositoryImpl): WeatherRepository

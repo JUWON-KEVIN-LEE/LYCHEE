@@ -8,18 +8,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSuperLightGrey"
         android:orientation="vertical">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="24dp"
-            android:background="@color/colorAccent"/>
+            android:background="@color/colorAccentStart" />
 
         <LinearLayout
             android:id="@+id/myCardHeaderLayout"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@color/colorAccent"
+            android:background="@drawable/background_gradient_accent"
             android:orientation="horizontal">
 
             <ImageView
@@ -54,25 +55,24 @@
                 android:padding="4dp"
                 android:text="등록"
                 android:textColor="@android:color/white"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
         </LinearLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/myCardViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="192dp"
+            android:layout_marginBottom="8dp"
+            android:background="@android:color/background_light">
+
+        </android.support.v4.view.ViewPager>
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/myCardParentLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/background_rectangle_top_corner_rounded_white">
 
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/myCardViewPager"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </android.support.v4.view.ViewPager>
 
             <android.support.constraint.Guideline
                 android:id="@+id/myCardStartGuideline"
@@ -92,11 +92,13 @@
                 android:id="@+id/myCardInfoTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="8dp"
                 android:text="카드 정보"
                 android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/myCardStartGuideline"
-                app:layout_constraintTop_toBottomOf="@+id/myCardViewPager" />
+                app:layout_constraintTop_toTopOf="@+id/myCardEditTextView" />
 
             <TextView
                 android:id="@+id/myCardEditTextView"
@@ -105,19 +107,19 @@
                 android:layout_marginEnd="16dp"
                 android:text="수정"
                 android:textColor="@color/Grey"
-                app:layout_constraintBottom_toBottomOf="@+id/myCardInfoTextView"
+                app:layout_constraintBottom_toBottomOf="@+id/myCardDeleteTextView"
                 app:layout_constraintEnd_toStartOf="@+id/myCardDeleteTextView"
-                app:layout_constraintTop_toTopOf="@+id/myCardInfoTextView" />
+                app:layout_constraintTop_toTopOf="@+id/myCardDeleteTextView" />
 
             <TextView
                 android:id="@+id/myCardDeleteTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="삭제"
                 android:textColor="@color/Red"
-                app:layout_constraintBottom_toBottomOf="@+id/myCardEditTextView"
                 app:layout_constraintEnd_toStartOf="@+id/myCardEndGuideline"
-                app:layout_constraintTop_toTopOf="@+id/myCardEditTextView" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/myCardNameTextView"
@@ -144,7 +146,7 @@
                 android:id="@+id/myCardNumberTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:text="카드번호"
                 android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="@+id/myCardStartGuideline"
@@ -164,7 +166,7 @@
                 android:id="@+id/myCardTypeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:text="종류"
                 android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="@+id/myCardStartGuideline"
@@ -184,7 +186,7 @@
                 android:id="@+id/myCardTotalTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:text="총 사용 금액"
                 android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="@+id/myCardStartGuideline"

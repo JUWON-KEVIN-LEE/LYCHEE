@@ -58,7 +58,6 @@ fun GoogleMap.zoomOut(animate: Boolean = true, duration: Int = 1000) {
 }
 
 fun View.createDrawableFromView(context: Context): Bitmap {
-
     val displayMetrics = DisplayMetrics()
     (context as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
     layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)

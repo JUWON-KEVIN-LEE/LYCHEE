@@ -1,6 +1,9 @@
 package com.lychee.ui.add
 
-import com.lychee.ui.base.BaseViewModel
+import com.lychee.ui.base.viewmodel.BaseViewModel
+import javax.inject.Inject
 
-class AddViewModel : BaseViewModel() {
+class AddViewModel @Inject constructor(
+): BaseViewModel() {
+
 }

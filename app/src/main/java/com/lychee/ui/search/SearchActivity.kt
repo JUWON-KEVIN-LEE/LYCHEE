@@ -1,13 +1,20 @@
 package com.lychee.ui.search
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import com.lychee.R
+import com.lychee.databinding.ActivitySearchBinding
+import com.lychee.ui.base.ui.BaseActivity
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>() {
+
+    override val layoutResId: Int
+        get() = R.layout.activity_search
+
+    override val viewModelClass: Class<SearchViewModel>
+        get() = SearchViewModel::class.java
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+
     }
 }

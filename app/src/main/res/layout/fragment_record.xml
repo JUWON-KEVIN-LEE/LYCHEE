@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.lychee.ui.record.RecordViewModel"/>
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,18 +22,39 @@
         <android.support.constraint.ConstraintLayout
             android:id="@+id/recordParentLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/colorSuperLightGrey">
 
+
+            <android.support.constraint.Guideline
+                android:id="@+id/recordTopGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="204dp" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/recordStartGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="16dp" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/recordEndGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="16dp" />
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/recordHeaderParentLayout"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="204dp"
                 android:background="@color/colorAccent"
-                android:paddingBottom="32dp"
+                app:layout_constraintBottom_toTopOf="@+id/recordTopGuideline"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
                     android:id="@+id/recordTitle"
@@ -46,12 +73,12 @@
                     android:id="@+id/recordSearchButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="16dp"
                     android:padding="4dp"
                     android:tint="@android:color/white"
+                    app:layout_constraintBottom_toBottomOf="@+id/recordTitle"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/recordTitle"
                     app:srcCompat="@drawable/round_search_black_24" />
 
                 <ImageView
@@ -93,12 +120,10 @@
                     android:id="@+id/recordExpCheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
                     android:layout_marginTop="16dp"
                     android:text="지출"
                     android:textColor="@android:color/white"
                     app:buttonTint="@android:color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/recordIncomeCheckBox"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="spread"
@@ -123,38 +148,37 @@
             <Space
                 android:id="@+id/recordSpace"
                 android:layout_width="0dp"
-                android:layout_height="32dp"
+                android:layout_height="48dp"
                 app:layout_constraintBottom_toBottomOf="@+id/recordHeaderParentLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <android.support.v4.widget.NestedScrollView
-                android:id="@+id/recordNestedScrollView"
+            <android.support.v7.widget.CardView
+                android:id="@+id/recordContentCardView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@drawable/background_rectangle_top_corner_rounded_white"
-                android:fillViewport="true"
+                android:background="@android:color/background_light"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/recordEndGuideline"
+                app:layout_constraintStart_toStartOf="@+id/recordStartGuideline"
                 app:layout_constraintTop_toTopOf="@+id/recordSpace">
 
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/recordContentParentLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/background_rectangle_top_corner_rounded_white">
+                    android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/recordSubTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:text="지출내역"
-                        android:textColor="@android:color/black"
+                    <View
+                        android:id="@+id/recordIndicator"
+                        android:layout_width="24dp"
+                        android:layout_height="4dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/LightGrey"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -162,28 +186,52 @@
                         android:id="@+id/recordTotalTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginTop="16dp"
-                        android:text="총 198,000원"
-                        android:textColor="@color/colorAccent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginTop="12dp"
+                        android:text="198,000"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@+id/recordWonTextView"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <android.support.v7.widget.RecyclerView
+                    <TextView
+                        android:id="@+id/recordWonTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="원"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintBottom_toBottomOf="@+id/recordTotalTextView"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <com.lychee.widget.LockableRecyclerView
                         android:id="@+id/recordRecyclerView"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="12dp"
                         android:scrollbars="none"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recordSubTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/recordTotalTextView"
                         tools:listitem="@layout/item_recycler_view_common" />
+
+                    <TextView
+                        android:id="@+id/recordYearMonthTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:alpha="1"
+                        android:text="2018년 9월"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/recordTotalTextView"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/recordTotalTextView" />
                 </android.support.constraint.ConstraintLayout>
-            </android.support.v4.widget.NestedScrollView>
+            </android.support.v7.widget.CardView>
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
 </layout>

@@ -1,10 +1,10 @@
 package com.lychee.ui.splash
 
-import com.lychee.ui.base.BaseViewModel
+import com.lychee.ui.base.viewmodel.BaseViewModel
+import javax.inject.Inject
 
-class SplashViewModel: BaseViewModel() {
+class SplashViewModel @Inject constructor(
 
-    /**
-     * SharedPreference TODO
-     */
+): BaseViewModel() {
+
 }
